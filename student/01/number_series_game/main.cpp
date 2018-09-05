@@ -9,8 +9,15 @@ int main()
 
     for( int a = 1; a <= num; a = a + 1 ) {
         int b = a%3;
-        if (b==0){
+        int c = a%7;
+        if (b==0 && c!=0){
             cout << "zip" << endl;
+        }
+        else if(b!=0 && c==0){
+            cout << "boing" << endl;
+        }
+        else if(b==0 && c==0){
+            cout << "zip boing" << endl;
         }
         else {
             cout << a << endl;
