@@ -15,7 +15,7 @@ int main()
         std::cout << "Factorial of " << factor << " is " << 0 << std::endl;
     }
     else{
-        for (int a=1; a <= factor; ++a){
+        for (unsigned int a=1; a <= factor; ++a){
             result *= a;
         }
         std::cout << "Factorial of " << factor << " is " << result << std::endl;
