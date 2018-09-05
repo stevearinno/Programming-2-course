@@ -8,6 +8,12 @@ int main()
     cin >> num;
 
     for( int a = 1; a <= num; a = a + 1 ) {
-       cout << a << endl;
+        int b = a%3;
+        if (b==0){
+            cout << "zip" << endl;
+        }
+        else {
+            cout << a << endl;
+        }
     }
 }
