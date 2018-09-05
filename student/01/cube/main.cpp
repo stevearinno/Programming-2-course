@@ -11,7 +11,10 @@ int main()
 
     int cubed = pow(nomor,3);
 
-    if (cubed/nomor != pow(nomor,2)){
+    if(nomor == 0){
+        cout << "The cube of " << nomor << " is " << cubed << "." << endl;
+    }
+    else if (cubed/nomor != pow(nomor,2)){
         cout << "Error! The cube of " << nomor << " is not " << cubed << "." << endl;
     }
     else{
