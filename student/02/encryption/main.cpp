@@ -23,9 +23,11 @@ int main()
     }
     else if (char_upper(enc_key)){
         cout << "Error! The encryption key must contain only lower case characters." << endl;
+        return 1;
     }
     else if (char_check(enc_key)){
         cout << "Error! The encryption key must contain all alphabets a-z." << endl;
+        return 1;
     }
     else{
         cout << "Enter the text to be encrypted: ";
