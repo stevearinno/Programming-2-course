@@ -8,7 +8,7 @@ int main()
 {
     string enc_key;
     string enc_tex;
-    int j = 0;
+//    int j = 0;
     char d;
     bool char_upper(string str_upper);
     bool char_check(string str_check);
@@ -40,7 +40,8 @@ int main()
 }
 
 bool char_upper(string str_upper){
-    int i=0;    char c;
+//    int i=0;
+    char c;
     bool result1;
     for (int a = 0; a <= str_upper.length()-1; ++a){
         c = str_upper.at(a);
