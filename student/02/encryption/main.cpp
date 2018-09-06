@@ -20,6 +20,7 @@ int main()
 
     if (enc_key.length() != 26){
         cout << "Error! The encryption key must contain 26 characters." << endl;
+        return 1;
     }
     else if (char_upper(enc_key)){
         cout << "Error! The encryption key must contain only lower case characters." << endl;
