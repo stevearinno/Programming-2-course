@@ -30,7 +30,8 @@ int main()
     else{
         cout << "Enter the text to be encrypted: ";
         getline(cin, enc_tex);
-        for (int e = 0; e <= enc_tex.length()-1; ++e){
+        int le2 = enc_tex.length()-1;
+        for (int e = 0; e <= le2; ++e){
             d = enc_tex.at(e);
             swap(enc_tex.at(e),enc_key.at(static_cast< int >( d )-97));
         }
@@ -43,7 +44,8 @@ bool char_upper(string str_upper){
 //    int i=0;
     char c;
     bool result1;
-    for (int a = 0; a <= str_upper.length()-1; ++a){
+    int le1 = str_upper.length()-1;
+    for (int a = 0; a <= le1; ++a){
         c = str_upper.at(a);
         if (isupper(c)){
             return 1;
