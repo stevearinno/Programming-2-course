@@ -11,7 +11,7 @@ private:
     int points_;
 
 public:
-    Player(string name, int points);
+    Player(string name, int points = 0);
     string get_name() const;
     bool has_won();
     void add_points(int points);

@@ -3,7 +3,6 @@
 
 Player::Player(string name, int points):
     name_(name), points_(points){
-
 }
 
 string Player::get_name() const {

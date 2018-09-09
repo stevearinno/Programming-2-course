@@ -6,8 +6,8 @@
 
 int main()
 {
-    Player player1 = Player("Matti",0);
-    Player player2 = Player("Teppo",0);
+    Player player1 = Player("Matti");
+    Player player2 = Player("Teppo");
     Player* in_turn = 0;
 
     int turn = 1;
