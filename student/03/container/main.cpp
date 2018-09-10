@@ -19,7 +19,7 @@ void read_integers(std::vector< int >& ints, int count)
 bool same_values(const std::vector<int>& ints )
 {
     int counter = 0;
-    for(int j = 1; j < ints.size(); ++j)
+    for(unsigned int j = 1; j < ints.size(); ++j)
     {
         if(ints.at(0) == ints.at(j)){
             ++counter;
@@ -30,7 +30,7 @@ bool same_values(const std::vector<int>& ints )
 
 bool is_ordered_ascending(const std::vector<int>& ints)
 {
-    for(int k = 0; k < ints.size()-1; ++k)
+    for(unsigned int k = 0; k < ints.size()-1; ++k)
     {
         if(ints.at(k) > ints.at(k+1)){
             return 0;
@@ -42,7 +42,7 @@ bool is_ordered_ascending(const std::vector<int>& ints)
 bool is_arithmetic_series(const std::vector<int>& ints)
 {
     int delta = ints.at(0)-ints.at(1);
-    for(int l = 0; l < ints.size()-1; ++l)
+    for(unsigned int l = 0; l < ints.size()-1; ++l)
     {
         if((ints.at(l) - ints.at(l+1)) != delta){
             return 0;
@@ -54,7 +54,7 @@ bool is_arithmetic_series(const std::vector<int>& ints)
 bool is_geometric_series(const std::vector<int>& ints)
 {
     double diff = ints.at(0)/ints.at(1);
-    for(int m = 0; m < ints.size()-1; ++m)
+    for(unsigned int m = 0; m < ints.size()-1; ++m)
     {
         if(((double)ints.at(m) / ints.at(m+1)) != diff){
             return 0;
