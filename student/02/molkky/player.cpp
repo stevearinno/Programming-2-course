@@ -4,7 +4,7 @@
 void Player::add_points(int points1){
     points_ += points1;
     if (points_ > 50){
-        points_ -= 25;
+        points_ = 25;
     }
 }
 
