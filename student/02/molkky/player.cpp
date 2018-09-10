@@ -1,20 +1,11 @@
 #include "player.hh"
 
 
-Player::Player(string name, int points):
-    name_(name), points_(points){
-}
-
-string Player::get_name() const {
-    return name_;
-}
-
 void Player::add_points(int points1){
     points_ += points1;
     if (points_ > 50){
         points_ -= 25;
     }
-
 }
 
 bool Player::has_won(){
