@@ -53,10 +53,10 @@ bool is_arithmetic_series(const std::vector<int>& ints)
 
 bool is_geometric_series(const std::vector<int>& ints)
 {
-    double diff = ints.at(0)/ints.at(1);
+    double diff = ints.at(1)/ints.at(0);
     for(unsigned int m = 0; m < ints.size()-1; ++m)
     {
-        if(((double)ints.at(m) / ints.at(m+1)) != diff){
+        if(((double)ints.at(m+1) / ints.at(m)) != diff){
             return 0;
         }
     }
