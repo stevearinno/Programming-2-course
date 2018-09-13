@@ -20,9 +20,6 @@ public:
     bool has_won();
     void add_points(int points);
     int get_points();
-
-
-
 };
 
 #endif // PLAYER_HH
