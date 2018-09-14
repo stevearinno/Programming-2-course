@@ -2,8 +2,6 @@
 #include <cstdlib>
 #include <iostream>
 
-//Square::Square( int x, int y, bool hasMine, Board* board, bool opened, std::string printAdj, std::string adj, bool flag):
-//    x_(x), y_(y), hasMine_(hasMine), board_(board), opened_(opened), printAdj_(printAdj), adj_(adj), flag_(flag) {}
 Square::Square( int x, int y, bool hasMine, Board* board):
     x_(x), y_(y), hasMine_(hasMine), board_(board) {
     flag_ = 0;
@@ -80,47 +78,52 @@ void Square::removeFlag(){
 }
 
 bool Square::open(){
+    int x2 = 0;
+    int y2 = 0;
+
+    // saves temporary location of zeros that will be revealed at the same time
+    std::vector<int> vektorX;
+    std::vector<int> vektorY;
     opened_ = 1;
     if (board_->at(y_).at(x_).hasMine_ == 1){
         return 0;
     }
     else{
-        safeSquare();
+        if (board_->at(y_).at(x_).countAdjacent() == 0 ){
+            for( int x = (x_-1); x <= x_+1; x++ ) {
+                    for (int y = (y_ -1);  y <= y_+1; y++){
+                        if( x >= 0 && y >= 0 && x < 6 && y < 6){
+                            if(board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0 && board_->at(y).at(x).countAdjacent() == 0) {
+                               vektorX.push_back(x);
+                               vektorY.push_back(y);
+                            }
+                        }
+                    }
+            }
+        }
+
+        for(int y = vektorY.size()-1; y >= 0; --y)
+        {
+            for(int x = vektorX.size()-1; x >=0; --x)
+            {
+                x2 = vektorX.at(x);
+                y2 = vektorY.at(y);
+                safeSquare(x2, y2);
+            }
+        }
+
         return 1;
     }
 }
 
-void Square::safeSquare(){
-    // opens all safe squares to the left of the target
-    int x = x_-1;
-    int y = y_;
-    while(x >=0 && y >= 0 && board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0){
-        board_->at(y).at(x).opened_ = 1;
-        x -= 1;
+void Square::safeSquare(int x2, int y2){
+    for( int x = (x2-1); x <= x2+1; x++ ) {
+            for (int y = (y2 -1);  y <= y2+1; y++){
+                if( x >= 0 && y >= 0 && x< 6 && y < 6){
+                    board_->at(y).at(x).opened_ = 1;
+                }
+            }
     }
 
-    // opens all safe squares to the right of the target square
-    x = x_+1;
-    y = y_;
-    while(x < 6 && y >= 0 && board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0){
-        board_->at(y).at(x).opened_ = 1;
-        x += 1;
-    }
-
-    // opens all safe squares to the down of the target square
-    x = x_;
-    y = y_-1;
-    while(x < 6 && y >= 0 && board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0){
-        board_->at(y).at(x).opened_ = 1;
-        y -= 1;
-    }
-
-    // opens all safe squares to the up of the target square
-    x = x_;
-    y = y_+1;
-    while(x < 6 && y < 6 && board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0){
-        board_->at(y).at(x).opened_ = 1;
-        y += 1;
-    }
 }
 

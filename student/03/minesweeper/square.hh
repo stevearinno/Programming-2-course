@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <vector>
 
 
 class Square;
@@ -49,16 +50,22 @@ class Square {
    // location and the number of mines on the adjacent squares
    int x_;
    int y_;
+
+   // the status of square if it has ever been opened or not
    bool opened_;
+
+   // printed ".", "*", "P", or the amount of mines in the adjacent squares
    std::string printAdj_;
-   std::string adj_;
+
+   // the status of flag "P" on the particular square
    bool flag_;
    bool hasMine_;
    // checks the safe squares around the target square
-   void safeSquare();
+   void safeSquare(int x2, int y2);
 
-   // checks if there is bomb in certain square
+   // checks if there is bomb in certain square and opens it if there is no bomb
    int squareAdj();
+
 
 
    // pointer to the board, where the water drop lies
