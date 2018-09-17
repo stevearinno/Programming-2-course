@@ -15,17 +15,17 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
     int countChar = 0;
     while (line_.find(separator_) != std::string::npos){
         int posSep = line_.find(separator_);
-        line_.replace(posSep,1," ");
+        line_.replace(posSep,1,"*");
     }
 
     len = line_.length();
     v.empty();
     for (unsigned int a = 0; a < len; ++a){
 
-        if (line_.substr(a,1) != " "){
+        if (line_.substr(a,1) != "*"){
             countChar += 1;
             if (a != len-1){
-                if (line_.substr(a+1,1) == " "){
+                if (line_.substr(a+1,1) == "*"){
                     v.push_back(line_.substr(posBegin,countChar));
                     counterSpace = 0;
                 }
@@ -44,7 +44,7 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
                 v.push_back(line_.substr(a,1));
                 counterSpace = 1;
             }
-            if (ignoreEmpty_ == 0 && a == len-1 && line_.substr(a,1) == " "){
+            if (ignoreEmpty_ == 0 && a == len-1 && line_.substr(a,1) == "*"){
                 v.push_back(line_.substr(a,1));
             }
 
