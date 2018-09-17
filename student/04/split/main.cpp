@@ -10,6 +10,7 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
     std::vector <std::string> v;
     std::string v_;
     std::string::size_type len;
+    bool counterSpace = 0;
     int posBegin = 0;
     int countChar = 0;
     while (line_.find(separator_) != std::string::npos){
@@ -26,6 +27,7 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
             if (a != len-1){
                 if (line_.substr(a+1,1) == " "){
                     v.push_back(line_.substr(posBegin,countChar));
+                    counterSpace = 0;
                 }
             }
             else{
@@ -38,11 +40,13 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
                 posBegin = a+1;
 
             }
-            if (ignoreEmpty_ == 0){
+            if (ignoreEmpty_ == 0 && (counterSpace == 1 || a == 0)){
                 v.push_back(line_.substr(a,1));
+                counterSpace = 1;
             }
 
             countChar = 0;
+            counterSpace = 1;
         }
 
     }
