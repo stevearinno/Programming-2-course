@@ -41,11 +41,11 @@ std::vector <std::string> split(std::string line_, char separator_, bool ignoreE
 
             }
             if (ignoreEmpty_ == 0 && (counterSpace == 1 || a == 0 || a == len-1)){
-                v.push_back(line_.substr(a,1));
+                v.push_back(" ");
                 counterSpace = 1;
             }
             if (ignoreEmpty_ == 0 && a == len-1 && line_.substr(a,1) == "*"){
-                v.push_back(line_.substr(a,1));
+                v.push_back(" ");
             }
 
 
