@@ -61,6 +61,7 @@ class Square {
    // the status of flag "P" on the particular square
    bool flag_;
    bool hasMine_;
+
    // checks the safe squares around the target square
    void safeSquare();
    void safeSquare2();
