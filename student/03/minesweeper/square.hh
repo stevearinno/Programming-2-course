@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 
+const int size_board = 6;
 
 class Square;
 using Board = std::vector< std::vector< Square > >;
@@ -67,18 +68,21 @@ class Square {
    // checks if there is bomb in certain square and opens it if there is no bomb
    int squareAdj();
 
+   // checks the coordinates of the surrounding squares that will be revealed
    void checkSurrounding(int x3, int y3);
 
    // checks which string character should be printed
    void printAdj();
 
-   // saves temporary location of zeros that will be revealed at the same time
+   // saves temporary location of the surrounding squares that will be revealed
    std::vector<int> vektorX;
    std::vector<int> vektorY;
 
+   // saves temporary location of zeros that will be revealed at the same time
    std::vector<int> vektorX2;
    std::vector<int> vektorY2;
 
+   // checks zero squares on the surrounding squares
    void checkZeros(int x4, int y4);
 
    // pointer to the board, where the water drop lies
