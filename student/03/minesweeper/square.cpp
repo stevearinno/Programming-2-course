@@ -5,6 +5,7 @@
 Square::Square( int x, int y, bool hasMine, Board* board):
     x_(x), y_(y), hasMine_(hasMine), board_(board) {
     flag_ = 0;
+    opened_ = 0;
     printAdj_ = " ";
 }
 
@@ -98,17 +99,17 @@ bool Square::open(){
                 for(int y = vektorY2.size()-1; y >= 0; y--){
                     checkSurrounding(vektorX2.at(x),vektorY2.at(y));        // check each non zero squares around the adjacent squares
                     safeSquare();                                           // opens all surrounding mines of the surrounding squares
-                    checkZeros(vektorX2.at(x),vektorY2.at(y));              // check zeros again on the surrounding squares
+                    checkZeros2(vektorX2.at(x),vektorY2.at(y));              // check zeros again on the surrounding squares
                 }
             }
 
-//            for(int x = vektorX3.size()-1; x >= 0; x--){
-//                for(int y = vektorY3.size()-1; y >= 0; y--){
-//                    checkSurrounding(vektorX3.at(x),vektorY3.at(y));        // check each non zero squares around the adjacent squares
-//                    safeSquare();                                           // opens all surrounding mines of the surrounding squares
-//                    checkZeros(vektorX3.at(x),vektorY3.at(y));              // check zeros again on the surrounding squares
-//                }
-//            }
+            for(int x = vektorX3.size()-1; x >= 0; x--){
+                for(int y = vektorY3.size()-1; y >= 0; y--){
+                    checkSurrounding(vektorX3.at(x),vektorY3.at(y));        // check each non zero squares around the adjacent squares
+                    safeSquare2();                                           // opens all surrounding mines of the surrounding squares
+                    checkZeros2(vektorX3.at(x),vektorY3.at(y));              // check zeros again on the surrounding squares
+                }
+            }
         }
 
         return 1;
@@ -132,6 +133,23 @@ void Square::safeSquare(){                    // opens all surrounding mines of 
     }
 }
 
+void Square::safeSquare2(){                    // opens all surrounding mines of the surrounding squares
+    int x2 = 0;
+    int y2 = 0;
+
+
+    for(int y = vektorY2.size()-1; y >= 0; --y)
+    {
+        for(int x = vektorX2.size()-1; x >=0; --x)
+        {
+            x2 = vektorX2.at(x);
+            y2 = vektorY2.at(y);
+            // opens all surrounding mines of the surrounding squares
+            board_->at(y2).at(x2).opened_ = 1;
+        }
+    }
+}
+
 void Square::checkSurrounding(int x3, int y3){
     vektorX.clear();
     vektorY.clear();
@@ -141,6 +159,21 @@ void Square::checkSurrounding(int x3, int y3){
                     if(board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0) {                  // take all the coordinates of surrounding mines
                        vektorX.push_back(x);
                        vektorY.push_back(y);
+                    }
+                }
+            }
+    }
+}
+
+void Square::checkSurrounding2(int x6, int y6){
+    vektorX2.clear();
+    vektorY2.clear();
+    for( int x = (x6-1); x <= x6+1; x++ ) {
+            for (int y = (y6 -1);  y <= y6+1; y++){
+                if( x >= 0 && y >= 0 && x < size_board && y < size_board){
+                    if(board_->at(y).at(x).hasMine_ == 0 &&  board_->at(y).at(x).flag_ == 0) {                  // take all the coordinates of surrounding mines
+                       vektorX2.push_back(x);
+                       vektorY2.push_back(y);
                     }
                 }
             }
@@ -157,6 +190,21 @@ void Square::checkZeros(int x4, int y4){
                     if(board_->at(y).at(x).countAdjacent() == 0){        // take all the coordinates of surrounding 0s and not opened
                         vektorX2.push_back(x);
                         vektorY2.push_back(y);
+                    }
+                }
+            }
+    }
+}
+
+void Square::checkZeros2(int x5, int y5){
+    vektorX3.clear();
+    vektorY3.clear();
+    for( int x = (x5-1); x <= x5+1; x++ ) {
+            for (int y = (y5 -1);  y <= y5+1; y++){
+                if( x >= 0 && y >= 0 && x < size_board && y < size_board){
+                    if(board_->at(y).at(x).countAdjacent() == 0){        // take all the coordinates of surrounding 0s and not opened
+                        vektorX3.push_back(x);
+                        vektorY3.push_back(y);
                     }
                 }
             }

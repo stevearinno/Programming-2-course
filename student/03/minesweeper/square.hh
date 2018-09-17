@@ -85,6 +85,14 @@ class Square {
    // checks zero squares on the surrounding squares
    void checkZeros(int x4, int y4);
 
+   void checkZeros2(int x5, int y5);
+
+   std::vector<int> vektorX3;
+   std::vector<int> vektorY3;
+
+   void checkSurrounding2(int x6, int y6);
+
+
    // pointer to the board, where the water drop lies
    Board* board_;
 };
