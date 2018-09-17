@@ -55,44 +55,32 @@ class Square {
    // the status of square if it has ever been opened or not
    bool opened_;
 
+   // returns the status if the square is opened or not
+   bool isOpened();
+
+   // opens the square
+   void openSquare();
+
    // printed ".", "*", "P", or the amount of mines in the adjacent squares
    std::string printAdj_;
 
    // the status of flag "P" on the particular square
    bool flag_;
+
+   // the status of the square if it has mine or not
    bool hasMine_;
 
-   // checks the safe squares around the target square
-   void safeSquare();
-   void safeSquare2();
+   // checks if the square has mine or not
+   void hasMine();
 
    // checks if there is bomb in certain square and opens it if there is no bomb
    int squareAdj();
 
    // checks the coordinates of the surrounding squares that will be revealed
-   void checkSurrounding(int x3, int y3);
+   void checkSurrounding(int x2, int y2);
 
    // checks which string character should be printed
    void printAdj();
-
-   // saves temporary location of the surrounding squares that will be revealed
-   std::vector<int> vektorX;
-   std::vector<int> vektorY;
-
-   // saves temporary location of zeros that will be revealed at the same time
-   std::vector<int> vektorX2;
-   std::vector<int> vektorY2;
-
-   // checks zero squares on the surrounding squares
-   void checkZeros(int x4, int y4);
-
-   void checkZeros2(int x5, int y5);
-
-   std::vector<int> vektorX3;
-   std::vector<int> vektorY3;
-
-   void checkSurrounding2(int x6, int y6);
-
 
    // pointer to the board, where the water drop lies
    Board* board_;
