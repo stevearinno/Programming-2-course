@@ -22,6 +22,7 @@ int main()
     ifstream file_object(filename);
         if ( not file_object ) {
             cout << "Error! The file " << filename << " cannot be opened." << endl;
+            return 1;
         } else {
             int lineNumber = 1;
             string line;
