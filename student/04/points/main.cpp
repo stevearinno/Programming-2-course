@@ -60,6 +60,7 @@ int main()
     string filename = "";
     string nameScore;
     vector <Student> students;
+    //vector <Student>::iterator iter;
 
     //Student new_student(string name_, int score_);
 
@@ -74,11 +75,41 @@ int main()
     else {
         while ( getline(file_object, nameScore) ){
             Student new_student(separateName(nameScore), separateScore(nameScore));
-            students.push_back(new_student);
+            //students.push_back(new_student);
+            int len = students.size();
+
+            if (len >0){
+                    bool flag= 1;
+                    for (int a = 0; a < len; a++){
+
+                        while (flag){
+                            if (students.at(a).fetch_name() == separateName(nameScore)){
+                                int newScore = students.at(a).fetch_student_id() + separateScore(nameScore);
+                                Student new_student2(separateName(nameScore), newScore);
+                                students.at(a) = (new_student2);
+                                flag = 0;
+                            }
+
+                        else{
+                            students.push_back(new_student);
+                            flag = 0;
+                        }
+                        }
+                    }
+
+
+
+            }
+            else{
+                students.push_back(new_student);         }
+
+
         }
-        cout << "Final score:" << endl;
+        cout << "Final scores:" << endl;
 
         sort(students.begin(), students.end(), compare_names);
+
+
         for ( const auto& stud : students ) {
             stud.print();
         }
