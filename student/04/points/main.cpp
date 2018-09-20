@@ -80,22 +80,30 @@ int main()
 
             if (len >0){
                     bool flag= 1;
-                    for (int a = 0; a < len; a++){
+                    bool flag2=1;
+
 
                         while (flag){
-                            if (students.at(a).fetch_name() == separateName(nameScore)){
-                                int newScore = students.at(a).fetch_student_id() + separateScore(nameScore);
-                                Student new_student2(separateName(nameScore), newScore);
-                                students.at(a) = (new_student2);
-                                flag = 0;
+                            for (int a = 0; a < len; a++){
+                                if (students.at(a).fetch_name() == separateName(nameScore)){
+                                    //bool flag2 = 1;
+                                        while (flag2){
+                                            int newScore = students.at(a).fetch_student_id() + separateScore(nameScore);
+                                            Student new_student2(separateName(nameScore), newScore);
+                                            students.at(a) = (new_student2);
+                                            flag2 = 0;
+                                        }
+
+                                }
+                            }
+                            flag = 0;
+                            if (flag2){
+                                students.push_back(new_student);
                             }
 
-                        else{
-                            students.push_back(new_student);
-                            flag = 0;
+
                         }
-                        }
-                    }
+
 
 
 
