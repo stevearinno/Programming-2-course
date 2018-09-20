@@ -17,7 +17,7 @@ int main()
     cout << "Output file: ";
     getline(cin, outFilename);
 
-    myFile.open(outFilename);
+
 
     ifstream file_object(filename);
         if ( not file_object ) {
@@ -26,6 +26,7 @@ int main()
         } else {
             int lineNumber = 1;
             string line;
+            myFile.open(outFilename);
             while ( getline(file_object, line) ) {
                 myFile << lineNumber << " " <<line << endl;
                 lineNumber += 1;
