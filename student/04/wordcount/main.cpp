@@ -96,7 +96,7 @@ int main()
 
     }
     map <string, vector<int>> :: iterator it = word_list.begin();
-    for (it; it != word_list.end(); it++){
+    for (; it != word_list.end(); it++){
         cout << it -> first <<  " " << it -> second.size() << ": ";
         int row_len = it -> second.size();
         for(int a = 0; a < row_len; a++){
