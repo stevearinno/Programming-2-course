@@ -68,6 +68,7 @@ int main()
     map <string, vector<int> > word_list;
     vector <int> line_number;
     int line_num = 0;
+    int flag = 0;
 
     cout << "Input file: ";
     getline(cin, filename);
@@ -85,7 +86,11 @@ int main()
                 //std::cout << o << std::endl;
                 if ( word_list.find(o) != word_list.end() ) {
                     // The word was found in the map.
-                    word_list.at(o).push_back(line_num);
+                    if (flag != line_num){
+                        word_list.at(o).push_back(line_num);
+                    }
+
+                    flag = line_num;
                 } else {
                      //The word was not found in the map.
                     word_list[o].push_back(line_num);
