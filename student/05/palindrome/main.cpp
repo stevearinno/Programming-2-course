@@ -8,13 +8,16 @@ bool palindrome_recursive (const std::string word_){
         char start = word_.at(0);
         char end = word_.at(len-1);
         if (start == end){
-            return true;
+            return palindrome_recursive(word_.substr(1, len-2));
         }
         else{
             return false;
         }
     }
-    return palindrome_recursive(word_.substr(1, len-2));
+    else{
+        return 1;
+    }
+
 }
 
 
