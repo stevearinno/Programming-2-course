@@ -13,10 +13,8 @@ bool palindrome_recursive (const std::string word_){
         else{
             return false;
         }
-        int len = word_.size();
-        return palindrome_recursive(word_.substr(1, len-2));
     }
-
+    return palindrome_recursive(word_.substr(1, len-2));
 }
 
 
