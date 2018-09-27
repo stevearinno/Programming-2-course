@@ -49,11 +49,11 @@ int count(std::string id_, std::map <std::string, std::vector<std::string> >& ne
         counter += 1;
         if ( network_list_.find(network_list_[id_].at(b)) != network_list_.end() ) {
             // The name was found in the map.
-            return count(network_list_[id_].at(b), network_list_, counter)+counter;
+            return count(network_list_[id_].at(b), network_list_, counter) + counter;
         }
-        //else{
-            //return count(network_list_[id_].at(b), network_list_, counter)+counter;
-        //}
+        else{
+            counter += 1;
+        }
     }
     return counter;
 }
