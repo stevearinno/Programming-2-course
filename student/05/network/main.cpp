@@ -44,16 +44,16 @@ void print(std::string id_, std::map <std::string, std::vector<std::string> >& n
 }
 
 int count(std::string id_, std::map <std::string, std::vector<std::string> >& network_list_, int counter){
-    int len = network_list_[id_].size();
-    for (int b = 0; b < len; b++){
-        counter += 1;
-        if ( network_list_.find(network_list_[id_].at(b)) != network_list_.end() ) {
-            // The name was found in the map.
-            return count(network_list_[id_].at(b), network_list_, counter) + counter;
+    if ( network_list_.find(id_) != network_list_.end() ) {
+        // The name was found in the map.
+        int len = network_list_[id_].size();
+        //counter += len;
+        for (int b = 0; b < len; b++){
+            counter = count(network_list_[id_].at(b), network_list_, counter) + 1;
         }
-        else{
-            counter += 1;
-        }
+    }
+    else{
+        counter += 0;
     }
     return counter;
 }
