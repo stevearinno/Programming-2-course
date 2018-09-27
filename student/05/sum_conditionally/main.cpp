@@ -6,11 +6,11 @@ int divisible_by_3_or_7 (int value_) {
     if (value_ % 3 == 0|| value_ % 7 == 0) {
         return value_ + divisible_by_3_or_7(value_ - 1);
     }
-    else if (value_ == 2) {
+    else if (value_ <= 2) {
         return 0;
     }
     else {
-        divisible_by_3_or_7(value_ - 1);
+        return divisible_by_3_or_7(value_ - 1);
     }
 }
 
