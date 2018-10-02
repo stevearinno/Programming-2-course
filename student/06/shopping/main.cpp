@@ -14,10 +14,11 @@ using namespace std;
 std::string rounding( double num )
 {
     std::string numString = "";
+
+    num = ((num * 100) + 0.5)/100;          // this is for the rounding (addition of 0.5)
     numString = to_string((int)num) + "." + to_string((int)((num - (int)num) * 100));
     return numString;
 }
-
 
 // splits the input (from the user) and returns the vector of string
 std::vector<std::string> split(const std::string& s, const char delimiter, bool ignore_empty = false){
@@ -317,7 +318,7 @@ int main()
                     if (cheapest_product_list.second.size() == 0){
                         cout << "Product is not part of product selection." << endl;
                     }
-                    else if(cheapest_product_list.second.size() != 0 && cheapest_product_list.first.substr(0,1) == "0"){
+                    else if(cheapest_product_list.second.size() != 0 && cheapest_product_list.first.substr(0,3) == "0.0"){
                         cout << "The product is temporarily out of stock everywhere." << endl;
                     }
                     else{
