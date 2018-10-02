@@ -5,8 +5,19 @@
 #include <map>
 #include <algorithm>
 #include <iomanip>
+#include <cmath>
+
 
 using namespace std;
+
+// rounds the price to two decimal places. It will return string
+std::string rounding( double num )
+{
+    std::string numString = "";
+    numString = to_string((int)num) + "." + to_string((int)((num - (int)num) * 100));
+    return numString;
+}
+
 
 // splits the input (from the user) and returns the vector of string
 std::vector<std::string> split(const std::string& s, const char delimiter, bool ignore_empty = false){
@@ -33,14 +44,6 @@ struct Product {
     string product_name;
     double price;
 };
-
-bool compare_names(const Product& product_price1, const Product& product_price2) {
-    if ( product_price1.product_name < product_price2.product_name ) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 // checks if the command has sufficient parameter
 bool isGoodCommand(std::string command, int split_result){
@@ -96,10 +99,10 @@ std::vector <std::string> checkProductPrice(std::vector <Product> product_price_
 
     for (auto a : product_price_list){
         if (a.price != 0){
-            product_price = a.product_name + " " + std::to_string(a.price);
+            product_price = a.product_name + " " + rounding(a.price);
         }
         else{
-            product_price = a.product_name + " out-of-stock";
+            product_price = a.product_name + " out of stock";
         }
         product_price_vector.push_back(product_price);
 
@@ -115,13 +118,16 @@ std::pair<std::string, vector<std::string>> checkCheapest(std::string product, m
     map <double, std::vector<std::string>> chain_store_list;
     double compared_price = 100;
     map<std::string, std::map<std::string, std::vector<Product>>> :: iterator it1 = shopping_list.begin();
+
     for (; it1 != shopping_list.end(); it1++){
         map<std::string, std::vector<Product>> :: iterator it2 = it1 -> second.begin();
         for (; it2 != it1 -> second.end(); it2++){
             chain = it1 -> first;
             store = it2 -> first;
+
             int vectorSize = shopping_list[chain][store].size();
             bool flag = 1;
+
             for ( int vectorIndex = 0; vectorIndex < vectorSize; vectorIndex++){
                 string current_product = shopping_list[it1 -> first][it2 -> first].at(vectorIndex).product_name;
                 double current_price = shopping_list[it1 -> first][it2 -> first].at(vectorIndex).price;
@@ -139,7 +145,7 @@ std::pair<std::string, vector<std::string>> checkCheapest(std::string product, m
         }
     }
 
-    std::string cheapest_price = to_string(compared_price) + " euros";
+    std::string cheapest_price = rounding(compared_price) + " euros";
 
     return {cheapest_price, chain_store_list[compared_price]};
 }
@@ -150,11 +156,13 @@ std::vector <std::string> checkAllProducts(map<std::string, std::map<std::string
     string store = "";
     std::vector <std::string> product_list;
     map<std::string, std::map<std::string, std::vector<Product>>> :: iterator it1 = shopping_list.begin();
+
     for (; it1 != shopping_list.end(); it1++){
         map<std::string, std::vector<Product>> :: iterator it2 = it1 -> second.begin();
         for (; it2 != it1 -> second.end(); it2++){
             chain = it1 -> first;
             store = it2 -> first;
+
             int vector_size = shopping_list[chain][store].size();
             for ( int vectorIndex = 0; vectorIndex < vector_size; vectorIndex++){
                 string current_product = shopping_list[it1 -> first][it2 -> first].at(vectorIndex).product_name;
@@ -189,7 +197,7 @@ int main()
 
     ifstream file_object(filename);
         if ( not file_object ) {
-            cout << "Error: The file cannot be opened." << endl;
+            cout << "Error: the input file cannot be opened" << endl;
             return 1;
         }
 
@@ -282,10 +290,10 @@ int main()
 
                     // error checking if the chain and store are valid
                     if (store_list.size() == 0){
-                        cout << "Error: an unknown chain" << endl;
+                        cout << "Error: unknown chain" << endl;
                     }
                     else if (product_price_list.size() == 0){
-                        cout << "Error: an unknown store" << endl;
+                        cout << "Error: unknown store" << endl;
                     }
                     else{
                         printStringVector(product_price_list);
@@ -297,9 +305,15 @@ int main()
 
                     std::pair<std::string, vector<std::string>> cheapest_product_list = checkCheapest(product, shopping_list);
 
-                    cout << cheapest_product_list.first << endl;
-                    sort(cheapest_product_list.second.begin(), cheapest_product_list.second.end());
-                    printStringVector(cheapest_product_list.second);
+                    // error check if the product is on the list/selection
+                    if (cheapest_product_list.second.size() == 0){
+                        cout << "Product is not part of product selection." << endl;
+                    }
+                    else{
+                        cout << cheapest_product_list.first << endl;
+                        sort(cheapest_product_list.second.begin(), cheapest_product_list.second.end());
+                        printStringVector(cheapest_product_list.second);
+                    }
 
                 }
                 else if(command == "products" && isCommandOK){
@@ -308,7 +322,6 @@ int main()
 
                     sort(product_list.begin(), product_list.end());
                     printStringVector(product_list);
-
 
                 }
                 else if(command == "quit"){
