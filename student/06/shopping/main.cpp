@@ -138,6 +138,14 @@ std::pair<std::string, vector<std::string>> checkCheapest(std::string product, m
                         chain_store_list[compared_price].push_back(chain_store);
                         flag = 0;
                     }
+                    else if (current_price == 0){
+                        if (compared_price == 100){
+                            compared_price = current_price;
+                        }
+                        std::string chain_store = chain + " " + store;
+                        chain_store_list[compared_price].push_back(chain_store);
+                        flag = 0;
+                    }
                 }
             }
 
@@ -308,6 +316,9 @@ int main()
                     // error check if the product is on the list/selection
                     if (cheapest_product_list.second.size() == 0){
                         cout << "Product is not part of product selection." << endl;
+                    }
+                    else if(cheapest_product_list.second.size() != 0 && cheapest_product_list.first.substr(0,1) == "0"){
+                        cout << "The product is temporarily out of stock everywhere." << endl;
                     }
                     else{
                         cout << cheapest_product_list.first << endl;
