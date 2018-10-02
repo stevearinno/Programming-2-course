@@ -16,7 +16,14 @@ std::string rounding( double num )
     std::string numString = "";
 
     num = ((num * 100) + 0.5)/100;          // this is for the rounding (addition of 0.5)
-    numString = to_string((int)num) + "." + to_string((int)((num - (int)num) * 100));
+    int decimal = (int)((num - (int)num) * 100);
+    if (decimal <= 9){
+        numString = to_string((int)num) + ".0" + to_string(decimal);
+    }
+    else {
+        numString = to_string((int)num) + "." + to_string(decimal);
+    }
+
     return numString;
 }
 
@@ -144,7 +151,7 @@ std::pair<std::string, vector<std::string>> checkCheapest(std::string product, m
                             compared_price = current_price;
                         }
                         std::string chain_store = chain + " " + store;
-                        chain_store_list[compared_price].push_back(chain_store);
+                        chain_store_list[0].push_back(chain_store);
                         flag = 0;
                     }
                 }
