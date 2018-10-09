@@ -16,7 +16,6 @@ int main()
     numbers[1] = false;
 
     for (int lessThanBound = 2; lessThanBound < upperBound; lessThanBound++){
-        int counter = 0;
         for (int numberDivider = 2; numberDivider < lessThanBound; numberDivider++) {
             if (lessThanBound%numberDivider == 0){
                 numbers[lessThanBound] = false;
