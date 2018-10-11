@@ -4,13 +4,31 @@
 using namespace std;
 
 int greatest_v1(int* itemptr, int size){
-    sort(itemptr, itemptr + size);
-    return *(itemptr+size-1);
+    int maxValue = *itemptr;
+    int i = 0;
+    while (i < size-1){
+        if (maxValue < *itemptr){
+            maxValue = *itemptr;
+        }
+        i++;
+        itemptr++;
+    }
+
+    return maxValue;
 }
 
 int greatest_v2(int* itemptr, int* endptr){
-    sort(itemptr, endptr);
-    return *(endptr-1);
+    int maxValue = *itemptr;
+    int i = 0;
+    while (itemptr < endptr){
+        if (maxValue < *itemptr){
+            maxValue = *itemptr;
+        }
+        i++;
+        itemptr++;
+    }
+
+    return maxValue;
 }
 
 void copy(int* itemptr, int* endptr, int* targetptr){
@@ -24,9 +42,10 @@ void copy(int* itemptr, int* endptr, int* targetptr){
 
 void reverse(int* leftptr, int* rightptr){
     //sort(leftptr, rightptr);
-    while (leftptr <= (rightptr-1)){
+    rightptr--;
+    while (leftptr < (rightptr)){
         int temp = *leftptr;
-        *leftptr = *(rightptr-1);
+        *leftptr = *(rightptr);
         *rightptr = temp;
         leftptr++;
         rightptr--;
