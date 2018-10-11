@@ -6,7 +6,7 @@ using namespace std;
 int greatest_v1(int* itemptr, int size){
     int maxValue = *itemptr;
     int i = 0;
-    while (i < size-1){
+    while (i < size){
         if (maxValue < *itemptr){
             maxValue = *itemptr;
         }
