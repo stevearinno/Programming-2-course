@@ -8,7 +8,7 @@ Stack::Stack():stack_top_(nullptr){
 }
 
 Stack::~Stack(){
-    while (stack_top_ != nullptr){
+    while (!is_empty()){
         Stack_item* item_to_be_released = stack_top_;
         stack_top_ = stack_top_ -> next;
 
@@ -19,7 +19,7 @@ Stack::~Stack(){
 void Stack::push(int item){
     Stack_item* new_item = new Stack_item{item, nullptr};
 
-    if (stack_top_ == nullptr){
+    if (is_empty()){
         stack_top_ = new_item;
     }
     else {
@@ -30,9 +30,7 @@ void Stack::push(int item){
 
 bool Stack::pop(int &item){
 
-
-
-    if (stack_top_ == nullptr){
+    if (is_empty()){
         return false;
     }
     else{
@@ -48,7 +46,7 @@ bool Stack::pop(int &item){
 }
 
 bool Stack::pop_second_top(int &item){
-    if (stack_top_ == nullptr || stack_top_ -> next == nullptr){
+    if (is_empty()|| stack_top_ -> next == nullptr){
         return false;
     }
     else{
@@ -74,6 +72,15 @@ void Stack::print(){
         item_to_be_printed = item_to_be_printed -> next;
     }
     std::cout << std::endl;
+}
+
+bool Stack::is_empty() const{
+    if (stack_top_ == nullptr){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 

@@ -39,6 +39,9 @@ private:
 
     // If you need other operations in implementing the above stack methods,
     // you can declare them here
+
+    // checks if the stack is empty
+    bool is_empty() const;
 };
 
 #endif // STACK_HH
