@@ -96,12 +96,14 @@ int main() {
             if (islower(c)) c=toupper(c);
             command_to_be_executed[i] = c;
             i++;
-        }        
+        }
 
         bool non_number_operands = true;
         bool unknown_command = true;
         unsigned int number_of_parameters = pieces.size()-1;
         bool wrong_param_numbers = true;
+        bool exit_status = false;
+        double calc_result = 0;
 
         string operand_1 = "";
         string operand_2 = "";
@@ -122,9 +124,12 @@ int main() {
                     wrong_param_numbers = false;
                     if (number_of_parameters == 0){
                         non_number_operands = false;
+                        exit_status = it->exit;
                     }
+                    //else if(string_to_double(operand_1) && string_to_double(operand_2)){
                     else if(isdigit(operand_1[0]) && isdigit(operand_2[0])){
                         non_number_operands = false;
+                        calc_result = it->action(stod(operand_1),stod(operand_2));
                     }
                 }
 
@@ -138,6 +143,13 @@ int main() {
         }
         else if (non_number_operands){
             cout << "Error: a non-number operand." << endl;
+        }
+        else if (exit_status){
+            cout << GREETING_AT_END << endl;
+            return 0;
+        }
+        else{
+            cout << to_string(calc_result) << endl;
         }
 
 
