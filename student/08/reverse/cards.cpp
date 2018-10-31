@@ -52,17 +52,19 @@ bool Cards::remove(int &id)
 
 void Cards::reverse()
 {
-    std::shared_ptr<Card_data> to_be_reversed = bottom_;
-    bottom_ = top_;
-    top_ = to_be_reversed;
+    if (!is_empty()){
+        std::shared_ptr<Card_data> to_be_reversed = bottom_;
+        bottom_ = top_;
+        top_ = to_be_reversed;
 
-    bottom_ -> next = nullptr;
+        bottom_ -> next = nullptr;
 
-    while( to_be_reversed != 0 ){
-        to_be_reversed -> next = to_be_reversed -> previous;
-        to_be_reversed = to_be_reversed -> next;
+        while( to_be_reversed != 0 ){
+            to_be_reversed -> next = to_be_reversed -> previous;
+            to_be_reversed = to_be_reversed -> next;
+        }
+        top_ -> previous = nullptr;
     }
-    top_ -> previous = nullptr;
 
 }
 
