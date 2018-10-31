@@ -54,6 +54,9 @@ const vector<Command> COMMANDS = {
     {"DECREASE", 2, false, subtraction},
     {"MULTIPLY", 2, false, multiplication},
     {"DIVIDE", 2, false, division},
+    {"^", 2, false, exponentiation},
+    {"POWER", 2, false, exponentiation},
+    {"EXP", 2, false, exponentiation},
     {"STOP", 0, true, nullptr},
     {"QUIT", 0, true, nullptr},
     {"EXIT", 0, true, nullptr},
@@ -103,7 +106,7 @@ int main() {
         unsigned int number_of_parameters = pieces.size()-1;
         bool wrong_param_numbers = true;
         bool exit_status = false;
-        double calc_result = 0;
+        double calc_result;
 
         string operand_1 = "";
         string operand_2 = "";
@@ -117,21 +120,28 @@ int main() {
 
         vector<Command>::iterator it;
         for(auto it = COMMANDS.begin(); it!= COMMANDS.end();it++){
-                if (it->str == command_to_be_executed){
-                    unknown_command = false;
+            double var_1;
+            double var_2;
+            bool isOperand01Double = string_to_double(operand_1, var_1);
+            bool isOperand02Double = string_to_double(operand_2, var_2);
+            if (it->str == command_to_be_executed){
+                unknown_command = false;
+            }
+            if (it->parameter_number == number_of_parameters){
+                wrong_param_numbers = false;
+                if (number_of_parameters == 0){
+                    non_number_operands = false;
+                    exit_status = it->exit;
                 }
-                if (it->parameter_number == number_of_parameters){
-                    wrong_param_numbers = false;
-                    if (number_of_parameters == 0){
-                        non_number_operands = false;
-                        exit_status = it->exit;
-                    }
-                    //else if(string_to_double(operand_1) && string_to_double(operand_2)){
-                    else if(isdigit(operand_1[0]) && isdigit(operand_2[0])){
-                        non_number_operands = false;
-                        calc_result = it->action(stod(operand_1),stod(operand_2));
-                    }
+                else if(isOperand01Double && isOperand02Double){
+                //else if(isdigit(operand_1[0]) && isdigit(operand_2[0])){
+                    non_number_operands = false;
+                    double(*func)(double, double) = it->action;
+                    calc_result = func(var_1, var_2);
+
+                    //calc_result = it->action(stod(operand_1),stod(operand_2));
                 }
+            }
 
         }
 
@@ -149,7 +159,7 @@ int main() {
             return 0;
         }
         else{
-            cout << to_string(calc_result) << endl;
+            cout << calc_result << endl;
         }
 
 
