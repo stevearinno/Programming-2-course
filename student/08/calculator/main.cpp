@@ -126,20 +126,20 @@ int main() {
             bool isOperand02Double = string_to_double(operand_2, var_2);
             if (it->str == command_to_be_executed){
                 unknown_command = false;
-            }
-            if (it->parameter_number == number_of_parameters){
-                wrong_param_numbers = false;
-                if (number_of_parameters == 0){
-                    non_number_operands = false;
-                    exit_status = it->exit;
-                }
-                else if(isOperand01Double && isOperand02Double){
-                //else if(isdigit(operand_1[0]) && isdigit(operand_2[0])){
-                    non_number_operands = false;
-                    double(*func)(double, double) = it->action;
-                    calc_result = func(var_1, var_2);
+                if (it->parameter_number == number_of_parameters){
+                    wrong_param_numbers = false;
+                    if (number_of_parameters == 0){
+                        non_number_operands = false;
+                        exit_status = it->exit;
+                    }
+                    else if(isOperand01Double && isOperand02Double){
+                    //else if(isdigit(operand_1[0]) && isdigit(operand_2[0])){
+                        non_number_operands = false;
+                        double(*func)(double, double) = it->action;
+                        calc_result = func(var_1, var_2);
 
-                    //calc_result = it->action(stod(operand_1),stod(operand_2));
+                        //calc_result = it->action(stod(operand_1),stod(operand_2));
+                    }
                 }
             }
 
@@ -149,7 +149,7 @@ int main() {
             cout << "Error: unknown command." << endl;
         }
         else if (wrong_param_numbers){
-            cout << "wrong number of parameters." << endl;
+            cout << "Error: wrong number of parameters." << endl;
         }
         else if (non_number_operands){
             cout << "Error: a non-number operand." << endl;
