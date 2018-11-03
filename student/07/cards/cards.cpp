@@ -110,6 +110,7 @@ bool Cards::top_to_bottom(){
     return true;
 }
 
+
 void Cards::print_from_bottom_to_top(std::ostream& s){
     int i = 1;
     s<< i<<": "<< bottom_->data <<endl;
@@ -151,7 +152,7 @@ void Cards::print_from_bottom_to_top(std::ostream& s){
     }
 }
 
-Card_data* Cards::recursive_print(Card_data* top){
+Cards::Card_data* Cards::recursive_print(Card_data* top){
 
     Card_data* next_card = top;
     Card_data* current_card = top_;

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <cmath>
+//#include <sstream>
 
 
 using namespace std;
@@ -13,6 +14,12 @@ using namespace std;
 // rounds the price to two decimal places. It will return string
 std::string rounding( double num )
 {
+    //std::stringstream ss;
+    //ss << setprecision(2) << num;
+
+    //return ss.str();
+
+
     std::string numString = "";
 
     num = ((num * 100) + 0.5)/100;          // this is for the rounding (addition of 0.5)

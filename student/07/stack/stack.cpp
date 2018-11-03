@@ -52,13 +52,12 @@ bool Stack::pop_second_top(int &item){
     else{
         Stack_item* item_to_be_removed = stack_top_ -> next;
 
-        // ************ useless variable
         item = item_to_be_removed -> item;
 
         stack_top_ -> next = item_to_be_removed -> next;
         delete item_to_be_removed;
 
-        return true;
+        return item;
     }
 
 }
