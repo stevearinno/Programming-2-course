@@ -14,6 +14,8 @@
 #ifndef COMPANY_HH
 #define COMPANY_HH
 
+#include "company.hh"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -34,6 +36,7 @@ struct Employee
     double time_in_service_ = NO_TIME;
     Employee* boss_ = nullptr;
     std::vector<Employee*> subordinates_;
+
 };
 
 
@@ -68,7 +71,7 @@ public:
      *  None.
      */
     void printEmployees(std::ostream &output) const;
-
+    
 
 
     /*
@@ -172,6 +175,10 @@ public:
 
     bool is_empty() const;
 
+    std::map<std::string, std::shared_ptr<Employee>> personnelsDB;
+
+
+
 private:
 
     /* The following functions are meant to make project easier.
@@ -193,8 +200,8 @@ private:
     // Prints the the data in a container.
     void printGroup(const std::string& id, const std::string& group,
                     const IdSet& container, std::ostream& output) const;
-    
-    std::shared_ptr<Employee> top_;
+
+
 
 };
 
