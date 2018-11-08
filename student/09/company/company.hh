@@ -14,8 +14,6 @@
 #ifndef COMPANY_HH
 #define COMPANY_HH
 
-#include "company.hh"
-
 #include <string>
 #include <vector>
 #include <memory>
@@ -173,9 +171,8 @@ public:
     void printBossesN(const std::string& id, const int n,
                       std::ostream& output) const;
 
-    bool is_empty() const;
-
     std::map<std::string, std::shared_ptr<Employee>> personnelsDB;
+    //std::map<std::string, Employee> personnelsDB;
 
 
 
@@ -200,9 +197,6 @@ private:
     // Prints the the data in a container.
     void printGroup(const std::string& id, const std::string& group,
                     const IdSet& container, std::ostream& output) const;
-
-
-
 };
 
 #endif // COMPANY_HH
