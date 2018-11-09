@@ -198,11 +198,18 @@ private:
     void printGroup(const std::string& id, const std::string& group,
                     const IdSet& container, std::ostream& output) const;
 
+    // The recursive function to put all the subordinates under one boss
+    void recursive_department(Employee* theEmployee, std::vector<Employee*> allSubordinates) const;
+
     // The recursive function to determine the longest time in service
-    Employee* recursive_longest(Employee* checkedEmployee, Employee* longestEmployee);
+    void recursive_longest(Employee* checkedEmployee, Employee* longestEmployee) const;
 
     // The recursive function to determine the shortest time in service
-    Employee* recursive_shortest(Employee* checkedEmployee, Employee* shortestEmployee);
+    void recursive_shortest(Employee* checkedEmployee, Employee* shortestEmployee) const;
+
+    // The recursive function to print all subordinates to a certain level
+    void recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>> subordinatesMap, const int n) const;
+
 };
 
 #endif // COMPANY_HH

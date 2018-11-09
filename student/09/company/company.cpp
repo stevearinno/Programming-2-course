@@ -21,21 +21,11 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
     std::shared_ptr<Employee> new_employee
            = std::make_shared<Employee>();
 
-
-
     new_employee->id_ = id;
     new_employee->department_ = dep;
     new_employee->time_in_service_ = time;
 
-
-    if (personnelsDB.find(id) == personnelsDB.end())
-    {
-        printNotFound(id, output);
-    }
-    else
-    {
-        personnelsDB[id] = new_employee;
-    }
+    personnelsDB[id] = new_employee;
 }
 
 
@@ -66,159 +56,291 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
 
 void Company::printSubordinates(const std::string &id, std::ostream &output) const
 {
-    Employee* boss_id = getPointer(id);
-    std::vector<Employee*> subordinates_ids = boss_id->subordinates_;
-
-    std::sort(subordinates_ids.begin(),subordinates_ids.end());
-
-    std::set<std::string> idSet = VectorToIdSet(subordinates_ids);
-    std::string groupName;
-    if (idSet.size() == 1)
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        groupName = "subordinate";
+        printNotFound(id, output);
     }
     else
     {
-        groupName = "subordinates";
+        Employee* boss_id = getPointer(id);
+        std::vector<Employee*> subordinates_ids = boss_id->subordinates_;
+
+        std::sort(subordinates_ids.begin(),subordinates_ids.end());
+        std::set<std::string> idSet = VectorToIdSet(subordinates_ids);
+        std::string groupName;
+        if (idSet.size() == 1)
+        {
+            groupName = "subordinate";
+        }
+        else
+        {
+            groupName = "subordinates";
+        }
+        printGroup(id, groupName, idSet, output);
     }
-    printGroup(id, groupName, idSet, output);
 
 }
 
 void Company::printBoss(const std::string &id, std::ostream &output) const
 {
-    std::vector<std::string> bossVector;
-    Employee* subordinate_id = getPointer(id);
-    Employee* boss_id = subordinate_id->boss_;
-    while (boss_id != nullptr)
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        bossVector.push_back(boss_id->id_);
-        subordinate_id = getPointer(boss_id->id_);
-        boss_id = subordinate_id->boss_;
-    }
-
-    std::string amount = "";
-
-    if (bossVector.size() > 1)
-    {
-        amount = " bosses:";
+        printNotFound(id, output);
     }
     else
     {
-        amount = " boss:";
-    }
+        std::vector<std::string> bossVector;
+        Employee* subordinate_id = getPointer(id);
+        Employee* boss_id = subordinate_id->boss_;
+        while (boss_id != nullptr)
+        {
+            bossVector.push_back(boss_id->id_);
+            subordinate_id = getPointer(boss_id->id_);
+            boss_id = subordinate_id->boss_;
+        }
 
-    output << id << " has " << std::to_string(bossVector.size()) << amount << std::endl;
-    std::sort(bossVector.begin(),bossVector.end());
-    std::vector<std::string>::const_iterator bossIterator = bossVector.begin();
-    for(;bossIterator != bossVector.end(); bossIterator++)
-    {
-        output << *bossIterator << std::endl;
-    }
+        std::string amount = "";
+        if (bossVector.size() > 1)
+        {
+            amount = " bosses:";
+        }
+        else
+        {
+            amount = " boss:";
+        }
 
+        output << id << " has " << std::to_string(bossVector.size()) << amount << std::endl;
+        std::sort(bossVector.begin(),bossVector.end());
+        std::vector<std::string>::const_iterator bossIterator = bossVector.begin();
+        for(;bossIterator != bossVector.end(); bossIterator++)
+        {
+            output << *bossIterator << std::endl;
+        }
+    }
 }
 
 void Company::printColleagues(const std::string &id, std::ostream &output) const
 {
-    Employee* theEmployee = getPointer(id);
-    Employee* theBoss = theEmployee->boss_;
-
-    std::vector<Employee*> colleagueVector = theBoss->subordinates_;
-    std::set<std::string> colleagueSet = VectorToIdSet(colleagueVector);
-    colleagueSet.erase(id);
-    std::string groupName;
-    if ( colleagueSet.size()==1)
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        groupName = "colleague";
+        printNotFound(id, output);
     }
     else
     {
-        groupName = "colleagues";
+        Employee* theEmployee = getPointer(id);
+        Employee* theBoss = theEmployee->boss_;
+
+        std::vector<Employee*> colleagueVector = theBoss->subordinates_;
+        std::set<std::string> colleagueSet = VectorToIdSet(colleagueVector);
+        colleagueSet.erase(id);
+        std::string groupName;
+        if ( colleagueSet.size()==1)
+        {
+            groupName = "colleague";
+        }
+        else
+        {
+            groupName = "colleagues";
+        }
+        printGroup(id, groupName, colleagueSet, output);
     }
-    printGroup(id, groupName, colleagueSet, output);
 }
 
 void Company::printDepartment(const std::string &id, std::ostream &output) const
 {
-    Employee* theEmployee = getPointer(id);
-    Employee* theBoss = theEmployee->boss_;
-    std::string theDepartment = theEmployee->department_;
-
-    // checks one level up until the person with no boss is found
-    while( theBoss != nullptr )
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        theEmployee = theBoss;
-        theBoss = theEmployee->boss_;
-    }
-
-    std::vector<Employee*> subordinateVector = theEmployee->subordinates_;
-    std::vector<Employee*> departmentVector;
-    std::vector<Employee*>::const_iterator subIterator = subordinateVector.begin();
-    for (; subIterator != subordinateVector.end(); subIterator++)
-    {
-        if ( (*subIterator)->department_ == theDepartment )
-        {
-            departmentVector.push_back(*subIterator);
-        }
-    }
-
-    std::set<std::string> departmentSet = VectorToIdSet(departmentVector);
-    std::string groupName;
-    if ( departmentSet.size()==1)
-    {
-        groupName = "department colleague";
+        printNotFound(id, output);
     }
     else
     {
-        groupName = "department colleagues";
-    }
+        Employee* theEmployee = getPointer(id);
+        Employee* theBoss = theEmployee->boss_;
+        std::string theDepartment = theEmployee->department_;
 
-    printGroup(id, groupName, departmentSet, output);
+        // checks one level up until the person with no boss is found
+        while( theBoss != nullptr )
+        {
+            theEmployee = theBoss;
+            theBoss = theEmployee->boss_;
+        }
+
+        std::vector<Employee*> allSubordinates;
+        recursive_department(theEmployee, allSubordinates);
+        std::vector<Employee*> departmentVector;
+        std::vector<Employee*>::const_iterator subIterator = allSubordinates.begin();
+        for (; subIterator != allSubordinates.end(); subIterator++)
+        {
+            if ( (*subIterator)->department_ == theDepartment )
+            {
+                departmentVector.push_back(*subIterator);
+            }
+        }
+
+        std::set<std::string> departmentSet = VectorToIdSet(departmentVector);
+        std::string groupName;
+        if ( departmentSet.size()==1)
+        {
+            groupName = "department colleague";
+        }
+        else
+        {
+            groupName = "department colleagues";
+        }
+        printGroup(id, groupName, departmentSet, output);
+    }
 }
 
 void Company::printLongestTimeInLineManagement(const std::string &id, std::ostream &output) const
 {
-    // defines one input Employee as the longest (temporarily)
-    // takes the vector of his/her subordinates and time in service
-    Employee* checkedEmployee = getPointer(id);
-    Employee* longestEmployee;
-
-    longestEmployee = recursive_longest(checkedEmployee, checkedEmployee);
-
-    std::string managerName = "their";
-
-    if (checkedEmployee != longestEmployee)
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        managerName = longestEmployee->id_ + "'s";
+        printNotFound(id, output);
+    }
+    else
+    {
+        // defines one input Employee as the longest (temporarily)
+        // takes the vector of his/her subordinates and time in service
+        Employee* checkedEmployee = getPointer(id);
+        Employee* longestEmployee = checkedEmployee;
+
+        recursive_longest(checkedEmployee, longestEmployee);
+
+        std::string managerName = "their";
+        if (checkedEmployee != longestEmployee)
+        {
+            managerName = longestEmployee->id_ + "'s";
+        }
+
+        output << "With the time of " << std::to_string(longestEmployee->time_in_service_)
+               << ", " << longestEmployee->id_ << " is the  longest-served employee in "
+               << managerName << " line management.";
     }
 
-    output << "With the time of " << std::to_string(longestEmployee->time_in_service_)
-           << ", " << longestEmployee->id_ << " is the longest-served employee in "
-           << managerName << " line management.";
 
 }
 
-
-
 void Company::printShortestTimeInLineManagement(const std::string &id, std::ostream &output) const
 {
-    // defines one input Employee as the longest (temporarily)
-    // takes the vector of his/her subordinates and time in service
-    Employee* checkedEmployee = getPointer(id);
-    Employee* shortestEmployee;
-
-    shortestEmployee = recursive_longest(checkedEmployee, checkedEmployee);
-
-    std::string managerName = "their";
-
-    if (checkedEmployee != shortestEmployee)
+    if (personnelsDB.find(id) == personnelsDB.end())
     {
-        managerName = shortestEmployee->id_ + "'s";
+        printNotFound(id, output);
+    }
+    else
+    {
+        // defines one input Employee as the longest (temporarily)
+        // takes the vector of his/her subordinates and time in service
+        Employee* checkedEmployee = getPointer(id);
+        Employee* shortestEmployee = checkedEmployee;
+
+        recursive_longest(checkedEmployee, shortestEmployee);
+
+        std::string managerName = "their";
+        if(checkedEmployee != shortestEmployee)
+        {
+            managerName = id + "'s";
+        }
+        output << "With the time of " << std::to_string(shortestEmployee->time_in_service_)
+               << ", " << shortestEmployee->id_ << " is the longest-served employee in "
+               << managerName << " line management.";
     }
 
-    output << "With the time of " << std::to_string(shortestEmployee->time_in_service_)
-           << ", " << shortestEmployee->id_ << " is the longest-served employee in "
-           << managerName << " line management.";
+}
+
+void Company::printSubordinatesN(const std::string &id, const int n, std::ostream &output) const
+{
+    if (personnelsDB.find(id) == personnelsDB.end())
+    {
+        printNotFound(id, output);
+    }
+    else
+    {
+        if (n < 1)
+        {
+            output << "Error. Level can't be less than 1." << std::endl;
+        }
+        else
+        {
+            Employee* theEmployee = getPointer(id);
+            std::map<int, std::vector<Employee*>> subordinatesMap;
+            recursive_subordinatesN(theEmployee, subordinatesMap, n);
+
+            std::vector<Employee*> subordinatesVector;
+            int mapSize = subordinatesMap.size();
+            int counter = 0;
+            while( counter<mapSize )
+            {
+                std::vector<Employee*>::const_iterator employeeIterator = subordinatesMap[counter].begin();
+                for (; employeeIterator != subordinatesMap[counter].end(); employeeIterator++)
+                {
+                    subordinatesVector.push_back(*employeeIterator);
+                }
+                counter++;
+            }
+            std::sort(subordinatesVector.begin(),subordinatesVector.end());
+            IdSet subordinatesSet = VectorToIdSet(subordinatesVector);
+            std::string groupName = "subordinates";
+            if (subordinatesVector.size() == 1)
+            {
+                groupName = "subordinates";
+                printGroup(id, groupName, subordinatesSet, output);
+            }
+            else if (subordinatesVector.size() == 0)
+            {
+                output << id << " has no subordinates" << std::endl;
+            }
+            else
+            {
+                printGroup(id, groupName, subordinatesSet, output);
+            }
+        }
+    }
+}
+
+void Company::printBossesN(const std::string &id, const int n, std::ostream &output) const
+{
+    if (personnelsDB.find(id) == personnelsDB.end())
+    {
+        printNotFound(id, output);
+    }
+    else
+    {
+        if (n < 1)
+        {
+            output << "Error. Level can't be less than 1." << std::endl;
+        }
+        else
+        {
+            Employee* theEmployee = getPointer(id);
+            Employee* theBoss = theEmployee->boss_;
+            std::vector<Employee*> bossVector;
+            int bossNo = 0;
+
+            if (theBoss == nullptr)
+            {
+                output << id << "  has no bosses." << std::endl;
+            }
+            else
+            {
+                while (theBoss != nullptr or bossNo == n)
+                {
+                    bossNo++;
+                    bossVector.push_back(theBoss);
+                    theEmployee = theBoss;
+                    theBoss = theEmployee->boss_;
+                }
+                std::sort(bossVector.begin(),bossVector.end());
+                IdSet bossSet = VectorToIdSet(bossVector);
+
+                std::string groupName = "bosses";
+                if (bossSet.size() == 1)
+                {
+                    groupName = "boss";
+                }
+                printGroup(id, groupName, bossSet, output);
+            }
+        }
+    }
 }
 
 Employee* Company::getPointer(const std::string &id) const
@@ -227,7 +349,6 @@ Employee* Company::getPointer(const std::string &id) const
     employeePtr = personnelsDB.find(id) -> second;
 
     return employeePtr.get();
-
 }
 
 void Company::printNotFound(const std::string &id, std::ostream &output) const
@@ -257,7 +378,21 @@ void Company::printGroup(const std::string &id, const std::string &group, const 
     }
 }
 
-Employee *Company::recursive_longest(Employee *checkedEmployee, Employee *longestEmployee)
+void Company::recursive_department(Employee* theEmployee, std::vector<Employee*> allSubordinates) const
+{
+    std::vector<Employee*> theSubordinates = theEmployee->subordinates_;
+    if (!theSubordinates.empty())
+    {
+        std::vector<Employee*>::const_iterator subIterator = theSubordinates.begin();
+        for(; subIterator != theSubordinates.end(); subIterator++)
+        {
+            allSubordinates.push_back(*subIterator);
+            recursive_department(*subIterator, allSubordinates);
+        }
+    }
+}
+
+void Company::recursive_longest(Employee *checkedEmployee, Employee *longestEmployee) const
 {
     std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
     double checkedTime = checkedEmployee->time_in_service_;
@@ -269,11 +404,7 @@ Employee *Company::recursive_longest(Employee *checkedEmployee, Employee *longes
         longestEmployee = checkedEmployee;
     }
 
-    if (checkedSubordinatesVec.empty() )
-    {
-        return longestEmployee;
-    }
-    else
+    if (!checkedSubordinatesVec.empty() )
     {
         // compares the time of the above employee to all his/her subordinates time
         std::vector<Employee*>::const_iterator subIterator = checkedSubordinatesVec.begin();
@@ -284,7 +415,7 @@ Employee *Company::recursive_longest(Employee *checkedEmployee, Employee *longes
     }
 }
 
-Employee *Company::recursive_shortest(Employee *checkedEmployee, Employee *shortestEmployee)
+void Company::recursive_shortest(Employee *checkedEmployee, Employee *shortestEmployee) const
 {
     std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
     double checkedTime = checkedEmployee->time_in_service_;
@@ -296,17 +427,65 @@ Employee *Company::recursive_shortest(Employee *checkedEmployee, Employee *short
         shortestEmployee = checkedEmployee;
     }
 
-    if (checkedSubordinatesVec.empty() )
-    {
-        return shortestEmployee;
-    }
-    else
+    if (!checkedSubordinatesVec.empty() )
     {
         // compares the time of the above employee to all his/her subordinates time
         std::vector<Employee*>::const_iterator subIterator = checkedSubordinatesVec.begin();
         for(; subIterator != checkedSubordinatesVec.end(); subIterator++)
         {
             recursive_shortest(*subIterator, shortestEmployee);
+        }
+    }
+}
+
+void Company::recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>> subordinatesMap, const int n) const
+{
+    int counter = subordinatesMap.size()+1;
+    bool recursiveFlag = false;
+    if (counter <= n)
+    {
+        // puts all the subordinates to first level of subordinates map
+        if (counter = 1)
+        {
+            std::vector<Employee*> theSubordinates = theEmployee->subordinates_;
+            std::vector<Employee*>::const_iterator subIterator = theSubordinates.begin();
+            for(; subIterator != theSubordinates.end(); subIterator++)
+            {
+                subordinatesMap[counter].push_back(*subIterator);
+                if (!recursiveFlag && !((*subIterator)->subordinates_.empty()) )
+                {
+                    recursiveFlag = true;
+                }
+            }
+            if (recursiveFlag)
+            {
+                recursive_subordinatesN(theEmployee, subordinatesMap, n);
+            }
+        }
+        // puts all the subordinates to 2nd level of subordinates map
+        else
+        {
+            // checks all the employees in first level subordinates and puts in a vector
+            std::vector<Employee*> theEmployees = subordinatesMap[counter-1];
+            std::vector<Employee*>::const_iterator subIterator = theEmployees.begin();
+            for(; subIterator != theEmployees.end(); subIterator++)
+            {
+                // inserts all the 2nd level subordinates of 1st level subordinates
+                std::vector<Employee*> theSubordinates = (*subIterator)->subordinates_;
+                std::vector<Employee*>::const_iterator subSubIterator = theSubordinates.begin();
+                for (; subSubIterator != theSubordinates.end(); subSubIterator++)
+                {
+                    subordinatesMap[counter].push_back(*subSubIterator);
+                    if (!recursiveFlag && !((*subSubIterator)->subordinates_.empty()) )
+                    {
+                        recursiveFlag = true;
+                    }
+                }
+                if (recursiveFlag)
+                {
+                    recursive_subordinatesN(theEmployee, subordinatesMap, n);
+                }
+            }
         }
     }
 }
