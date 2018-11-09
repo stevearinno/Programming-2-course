@@ -21,6 +21,7 @@
 
 #include "company.hh"
 #include "cli.hh"
+using namespace std;
 
 // Constants to make CSV-parsing more readable.
 const char CSV_DELIMITER = ';';
@@ -40,12 +41,14 @@ Employee parseEmployee(const std::string &line, std::vector<Relation> &relations
 
 int main()
 {
-    std::string cmd_string;
+    //std::string cmd_string;
     std::shared_ptr<Company> database(new Company);
 
     // File query
-    std::cout << "Input file: ";
-    std::getline(std::cin, cmd_string);
+    //std::cout << "Input file: ";
+    //std::getline(std::cin, cmd_string);
+    std::string cmd_string =  "/home/wirdatma/programming2/232722/student/09/company/data.csv";
+
 
     // Query result must be transformed from std::string to c_string so it can
     //  be passed to ifstream's constructor.
@@ -58,6 +61,7 @@ int main()
     }
 
     // populateDatabase returns false if there was some error in file.
+
     if(not populateDatabase(datafile, database))
     {
         return EXIT_FAILURE;

@@ -37,7 +37,7 @@ void Company::printEmployees(std::ostream &output) const
     for (;dbIterator != personnelsDB.end(); dbIterator++)
     {
         to_be_printed = dbIterator->second;
-        output << to_be_printed->id_ << ";" << to_be_printed->department_ << ";" << to_be_printed->time_in_service_ << std::endl;
+        output << to_be_printed->id_ << ", " << to_be_printed->department_ << ", " << to_be_printed->time_in_service_ << std::endl;
     }
 
 }
@@ -50,7 +50,10 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
     to_be_boss = getPointer(boss);
     to_be_subordinate = getPointer(subordinate);
 
-    to_be_boss->subordinates_.push_back(to_be_subordinate);
+    if (to_be_boss != nullptr)
+    {
+        to_be_boss->subordinates_.push_back(to_be_subordinate);
+    }
     to_be_subordinate->boss_ = to_be_boss;
 }
 
@@ -212,9 +215,9 @@ void Company::printLongestTimeInLineManagement(const std::string &id, std::ostre
             managerName = longestEmployee->id_ + "'s";
         }
 
-        output << "With the time of " << std::to_string(longestEmployee->time_in_service_)
+        output << "With the time of " << std::to_string(int(longestEmployee->time_in_service_))
                << ", " << longestEmployee->id_ << " is the  longest-served employee in "
-               << managerName << " line management.";
+               << managerName << " line management." << std::endl;
     }
 
 
@@ -240,7 +243,7 @@ void Company::printShortestTimeInLineManagement(const std::string &id, std::ostr
         {
             managerName = id + "'s";
         }
-        output << "With the time of " << std::to_string(shortestEmployee->time_in_service_)
+        output << "With the time of " << std::to_string(int(shortestEmployee->time_in_service_))
                << ", " << shortestEmployee->id_ << " is the longest-served employee in "
                << managerName << " line management.";
     }
@@ -346,9 +349,15 @@ void Company::printBossesN(const std::string &id, const int n, std::ostream &out
 Employee* Company::getPointer(const std::string &id) const
 {
     std::shared_ptr<Employee> employeePtr;
-    employeePtr = personnelsDB.find(id) -> second;
-
-    return employeePtr.get();
+    if (id == "")
+    {
+        return nullptr;
+    }
+    else
+    {
+        employeePtr = personnelsDB.find(id) -> second;
+        return employeePtr.get();
+    }
 }
 
 void Company::printNotFound(const std::string &id, std::ostream &output) const
