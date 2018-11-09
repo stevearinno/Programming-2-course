@@ -199,10 +199,10 @@ private:
                     const IdSet& container, std::ostream& output) const;
 
     // The recursive function to put all the subordinates under one boss
-    void recursive_department(Employee* theEmployee, std::vector<Employee*> allSubordinates) const;
+    void recursive_department(const std::string& id, Employee* theEmployee, std::vector<Employee*>& allSubordinates) const;
 
     // The recursive function to determine the longest time in service
-    void recursive_longest(Employee* checkedEmployee, Employee* longestEmployee) const;
+    void recursive_longest(Employee* checkedEmployee, Employee*& longestEmployee) const;
 
     // The recursive function to determine the shortest time in service
     void recursive_shortest(Employee* checkedEmployee, Employee* shortestEmployee) const;
