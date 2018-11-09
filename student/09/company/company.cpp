@@ -169,7 +169,7 @@ void Company::printDepartment(const std::string &id, std::ostream &output) const
         }
 
         std::vector<Employee*> allSubordinates;
-        recursive_department(theEmployee, allSubordinates);
+        recursive_department(id, theEmployee, allSubordinates);
         std::vector<Employee*> departmentVector;
         std::vector<Employee*>::const_iterator subIterator = allSubordinates.begin();
         for (; subIterator != allSubordinates.end(); subIterator++)
@@ -205,7 +205,7 @@ void Company::printLongestTimeInLineManagement(const std::string &id, std::ostre
         // defines one input Employee as the longest (temporarily)
         // takes the vector of his/her subordinates and time in service
         Employee* checkedEmployee = getPointer(id);
-        Employee* longestEmployee = checkedEmployee;
+        Employee* longestEmployee;
 
         recursive_longest(checkedEmployee, longestEmployee);
 
@@ -216,7 +216,7 @@ void Company::printLongestTimeInLineManagement(const std::string &id, std::ostre
         }
 
         output << "With the time of " << std::to_string(int(longestEmployee->time_in_service_))
-               << ", " << longestEmployee->id_ << " is the  longest-served employee in "
+               << ", " << longestEmployee->id_ << " is the longest-served employee in "
                << managerName << " line management." << std::endl;
     }
 
@@ -387,7 +387,7 @@ void Company::printGroup(const std::string &id, const std::string &group, const 
     }
 }
 
-void Company::recursive_department(Employee* theEmployee, std::vector<Employee*> allSubordinates) const
+void Company::recursive_department(const std::string& id, Employee* theEmployee, std::vector<Employee*>& allSubordinates) const
 {
     std::vector<Employee*> theSubordinates = theEmployee->subordinates_;
     if (!theSubordinates.empty())
@@ -395,13 +395,16 @@ void Company::recursive_department(Employee* theEmployee, std::vector<Employee*>
         std::vector<Employee*>::const_iterator subIterator = theSubordinates.begin();
         for(; subIterator != theSubordinates.end(); subIterator++)
         {
-            allSubordinates.push_back(*subIterator);
-            recursive_department(*subIterator, allSubordinates);
+            if ((*subIterator)->id_ != id)
+            {
+                allSubordinates.push_back(*subIterator);
+            }
+            recursive_department(id, *subIterator, allSubordinates);
         }
     }
 }
 
-void Company::recursive_longest(Employee *checkedEmployee, Employee *longestEmployee) const
+void Company::recursive_longest(Employee* checkedEmployee, Employee*& longestEmployee) const
 {
     std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
     double checkedTime = checkedEmployee->time_in_service_;
