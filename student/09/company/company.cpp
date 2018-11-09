@@ -30,7 +30,7 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
 
     if (personnelsDB.find(id) == personnelsDB.end())
     {
-        output << "ERROR";
+        printNotFound(id, output);
     }
     else
     {
@@ -118,6 +118,109 @@ void Company::printBoss(const std::string &id, std::ostream &output) const
 
 }
 
+void Company::printColleagues(const std::string &id, std::ostream &output) const
+{
+    Employee* theEmployee = getPointer(id);
+    Employee* theBoss = theEmployee->boss_;
+
+    std::vector<Employee*> colleagueVector = theBoss->subordinates_;
+    std::set<std::string> colleagueSet = VectorToIdSet(colleagueVector);
+    colleagueSet.erase(id);
+    std::string groupName;
+    if ( colleagueSet.size()==1)
+    {
+        groupName = "colleague";
+    }
+    else
+    {
+        groupName = "colleagues";
+    }
+    printGroup(id, groupName, colleagueSet, output);
+}
+
+void Company::printDepartment(const std::string &id, std::ostream &output) const
+{
+    Employee* theEmployee = getPointer(id);
+    Employee* theBoss = theEmployee->boss_;
+    std::string theDepartment = theEmployee->department_;
+
+    // checks one level up until the person with no boss is found
+    while( theBoss != nullptr )
+    {
+        theEmployee = theBoss;
+        theBoss = theEmployee->boss_;
+    }
+
+    std::vector<Employee*> subordinateVector = theEmployee->subordinates_;
+    std::vector<Employee*> departmentVector;
+    std::vector<Employee*>::const_iterator subIterator = subordinateVector.begin();
+    for (; subIterator != subordinateVector.end(); subIterator++)
+    {
+        if ( (*subIterator)->department_ == theDepartment )
+        {
+            departmentVector.push_back(*subIterator);
+        }
+    }
+
+    std::set<std::string> departmentSet = VectorToIdSet(departmentVector);
+    std::string groupName;
+    if ( departmentSet.size()==1)
+    {
+        groupName = "department colleague";
+    }
+    else
+    {
+        groupName = "department colleagues";
+    }
+
+    printGroup(id, groupName, departmentSet, output);
+}
+
+void Company::printLongestTimeInLineManagement(const std::string &id, std::ostream &output) const
+{
+    // defines one input Employee as the longest (temporarily)
+    // takes the vector of his/her subordinates and time in service
+    Employee* checkedEmployee = getPointer(id);
+    Employee* longestEmployee;
+
+    longestEmployee = recursive_longest(checkedEmployee, checkedEmployee);
+
+    std::string managerName = "their";
+
+    if (checkedEmployee != longestEmployee)
+    {
+        managerName = longestEmployee->id_ + "'s";
+    }
+
+    output << "With the time of " << std::to_string(longestEmployee->time_in_service_)
+           << ", " << longestEmployee->id_ << " is the longest-served employee in "
+           << managerName << " line management.";
+
+}
+
+
+
+void Company::printShortestTimeInLineManagement(const std::string &id, std::ostream &output) const
+{
+    // defines one input Employee as the longest (temporarily)
+    // takes the vector of his/her subordinates and time in service
+    Employee* checkedEmployee = getPointer(id);
+    Employee* shortestEmployee;
+
+    shortestEmployee = recursive_longest(checkedEmployee, checkedEmployee);
+
+    std::string managerName = "their";
+
+    if (checkedEmployee != shortestEmployee)
+    {
+        managerName = shortestEmployee->id_ + "'s";
+    }
+
+    output << "With the time of " << std::to_string(shortestEmployee->time_in_service_)
+           << ", " << shortestEmployee->id_ << " is the longest-served employee in "
+           << managerName << " line management.";
+}
+
 Employee* Company::getPointer(const std::string &id) const
 {
     std::shared_ptr<Employee> employeePtr;
@@ -125,6 +228,11 @@ Employee* Company::getPointer(const std::string &id) const
 
     return employeePtr.get();
 
+}
+
+void Company::printNotFound(const std::string &id, std::ostream &output) const
+{
+    output << "Error. " << id << " not found." << std::endl;
 }
 
 IdSet Company::VectorToIdSet(const std::vector<Employee *> &container) const
@@ -146,6 +254,60 @@ void Company::printGroup(const std::string &id, const std::string &group, const 
     for(; setIterator != container.end(); setIterator++)
     {
         output << *setIterator << std::endl;
+    }
+}
+
+Employee *Company::recursive_longest(Employee *checkedEmployee, Employee *longestEmployee)
+{
+    std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
+    double checkedTime = checkedEmployee->time_in_service_;
+    double longestTime = longestEmployee->time_in_service_;
+
+    if (longestTime < checkedTime)
+    {
+        longestTime = checkedTime;
+        longestEmployee = checkedEmployee;
+    }
+
+    if (checkedSubordinatesVec.empty() )
+    {
+        return longestEmployee;
+    }
+    else
+    {
+        // compares the time of the above employee to all his/her subordinates time
+        std::vector<Employee*>::const_iterator subIterator = checkedSubordinatesVec.begin();
+        for(; subIterator != checkedSubordinatesVec.end(); subIterator++)
+        {
+            recursive_longest(*subIterator, longestEmployee);
+        }
+    }
+}
+
+Employee *Company::recursive_shortest(Employee *checkedEmployee, Employee *shortestEmployee)
+{
+    std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
+    double checkedTime = checkedEmployee->time_in_service_;
+    double shortestTime = shortestEmployee->time_in_service_;
+
+    if (shortestTime > checkedTime)
+    {
+        shortestTime = checkedTime;
+        shortestEmployee = checkedEmployee;
+    }
+
+    if (checkedSubordinatesVec.empty() )
+    {
+        return shortestEmployee;
+    }
+    else
+    {
+        // compares the time of the above employee to all his/her subordinates time
+        std::vector<Employee*>::const_iterator subIterator = checkedSubordinatesVec.begin();
+        for(; subIterator != checkedSubordinatesVec.end(); subIterator++)
+        {
+            recursive_shortest(*subIterator, shortestEmployee);
+        }
     }
 }
 

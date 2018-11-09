@@ -197,6 +197,12 @@ private:
     // Prints the the data in a container.
     void printGroup(const std::string& id, const std::string& group,
                     const IdSet& container, std::ostream& output) const;
+
+    // The recursive function to determine the longest time in service
+    Employee* recursive_longest(Employee* checkedEmployee, Employee* longestEmployee);
+
+    // The recursive function to determine the shortest time in service
+    Employee* recursive_shortest(Employee* checkedEmployee, Employee* shortestEmployee);
 };
 
 #endif // COMPANY_HH
