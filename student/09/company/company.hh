@@ -208,7 +208,7 @@ private:
     void recursive_shortest(Employee* checkedEmployee, Employee*& shortestEmployee) const;
 
     // The recursive function to print all subordinates to a certain level
-    void recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>> subordinatesMap, const int n) const;
+    void recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>>& subordinatesMap, const int n) const;
 
 };
 

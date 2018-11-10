@@ -12,7 +12,6 @@ Company::Company()
 Company::~Company()
 {
     personnelsDB.clear();
-
 }
 
 
@@ -25,7 +24,14 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
     new_employee->department_ = dep;
     new_employee->time_in_service_ = time;
 
-    personnelsDB[id] = new_employee;
+    if (personnelsDB.find(id) == personnelsDB.end())
+    {
+        personnelsDB[id] = new_employee;
+    }
+    else
+    {
+        output << "Error. Employee already added" << std::endl;
+    }
 }
 
 
@@ -44,17 +50,31 @@ void Company::printEmployees(std::ostream &output) const
 
 void Company::addRelation(const std::string &subordinate, const std::string &boss, std::ostream &output)
 {
-    Employee* to_be_subordinate;
-    Employee* to_be_boss;
-
-    to_be_boss = getPointer(boss);
-    to_be_subordinate = getPointer(subordinate);
-
-    if (to_be_boss != nullptr)
+    if ((personnelsDB.find(subordinate) == personnelsDB.end()) && (subordinate != ""))
     {
-        to_be_boss->subordinates_.push_back(to_be_subordinate);
+        printNotFound(subordinate, output);
     }
-    to_be_subordinate->boss_ = to_be_boss;
+    else
+    {
+        if ((personnelsDB.find(subordinate) == personnelsDB.end()) && (subordinate != ""))
+        {
+            printNotFound(boss, output);
+        }
+        else
+        {
+            Employee* to_be_subordinate;
+            Employee* to_be_boss;
+
+            to_be_boss = getPointer(boss);
+            to_be_subordinate = getPointer(subordinate);
+
+            if (to_be_boss != nullptr)
+            {
+                to_be_boss->subordinates_.push_back(to_be_subordinate);
+            }
+            to_be_subordinate->boss_ = to_be_boss;
+        }
+    }
 }
 
 void Company::printSubordinates(const std::string &id, std::ostream &output) const
@@ -169,6 +189,7 @@ void Company::printDepartment(const std::string &id, std::ostream &output) const
         }
 
         std::vector<Employee*> allSubordinates;
+        allSubordinates.push_back(theEmployee);
         recursive_department(id, theEmployee, allSubordinates);
         std::vector<Employee*> departmentVector;
         std::vector<Employee*>::const_iterator subIterator = allSubordinates.begin();
@@ -284,8 +305,8 @@ void Company::printSubordinatesN(const std::string &id, const int n, std::ostrea
 
             std::vector<Employee*> subordinatesVector;
             int mapSize = subordinatesMap.size();
-            int counter = 0;
-            while( counter<mapSize )
+            int counter = 1;
+            while( counter <= mapSize )
             {
                 std::vector<Employee*>::const_iterator employeeIterator = subordinatesMap[counter].begin();
                 for (; employeeIterator != subordinatesMap[counter].end(); employeeIterator++)
@@ -339,7 +360,7 @@ void Company::printBossesN(const std::string &id, const int n, std::ostream &out
             }
             else
             {
-                while (theBoss != nullptr or bossNo == n)
+                while (theBoss != nullptr && bossNo < n)
                 {
                     bossNo++;
                     bossVector.push_back(theBoss);
@@ -464,14 +485,14 @@ void Company::recursive_shortest(Employee *checkedEmployee, Employee*& shortestE
     }
 }
 
-void Company::recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>> subordinatesMap, const int n) const
+void Company::recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>>& subordinatesMap, const int n) const
 {
     int counter = subordinatesMap.size()+1;
     bool recursiveFlag = false;
     if (counter <= n)
     {
         // puts all the subordinates to first level of subordinates map
-        if (counter = 1)
+        if (counter == 1)
         {
             std::vector<Employee*> theSubordinates = theEmployee->subordinates_;
             std::vector<Employee*>::const_iterator subIterator = theSubordinates.begin();
