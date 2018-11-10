@@ -23,7 +23,6 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
     new_employee->id_ = id;
     new_employee->department_ = dep;
     new_employee->time_in_service_ = time;
-    cout << "try" << std::endl;
 
     if (personnelsDB.find(id) == personnelsDB.end())
     {
