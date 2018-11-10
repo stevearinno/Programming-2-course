@@ -41,14 +41,12 @@ Employee parseEmployee(const std::string &line, std::vector<Relation> &relations
 
 int main()
 {
-    //std::string cmd_string;
+    std::string cmd_string;
     std::shared_ptr<Company> database(new Company);
 
     // File query
-    //std::cout << "Input file: ";
-    //std::getline(std::cin, cmd_string);
-    std::string cmd_string =  "/home/wirdatma/programming2/232722/student/09/company/data.csv";
-
+    std::cout << "Input file: ";
+    std::getline(std::cin, cmd_string);
 
     // Query result must be transformed from std::string to c_string so it can
     //  be passed to ifstream's constructor.
