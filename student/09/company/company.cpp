@@ -212,15 +212,21 @@ void Company::printLongestTimeInLineManagement(const std::string &id, std::ostre
         std::string managerName = "their";
         if (checkedEmployee != longestEmployee)
         {
-            managerName = longestEmployee->id_ + "'s";
+            managerName = id + "'s";
         }
 
-        output << "With the time of " << std::to_string(int(longestEmployee->time_in_service_))
+        // manages the correct format for decimal points
+        int longestTime = 10 * longestEmployee->time_in_service_;
+        std::string longestTimeStr = std::to_string(int(longestTime/10));
+        if (longestTime%10 != 0)
+        {
+            longestTimeStr = std::to_string(int(longestTime/10)) + "." + std::to_string((longestTime)%10);
+        }
+
+        output << "With the time of " << longestTimeStr
                << ", " << longestEmployee->id_ << " is the longest-served employee in "
                << managerName << " line management." << std::endl;
     }
-
-
 }
 
 void Company::printShortestTimeInLineManagement(const std::string &id, std::ostream &output) const
@@ -236,18 +242,26 @@ void Company::printShortestTimeInLineManagement(const std::string &id, std::ostr
         Employee* checkedEmployee = getPointer(id);
         Employee* shortestEmployee = checkedEmployee;
 
-        recursive_longest(checkedEmployee, shortestEmployee);
+        recursive_shortest(checkedEmployee, shortestEmployee);
 
         std::string managerName = "their";
         if(checkedEmployee != shortestEmployee)
         {
             managerName = id + "'s";
         }
-        output << "With the time of " << std::to_string(int(shortestEmployee->time_in_service_))
-               << ", " << shortestEmployee->id_ << " is the longest-served employee in "
-               << managerName << " line management.";
-    }
 
+        // manages the correct format for decimal points
+        int shortestTime = 10 * shortestEmployee->time_in_service_;
+        std::string shortestTimeStr = std::to_string(int(shortestTime/10));
+        if (shortestTime%10 != 0)
+        {
+            shortestTimeStr = std::to_string(int(shortestTime/10)) + "." + std::to_string((shortestTime)%10);
+        }
+
+        output << "With the time of " << shortestTimeStr
+               << ", " << shortestEmployee->id_ << " is the shortest-served employee in "
+               << managerName << " line management." << std::endl;
+    }
 }
 
 void Company::printSubordinatesN(const std::string &id, const int n, std::ostream &output) const
@@ -427,7 +441,7 @@ void Company::recursive_longest(Employee* checkedEmployee, Employee*& longestEmp
     }
 }
 
-void Company::recursive_shortest(Employee *checkedEmployee, Employee *shortestEmployee) const
+void Company::recursive_shortest(Employee *checkedEmployee, Employee*& shortestEmployee) const
 {
     std::vector<Employee*> checkedSubordinatesVec = checkedEmployee->subordinates_;
     double checkedTime = checkedEmployee->time_in_service_;

@@ -205,7 +205,7 @@ private:
     void recursive_longest(Employee* checkedEmployee, Employee*& longestEmployee) const;
 
     // The recursive function to determine the shortest time in service
-    void recursive_shortest(Employee* checkedEmployee, Employee* shortestEmployee) const;
+    void recursive_shortest(Employee* checkedEmployee, Employee*& shortestEmployee) const;
 
     // The recursive function to print all subordinates to a certain level
     void recursive_subordinatesN(Employee* theEmployee, std::map<int, std::vector<Employee*>> subordinatesMap, const int n) const;
