@@ -56,24 +56,17 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
     }
     else
     {
-        if (personnelsDB.find(boss) == personnelsDB.end())
-        {
-            printNotFound(boss, output);
-        }
-        else
-        {
-            Employee* to_be_subordinate;
-            Employee* to_be_boss;
+        Employee* to_be_subordinate;
+        Employee* to_be_boss;
 
-            to_be_boss = getPointer(boss);
-            to_be_subordinate = getPointer(subordinate);
+        to_be_boss = getPointer(boss);
+        to_be_subordinate = getPointer(subordinate);
 
-            if (to_be_boss != nullptr)
-            {
-                to_be_boss->subordinates_.push_back(to_be_subordinate);
-            }
-            to_be_subordinate->boss_ = to_be_boss;
+        if (to_be_boss != nullptr)
+        {
+            to_be_boss->subordinates_.push_back(to_be_subordinate);
         }
+        to_be_subordinate->boss_ = to_be_boss;
     }
 }
 
