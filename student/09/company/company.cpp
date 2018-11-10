@@ -30,7 +30,7 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
     }
     else
     {
-        output << "Error. Employee already added" << std::endl;
+        output << "Error. Employee already added." << std::endl;
     }
 }
 
@@ -56,7 +56,7 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
     }
     else
     {
-        if ((personnelsDB.find(subordinate) == personnelsDB.end()) && (subordinate != ""))
+        if ((personnelsDB.find(boss) == personnelsDB.end()) && (boss != ""))
         {
             printNotFound(boss, output);
         }
@@ -90,14 +90,10 @@ void Company::printSubordinates(const std::string &id, std::ostream &output) con
 
         std::sort(subordinates_ids.begin(),subordinates_ids.end());
         std::set<std::string> idSet = VectorToIdSet(subordinates_ids);
-        std::string groupName;
-        if (idSet.size() == 1)
+        std::string groupName = "subordinates:";
+        if (idSet.size() == 0)
         {
-            groupName = "subordinate";
-        }
-        else
-        {
-            groupName = "subordinates";
+            groupName = "subordinates.";
         }
         printGroup(id, groupName, idSet, output);
     }
@@ -112,32 +108,18 @@ void Company::printBoss(const std::string &id, std::ostream &output) const
     }
     else
     {
-        std::vector<std::string> bossVector;
         Employee* subordinate_id = getPointer(id);
         Employee* boss_id = subordinate_id->boss_;
-        while (boss_id != nullptr)
+        std::string amount = "no boss.";
+        if (boss_id != nullptr)
         {
-            bossVector.push_back(boss_id->id_);
-            subordinate_id = getPointer(boss_id->id_);
-            boss_id = subordinate_id->boss_;
-        }
-
-        std::string amount = "";
-        if (bossVector.size() > 1)
-        {
-            amount = " bosses:";
+            amount = "1 boss:";
+            output << id << " has " << amount << std::endl;
+            output << boss_id->id_ << std::endl;
         }
         else
         {
-            amount = " boss:";
-        }
-
-        output << id << " has " << std::to_string(bossVector.size()) << amount << std::endl;
-        std::sort(bossVector.begin(),bossVector.end());
-        std::vector<std::string>::const_iterator bossIterator = bossVector.begin();
-        for(;bossIterator != bossVector.end(); bossIterator++)
-        {
-            output << *bossIterator << std::endl;
+            output << id << " has " << amount << std::endl;
         }
     }
 }
@@ -152,18 +134,19 @@ void Company::printColleagues(const std::string &id, std::ostream &output) const
     {
         Employee* theEmployee = getPointer(id);
         Employee* theBoss = theEmployee->boss_;
+        std::vector<Employee*> colleagueVector;
+        std::set<std::string> colleagueSet;
 
-        std::vector<Employee*> colleagueVector = theBoss->subordinates_;
-        std::set<std::string> colleagueSet = VectorToIdSet(colleagueVector);
-        colleagueSet.erase(id);
-        std::string groupName;
-        if ( colleagueSet.size()==1)
+        if (theBoss != nullptr)
         {
-            groupName = "colleague";
+            colleagueVector = theBoss->subordinates_;
+            colleagueSet = VectorToIdSet(colleagueVector);
+            colleagueSet.erase(id);
         }
-        else
+        std::string groupName = "colleagues:";
+        if ( colleagueSet.size()==0)
         {
-            groupName = "colleagues";
+            groupName = "colleagues.";
         }
         printGroup(id, groupName, colleagueSet, output);
     }
@@ -202,14 +185,10 @@ void Company::printDepartment(const std::string &id, std::ostream &output) const
         }
 
         std::set<std::string> departmentSet = VectorToIdSet(departmentVector);
-        std::string groupName;
-        if ( departmentSet.size()==1)
+        std::string groupName = "department colleagues:";
+        if ( departmentSet.size()==0)
         {
-            groupName = "department colleague";
-        }
-        else
-        {
-            groupName = "department colleagues";
+            groupName = "department colleague.";
         }
         printGroup(id, groupName, departmentSet, output);
     }
@@ -317,20 +296,13 @@ void Company::printSubordinatesN(const std::string &id, const int n, std::ostrea
             }
             std::sort(subordinatesVector.begin(),subordinatesVector.end());
             IdSet subordinatesSet = VectorToIdSet(subordinatesVector);
-            std::string groupName = "subordinates";
-            if (subordinatesVector.size() == 1)
+            std::string groupName = "subordinates:";
+            if (subordinatesVector.size() == 0)
             {
-                groupName = "subordinates";
-                printGroup(id, groupName, subordinatesSet, output);
+                groupName = "subordinates.";
             }
-            else if (subordinatesVector.size() == 0)
-            {
-                output << id << " has no subordinates" << std::endl;
-            }
-            else
-            {
-                printGroup(id, groupName, subordinatesSet, output);
-            }
+            printGroup(id, groupName, subordinatesSet, output);
+
         }
     }
 }
@@ -370,11 +342,7 @@ void Company::printBossesN(const std::string &id, const int n, std::ostream &out
                 std::sort(bossVector.begin(),bossVector.end());
                 IdSet bossSet = VectorToIdSet(bossVector);
 
-                std::string groupName = "bosses";
-                if (bossSet.size() == 1)
-                {
-                    groupName = "boss";
-                }
+                std::string groupName = "bosses:";
                 printGroup(id, groupName, bossSet, output);
             }
         }
@@ -413,7 +381,12 @@ IdSet Company::VectorToIdSet(const std::vector<Employee *> &container) const
 
 void Company::printGroup(const std::string &id, const std::string &group, const IdSet &container, std::ostream &output) const
 {
-    output << id << " has " << std::to_string(container.size()) << " " << group << ":" << std::endl;
+    std::string amount = std::to_string(container.size());
+    if (container.size() == 0)
+    {
+        amount = "no";
+    }
+    output << id << " has " << amount << " " << group << std::endl;
 
     std::set<std::string>::const_iterator setIterator = container.begin();
     for(; setIterator != container.end(); setIterator++)
