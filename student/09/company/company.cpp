@@ -23,6 +23,7 @@ void Company::addNewEmployee(const std::__cxx11::string &id, const std::__cxx11:
     new_employee->id_ = id;
     new_employee->department_ = dep;
     new_employee->time_in_service_ = time;
+    cout << "try" << std::endl;
 
     if (personnelsDB.find(id) == personnelsDB.end())
     {
@@ -39,7 +40,7 @@ void Company::printEmployees(std::ostream &output) const
 {
     std::shared_ptr<Employee> to_be_printed;
     std::map<std::string, std::shared_ptr<Employee>>::const_iterator dbIterator = personnelsDB.begin();
-    //auto dbIterator = personnelsDB.begin();
+
     for (;dbIterator != personnelsDB.end(); dbIterator++)
     {
         to_be_printed = dbIterator->second;
@@ -185,10 +186,11 @@ void Company::printDepartment(const std::string &id, std::ostream &output) const
         }
 
         std::set<std::string> departmentSet = VectorToIdSet(departmentVector);
+        departmentSet.erase(id);
         std::string groupName = "department colleagues:";
         if ( departmentSet.size()==0)
         {
-            groupName = "department colleague.";
+            groupName = "department colleagues.";
         }
         printGroup(id, groupName, departmentSet, output);
     }
@@ -328,7 +330,7 @@ void Company::printBossesN(const std::string &id, const int n, std::ostream &out
 
             if (theBoss == nullptr)
             {
-                output << id << "  has no bosses." << std::endl;
+                output << id << " has no bosses." << std::endl;
             }
             else
             {
