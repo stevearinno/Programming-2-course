@@ -50,25 +50,12 @@ void Company::printEmployees(std::ostream &output) const
 
 void Company::addRelation(const std::string &subordinate, const std::string &boss, std::ostream &output)
 {
-    Employee* to_be_subordinate;
-    Employee* to_be_boss;
-
-    to_be_boss = getPointer(boss);
-    to_be_subordinate = getPointer(subordinate);
-
-    if (to_be_subordinate == nullptr)
+    if ((personnelsDB.find(subordinate) == personnelsDB.end()) && (subordinate != ""))
     {
-        printNotFound(boss, output);
-        return;
-    }
-
-    if ((to_be_boss == nullptr) || (boss == ""))
-    {
-        return;
+        printNotFound(subordinate, output);
     }
     else
     {
-<<<<<<< HEAD
         if (personnelsDB.find(boss) == personnelsDB.end() && (boss != ""))
         {
             return;
@@ -87,11 +74,7 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
             }
             to_be_subordinate->boss_ = to_be_boss;
         }
-=======
-        to_be_boss->subordinates_.push_back(to_be_subordinate);
->>>>>>> f8bdd6a38c5bc47f497b886930d92652ac6fee98
     }
-    to_be_subordinate->boss_ = to_be_boss;
 }
 
 void Company::printSubordinates(const std::string &id, std::ostream &output) const
