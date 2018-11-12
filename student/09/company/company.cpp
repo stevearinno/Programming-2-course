@@ -56,7 +56,7 @@ void Company::addRelation(const std::string &subordinate, const std::string &bos
     }
     else
     {
-        if (personnelsDB.find(boss) == personnelsDB.end())
+        if (personnelsDB.find(boss) == personnelsDB.end() && (boss != ""))
         {
             printNotFound(boss, output);
         }
