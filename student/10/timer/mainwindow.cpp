@@ -23,21 +23,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lcdNumberSec->setPalette(palGreen);
     ui->lcdNumberMin->setPalette(palBlue);
     //ui->lcdNumberSec->setPalette(Qt::green);
-
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateLcd()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete timer;
 }
 
 void MainWindow::on_startButton_clicked()
 {
-    QTimer *timer = new QTimer(this);
+
     min = 0;
     sec = 1;
     timer->start(1000);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateLcd()));
 
 }
 
@@ -51,5 +52,15 @@ void MainWindow::updateLcd()
         min += 1;
         sec = 0;
     }
+}
 
+
+void MainWindow::on_resetButton_clicked()
+{
+
+    min = 0;
+    sec = 0;
+    ui->lcdNumberSec->display(sec);
+    ui->lcdNumberMin->display(min);
+    timer->stop();
 }

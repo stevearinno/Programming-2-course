@@ -27,6 +27,8 @@ private slots:
     void on_startButton_clicked();
     void updateLcd();
 
+    void on_resetButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     // Add other necessary members here
