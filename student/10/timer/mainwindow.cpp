@@ -57,10 +57,9 @@ void MainWindow::updateLcd()
 
 void MainWindow::on_resetButton_clicked()
 {
-
     min = 0;
     sec = 0;
     ui->lcdNumberSec->display(sec);
     ui->lcdNumberMin->display(min);
-    timer->stop();
+    //timer->stop();
 }
