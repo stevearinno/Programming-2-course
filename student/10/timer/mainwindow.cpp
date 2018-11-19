@@ -37,7 +37,7 @@ void MainWindow::on_startButton_clicked()
 {
 
     min = 0;
-    sec = 1;
+    sec = 0;
     timer->start(1000);
 
 }
