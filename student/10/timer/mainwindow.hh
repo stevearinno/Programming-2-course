@@ -24,9 +24,15 @@ public:
 private slots:
     // Add your slots here
 
+    void on_startButton_clicked();
+    void updateLcd();
+
 private:
     Ui::MainWindow *ui;
     // Add other necessary members here
+    int min;
+    int sec;
+
 };
 
 #endif // MAINWINDOW_HH
