@@ -48,7 +48,7 @@ void MainWindow::on_lineEdit_returnPressed()
         {
             lastNumber = lastDigit.toInt();
         }
-        if ((sumDigits + lastNumber)%11 == 0)
+        if (sumDigits % 11 == lastNumber)
         {
             output = "Match";
         }
