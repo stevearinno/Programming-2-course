@@ -100,9 +100,9 @@ void MainWindow::initUi() {
 
 
     // Set lock buttons to desired starting state.
-    changeLockButton(ui_.lockButton1, "LOCK", true);
-    changeLockButton(ui_.lockButton2, "LOCK", true);
-    changeLockButton(ui_.lockButton3, "LOCK", true);
+    changeLockButton(ui_.lockButton1, false, true);
+    changeLockButton(ui_.lockButton2, false, true);
+    changeLockButton(ui_.lockButton3, false, true);
 
     // Create one random number generator for all Reels to use.
     // * The seed value is obtained via the chrono library and
@@ -166,88 +166,91 @@ void MainWindow::on_addMoneyButton_clicked()
 void MainWindow::on_lockButton1_clicked()
 {
     QPushButton* button = ui_.lockButton1;
-    if (button->text() == "LOCK")
+    if (isLocked(button))
     {
-        changeLockButton(button, "UNLOCK");
+        changeLockButton(button, false);
     }
     else
     {
-        changeLockButton(button, "LOCK");
+        changeLockButton(button, true);
     }
 }
 
 void MainWindow::on_lockButton2_clicked()
 {
     QPushButton* button = ui_.lockButton2;
-    if (button->text() == "LOCK")
+    if (isLocked(button))
     {
-        changeLockButton(button, "UNLOCK");
+        changeLockButton(button, false);
     }
     else
     {
-        changeLockButton(button, "LOCK");
+        changeLockButton(button, true);
     }
 }
 
 void MainWindow::on_lockButton3_clicked()
 {
     QPushButton* button = ui_.lockButton3;
-    if (button->text() == "LOCK")
+    if (isLocked(button))
     {
-        changeLockButton(button, "UNLOCK");
+        changeLockButton(button, false);
     }
     else
     {
-        changeLockButton(button, "LOCK");
+        changeLockButton(button, true);
     }
 }
 
-void MainWindow::changeLockButton(QPushButton* button, std::string status, bool isFirstRun)
+void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun)
 {
     QString buttonNo = "";
     if (!isFirstRun)
     {
-        if (button = ui_.lockButton1)
-        {
+        if (button == ui_.lockButton1)
             buttonNo = "1";
-        }
-        else if (button = ui_.lockButton2)
-        {
+        else if (button == ui_.lockButton2)
             buttonNo = "2";
-        }
         else
-        {
             buttonNo = "3";
-        }
-
     }
 
     QPalette pal = button->palette();
     button->setAutoFillBackground(true);
-    if (status == "UNLOCK")
+    if (lockReel)
     {
         pal.setColor(QPalette::Button, QColor(Qt::red));
 
-
         button->setText("UNLOCK");
-        ui_.infoLabel->setText("Reel " + buttonNo + " is LOCKED");
+        if(!isFirstRun)
+            ui_.infoLabel->setText("Reel " + buttonNo + " is LOCKED");
     }
     else
     {
         pal.setColor(QPalette::Button, QColor(Qt::green));
         button->setText("LOCK");
-        ui_.infoLabel->setText("Reel " + buttonNo + " is UNLOCKED");
+        if(!isFirstRun)
+            ui_.infoLabel->setText("Reel " + buttonNo + " is UNLOCKED");
     }
     button->setPalette(pal);
     button->update();
+}
 
+bool MainWindow::isLocked(QPushButton *button)
+{
+    if (button->text() == "LOCK")
+        return false;
+    else
+        return true;
 
 }
 
 void MainWindow::on_releaseButton_clicked()
 {
-    changeLockButton(ui_.lockButton1, "LOCK");
-    changeLockButton(ui_.lockButton2, "LOCK");
-    changeLockButton(ui_.lockButton3, "LOCK");
+    changeLockButton(ui_.lockButton1, false);
+    changeLockButton(ui_.lockButton2, false);
+    changeLockButton(ui_.lockButton3, false);
     ui_.infoLabel->setText("All reels are UNLOCKED!");
 }
+
+

@@ -66,7 +66,8 @@ private:
     /// \brief Initialize the Reels, buttons, etc. so the game can be played.
     ///
     void initUi();
-    void changeLockButton(QPushButton* button, std::string status, bool isFirstRun=false);
+    void changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun=false);
+    bool isLocked(QPushButton* button);
 
     const Fruits fruits_;       ///< The game symbols and their rarities.
     Ui::MainWindowClass ui_;    ///< (Black) Qt magic handling the UI.
