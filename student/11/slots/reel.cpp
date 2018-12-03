@@ -46,10 +46,18 @@ void Reel::setPictures()
             labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).first.scaled(50,50,Qt::KeepAspectRatio));
 //            if (reelElement == 1)
 //            {
-//                all_middle_symbols.push_back(fruitVector[random_value]);
+                checkMiddleSymbol(fruitVector[random_value]);
 //            }
         }
     }
+
+}
+
+void Reel::checkMiddleSymbol(std::string symbol)
+{
+    if (all_middle_symbols.size() == 3)
+        all_middle_symbols.clear();
+    all_middle_symbols.push_back(symbol);
 }
 
 //void Reel::checkMiddleSymbol()

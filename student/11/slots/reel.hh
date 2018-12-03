@@ -53,6 +53,7 @@ public:
          const Fruits* fruits,
          std::shared_ptr<std::default_random_engine> rng);
     void setPictures();
+    std::vector<std::string> all_middle_symbols;
     //std::vector<std::string> all_middle_symbols;
 
 
@@ -62,15 +63,20 @@ signals:
     ///
     /// \param[in] Name of the middle symbol on the Reel.
     ///
+
     void stopped(const std::string& middle_sym);
 
+
 private:
+
+    void checkMiddleSymbol(std::string symbol);
 
 
     const std::vector<QLabel*> labels_;
     const QPushButton* lock_button_;
     const Fruits* fruits_;
     std::shared_ptr<std::default_random_engine> rng_;
+
 
 
 };  // class Reel

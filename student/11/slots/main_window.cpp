@@ -91,16 +91,16 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
 
 void MainWindow::initUi() {
     // Initialize and display current funds etc.
-    ui_.moneyLeft->setText("0");
-//    timer->start(1000);
+    ui_.money_left->setText("0");
+//    timer->start(200000);
 //    timer->timeout(ui_.infoLabel->setText("Welcome to Slot Game!"));
 //    timer->timeout()
-    ui_.infoLabel->setText("Welcome to Slot Game!");
+    ui_.info_label->setText("Welcome to Slot Game!");
 
     // Set lock buttons to desired starting state.
-    changeLockButton(ui_.lockButton1, false, true);
-    changeLockButton(ui_.lockButton2, false, true);
-    changeLockButton(ui_.lockButton3, false, true);
+    changeLockButton(ui_.lock_button1, false, true);
+    changeLockButton(ui_.lock_button2, false, true);
+    changeLockButton(ui_.lock_button3, false, true);
 
     // Create one random number generator for all Reels to use.
     // * The seed value is obtained via the chrono library and
@@ -114,49 +114,53 @@ void MainWindow::initUi() {
     money_ = 0;
 
     // Create each Reel with its own specific labels, etc.
-    reelVec1 = {ui_.slotUp1, ui_.slotMid1, ui_.slotBot1};
-    reelVec2 = {ui_.slotUp2, ui_.slotMid2, ui_.slotBot2};
-    reelVec3 = {ui_.slotUp3, ui_.slotMid3, ui_.slotBot3};
+    reelVec1 = {ui_.slot_up1, ui_.slot_mid1, ui_.slot_bot1};
+    reelVec2 = {ui_.slot_up2, ui_.slot_mid2, ui_.slot_bot2};
+    reelVec3 = {ui_.slot_up3, ui_.slot_mid3, ui_.slot_bot3};
 
-    ui_.slotUp1->setAlignment(Qt::AlignCenter);
-    ui_.slotUp2->setAlignment(Qt::AlignCenter);
-    ui_.slotUp3->setAlignment(Qt::AlignCenter);
-    ui_.slotMid1->setAlignment(Qt::AlignCenter);
-    ui_.slotMid2->setAlignment(Qt::AlignCenter);
-    ui_.slotMid3->setAlignment(Qt::AlignCenter);
-    ui_.slotBot1->setAlignment(Qt::AlignCenter);
-    ui_.slotBot2->setAlignment(Qt::AlignCenter);
-    ui_.slotBot3->setAlignment(Qt::AlignCenter);
-    ui_.spinBox->setMaximum(int(ui_.moneyLeft->text().toInt()));
+    ui_.slot_up1->setAlignment(Qt::AlignCenter);
+    ui_.slot_up2->setAlignment(Qt::AlignCenter);
+    ui_.slot_up3->setAlignment(Qt::AlignCenter);
+    ui_.slot_mid1->setAlignment(Qt::AlignCenter);
+    ui_.slot_mid2->setAlignment(Qt::AlignCenter);
+    ui_.slot_mid3->setAlignment(Qt::AlignCenter);
+    ui_.slot_bot1->setAlignment(Qt::AlignCenter);
+    ui_.slot_bot2->setAlignment(Qt::AlignCenter);
+    ui_.slot_bot3->setAlignment(Qt::AlignCenter);
+    ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
+    ui_.spin_button->setDisabled(true);
     // * Create the Reels yourself, nullptr is just a dummy value here.
 //    Reel* reel = nullptr;
-    reel1= new Reel(reelVec1, ui_.lockButton1, &fruits_, rng);
-    reel2= new Reel(reelVec2, ui_.lockButton2, &fruits_, rng);
-    reel3= new Reel(reelVec3, ui_.lockButton3, &fruits_, rng);
+    reel1= new Reel(reelVec1, ui_.lock_button1, &fruits_, rng);
+    reel2= new Reel(reelVec2, ui_.lock_button2, &fruits_, rng);
+    reel3= new Reel(reelVec3, ui_.lock_button3, &fruits_, rng);
 
     connect(reel1, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel2, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel3, &Reel::stopped, this, &MainWindow::reelStopped);
-    connect(ui_.lockButton1, &QPushButton::clicked, this, &MainWindow::lockButton);
-    connect(ui_.lockButton2, &QPushButton::clicked, this, &MainWindow::lockButton);
-    connect(ui_.lockButton3, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lock_button1, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lock_button2, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lock_button3, &QPushButton::clicked, this, &MainWindow::lockButton);
 }
 
-void MainWindow::on_addMoneyButton_clicked()
+void MainWindow::on_add_money_button_clicked()
 {
     QString moneyAdded = ui_.moneyLine->text();
     float moneyAmount = moneyAdded.toFloat();
 
+
     if (moneyAmount > 0)
     {
         money_ += int(moneyAmount);
-        ui_.moneyLeft->setText(QString::number(money_));
-        ui_.infoLabel->setText("Money Added!");
-        ui_.spinBox->setMaximum(int(ui_.moneyLeft->text().toInt()));
+        ui_.moneyLine->setDisabled(true);
+        ui_.add_money_button->setDisabled(true);
+        ui_.money_left->setText(QString::number(money_));
+        ui_.info_label->setText("Money Added! Insert your bet!");
+        ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
     }
     else
     {
-        ui_.infoLabel->setText("Please insert your money!");
+        ui_.info_label->setText("Please insert your money!");
     }
 }
 
@@ -180,9 +184,9 @@ void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFir
     QString buttonNo = "";
     if (!isFirstRun)
     {
-        if (button == ui_.lockButton1)
+        if (button == ui_.lock_button1)
             buttonNo = "1";
-        else if (button == ui_.lockButton2)
+        else if (button == ui_.lock_button2)
             buttonNo = "2";
         else
             buttonNo = "3";
@@ -196,14 +200,14 @@ void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFir
 
         button->setText("UNLOCK");
         if(!isFirstRun)
-            ui_.infoLabel->setText("Reel " + buttonNo + " is LOCKED");
+            ui_.info_label->setText("Reel " + buttonNo + " is LOCKED");
     }
     else
     {
         pal.setColor(QPalette::Button, QColor(Qt::green));
         button->setText("LOCK");
         if(!isFirstRun)
-            ui_.infoLabel->setText("Reel " + buttonNo + " is UNLOCKED");
+            ui_.info_label->setText("Reel " + buttonNo + " is UNLOCKED");
     }
     button->setPalette(pal);
     button->update();
@@ -217,23 +221,64 @@ bool MainWindow::isLocked(QPushButton *button)
         return true;
 }
 
-void MainWindow::on_releaseButton_clicked()
+void MainWindow::on_release_button_clicked()
 {
-    changeLockButton(ui_.lockButton1, false);
-    changeLockButton(ui_.lockButton2, false);
-    changeLockButton(ui_.lockButton3, false);
-    ui_.infoLabel->setText("All reels are UNLOCKED!");
+    changeLockButton(ui_.lock_button1, false);
+    changeLockButton(ui_.lock_button2, false);
+    changeLockButton(ui_.lock_button3, false);
+    ui_.info_label->setText("All reels are UNLOCKED!");
 }
 
-void MainWindow::on_spinButton_clicked()
+void MainWindow::on_spin_button_clicked()
 {
     reel1->setPictures();
     reel2->setPictures();
     reel3->setPictures();
 
-    if (reelVec1[1]->pixmap() == reelVec2[1]->pixmap())
+    float initial_money = money_;
+
+    for (int row_line = 0; row_line < 3; row_line++)
     {
-        money_ += ui_.spinBox->value();
-        ui_.moneyLeft->setText(QString::number(money_));
+        if ((reel1->all_middle_symbols[row_line] == reel2->all_middle_symbols[row_line]) &&
+                (reel1->all_middle_symbols[row_line] == reel3->all_middle_symbols[row_line]))
+        {
+            money_ += ui_.spin_box->value();
+            ui_.money_left->setText(QString::number(money_));
+        }
+    }
+    if ((reel2->all_middle_symbols[1] == reel1->all_middle_symbols[0]) &&
+            (reel2->all_middle_symbols[1] == reel3->all_middle_symbols[2]))
+    {
+        money_ += ui_.spin_box->value();
+        ui_.money_left->setText(QString::number(money_));
+    }
+    if ((reel2->all_middle_symbols[1] == reel3->all_middle_symbols[0]) &&
+            (reel2->all_middle_symbols[1] == reel1->all_middle_symbols[2]))
+    {
+        money_ += ui_.spin_box->value();
+        ui_.money_left->setText(QString::number(money_));
+    }
+
+    if (initial_money == money_)
+    {
+        money_ -= 1;
+        ui_.money_left->setText(QString::number(money_));
+        ui_.info_label->setText("You are not lucky yet. Try spinning again!");
+    }
+    else
+        ui_.info_label->setText("YOU.. LUCKY BASTARD! Spin more!");
+}
+
+void MainWindow::on_spin_box_valueChanged(int arg1)
+{
+    if (arg1 == 0)
+    {
+        ui_.spin_button->setDisabled(true);
+        ui_.info_label->setText("Insert your bet!");
+    }
+    else
+    {
+        ui_.spin_button->setDisabled(false);
+        ui_.info_label->setText("Start spinning!");
     }
 }

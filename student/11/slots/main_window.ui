@@ -22,7 +22,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="3" column="2">
-     <widget class="QLabel" name="slotBot3">
+     <widget class="QLabel" name="slot_bot3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -41,7 +41,7 @@
      </widget>
     </item>
     <item row="4" column="2">
-     <widget class="QPushButton" name="lockButton3">
+     <widget class="QPushButton" name="lock_button3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -62,7 +62,7 @@
     <item row="5" column="0" colspan="4">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QPushButton" name="spinButton">
+       <widget class="QPushButton" name="spin_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
@@ -83,7 +83,7 @@
      </layout>
     </item>
     <item row="1" column="0">
-     <widget class="QLabel" name="slotUp1">
+     <widget class="QLabel" name="slot_up1">
       <property name="maximumSize">
        <size>
         <width>75</width>
@@ -96,7 +96,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QLabel" name="slotMid2">
+     <widget class="QLabel" name="slot_mid2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -115,7 +115,7 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="slotMid1">
+     <widget class="QLabel" name="slot_mid1">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -137,7 +137,7 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLabel" name="slotBot2">
+     <widget class="QLabel" name="slot_bot2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLabel" name="slotUp2">
+     <widget class="QLabel" name="slot_up2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -175,7 +175,7 @@
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QLabel" name="slotMid3">
+     <widget class="QLabel" name="slot_mid3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -194,7 +194,7 @@
      </widget>
     </item>
     <item row="1" column="2">
-     <widget class="QLabel" name="slotUp3">
+     <widget class="QLabel" name="slot_up3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -213,7 +213,7 @@
      </widget>
     </item>
     <item row="4" column="0">
-     <widget class="QPushButton" name="lockButton1">
+     <widget class="QPushButton" name="lock_button1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -232,7 +232,7 @@
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QPushButton" name="lockButton2">
+     <widget class="QPushButton" name="lock_button2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -251,7 +251,7 @@
      </widget>
     </item>
     <item row="3" column="0">
-     <widget class="QLabel" name="slotBot1">
+     <widget class="QLabel" name="slot_bot1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -272,7 +272,7 @@
     <item row="0" column="0" colspan="4">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="infoLabel">
+       <widget class="QLabel" name="info_label">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -299,7 +299,7 @@
        <widget class="QLineEdit" name="moneyLine"/>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="addMoneyButton">
+       <widget class="QPushButton" name="add_money_button">
         <property name="maximumSize">
          <size>
           <width>50</width>
@@ -322,21 +322,21 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLabel" name="moneyLeft">
+       <widget class="QLabel" name="money_left">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>Bet:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="spinBox">
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="spin_box">
         <property name="maximumSize">
          <size>
           <width>50</width>
@@ -345,10 +345,17 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="quit_button">
+        <property name="text">
+         <string>QUIT</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="4" column="3">
-     <widget class="QPushButton" name="releaseButton">
+     <widget class="QPushButton" name="release_button">
       <property name="text">
        <string>UNLOCK ALL</string>
       </property>
@@ -369,5 +376,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>quit_button</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>402</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>340</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

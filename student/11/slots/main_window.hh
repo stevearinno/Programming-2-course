@@ -37,6 +37,7 @@ public:
     /// \param[in] parent Points to this MainWindow's parent widget.
     ///
     explicit MainWindow(QWidget* parent = nullptr);
+
     ~MainWindow();
 
 
@@ -51,13 +52,15 @@ private slots:
     ///
     void reelStopped(const std::string& middle_sym);
 
-    void on_addMoneyButton_clicked();
+    void on_add_money_button_clicked();
 
     void lockButton();
 
-    void on_releaseButton_clicked();
+    void on_release_button_clicked();
 
-    void on_spinButton_clicked();
+    void on_spin_button_clicked();
+
+    void on_spin_box_valueChanged(int arg1);
 
 private:
 
