@@ -40,6 +40,7 @@ public:
     ~MainWindow();
 
 
+
 private slots:
 
     /// \brief Check if the round is over and prepare for the next round.
@@ -50,29 +51,34 @@ private slots:
     ///
     void reelStopped(const std::string& middle_sym);
 
-
     void on_addMoneyButton_clicked();
 
-    void on_lockButton1_clicked();
-
-    void on_lockButton2_clicked();
-
-    void on_lockButton3_clicked();
+    void lockButton();
 
     void on_releaseButton_clicked();
+
+    void on_spinButton_clicked();
 
 private:
 
     /// \brief Initialize the Reels, buttons, etc. so the game can be played.
     ///
     void initUi();
+    // locks and unlocks reel
     void changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun=false);
+    // checks if the reel is locked
     bool isLocked(QPushButton* button);
 
     const Fruits fruits_;       ///< The game symbols and their rarities.
     Ui::MainWindowClass ui_;    ///< (Black) Qt magic handling the UI.
     float money_;                // amount of money that the player has
-    QTimer* timer;
+    QTimer* timer;              // the timer for looping welcome text
+    std::vector<QLabel*> reelVec1;
+    std::vector<QLabel*> reelVec2;
+    std::vector<QLabel*> reelVec3;
+    Reel* reel1;
+    Reel* reel2;
+    Reel* reel3;
 
 };  // class MainWindow
 

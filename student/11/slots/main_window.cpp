@@ -97,8 +97,6 @@ void MainWindow::initUi() {
 //    timer->timeout()
     ui_.infoLabel->setText("Welcome to Slot Game!");
 
-
-
     // Set lock buttons to desired starting state.
     changeLockButton(ui_.lockButton1, false, true);
     changeLockButton(ui_.lockButton2, false, true);
@@ -116,18 +114,9 @@ void MainWindow::initUi() {
     money_ = 0;
 
     // Create each Reel with its own specific labels, etc.
-    std::vector<QLabel*> reelVec1 = {ui_.slotUp1, ui_.slotMid1, ui_.slotBot1};
-    std::vector<QLabel*> reelVec2 = {ui_.slotUp2, ui_.slotMid2, ui_.slotBot2};
-    std::vector<QLabel*> reelVec3 = {ui_.slotUp3, ui_.slotMid3, ui_.slotBot3};
-    ui_.slotUp1->setPixmap(fruits_.at("cherries").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotUp2->setPixmap(fruits_.at("strawberry").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotUp3->setPixmap(fruits_.at("pear").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotMid1->setPixmap(fruits_.at("cherries").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotMid2->setPixmap(fruits_.at("strawberry").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotMid3->setPixmap(fruits_.at("pear").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotBot1->setPixmap(fruits_.at("cherries").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotBot2->setPixmap(fruits_.at("strawberry").first.scaled(50,50,Qt::KeepAspectRatio));
-    ui_.slotBot3->setPixmap(fruits_.at("pear").first.scaled(50,50,Qt::KeepAspectRatio));
+    reelVec1 = {ui_.slotUp1, ui_.slotMid1, ui_.slotBot1};
+    reelVec2 = {ui_.slotUp2, ui_.slotMid2, ui_.slotBot2};
+    reelVec3 = {ui_.slotUp3, ui_.slotMid3, ui_.slotBot3};
 
     ui_.slotUp1->setAlignment(Qt::AlignCenter);
     ui_.slotUp2->setAlignment(Qt::AlignCenter);
@@ -138,12 +127,19 @@ void MainWindow::initUi() {
     ui_.slotBot1->setAlignment(Qt::AlignCenter);
     ui_.slotBot2->setAlignment(Qt::AlignCenter);
     ui_.slotBot3->setAlignment(Qt::AlignCenter);
+    ui_.spinBox->setMaximum(int(ui_.moneyLeft->text().toInt()));
     // * Create the Reels yourself, nullptr is just a dummy value here.
-    Reel* reel = nullptr;
-//    Reel* reel1 = Reel::Reel(reelVec1, ui_.lockButton1, fruits_, rng);
-//    Reel* reel2 = Reel::Reel(reelVec2, ui_.lockButton2, fruits_, rng);
-//    Reel* reel3 = Reel::Reel(reelVec3, ui_.lockButton3, fruits_, rng);
-    connect(reel, &Reel::stopped, this, &MainWindow::reelStopped);
+//    Reel* reel = nullptr;
+    reel1= new Reel(reelVec1, ui_.lockButton1, &fruits_, rng);
+    reel2= new Reel(reelVec2, ui_.lockButton2, &fruits_, rng);
+    reel3= new Reel(reelVec3, ui_.lockButton3, &fruits_, rng);
+
+    connect(reel1, &Reel::stopped, this, &MainWindow::reelStopped);
+    connect(reel2, &Reel::stopped, this, &MainWindow::reelStopped);
+    connect(reel3, &Reel::stopped, this, &MainWindow::reelStopped);
+    connect(ui_.lockButton1, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lockButton2, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lockButton3, &QPushButton::clicked, this, &MainWindow::lockButton);
 }
 
 void MainWindow::on_addMoneyButton_clicked()
@@ -153,9 +149,10 @@ void MainWindow::on_addMoneyButton_clicked()
 
     if (moneyAmount > 0)
     {
-        money_ += moneyAmount;
+        money_ += int(moneyAmount);
         ui_.moneyLeft->setText(QString::number(money_));
         ui_.infoLabel->setText("Money Added!");
+        ui_.spinBox->setMaximum(int(ui_.moneyLeft->text().toInt()));
     }
     else
     {
@@ -163,9 +160,10 @@ void MainWindow::on_addMoneyButton_clicked()
     }
 }
 
-void MainWindow::on_lockButton1_clicked()
+
+void MainWindow::lockButton()
 {
-    QPushButton* button = ui_.lockButton1;
+    QPushButton* button = dynamic_cast<QPushButton*>(sender());
     if (isLocked(button))
     {
         changeLockButton(button, false);
@@ -176,31 +174,6 @@ void MainWindow::on_lockButton1_clicked()
     }
 }
 
-void MainWindow::on_lockButton2_clicked()
-{
-    QPushButton* button = ui_.lockButton2;
-    if (isLocked(button))
-    {
-        changeLockButton(button, false);
-    }
-    else
-    {
-        changeLockButton(button, true);
-    }
-}
-
-void MainWindow::on_lockButton3_clicked()
-{
-    QPushButton* button = ui_.lockButton3;
-    if (isLocked(button))
-    {
-        changeLockButton(button, false);
-    }
-    else
-    {
-        changeLockButton(button, true);
-    }
-}
 
 void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun)
 {
@@ -242,7 +215,6 @@ bool MainWindow::isLocked(QPushButton *button)
         return false;
     else
         return true;
-
 }
 
 void MainWindow::on_releaseButton_clicked()
@@ -253,4 +225,15 @@ void MainWindow::on_releaseButton_clicked()
     ui_.infoLabel->setText("All reels are UNLOCKED!");
 }
 
+void MainWindow::on_spinButton_clicked()
+{
+    reel1->setPictures();
+    reel2->setPictures();
+    reel3->setPictures();
 
+    if (reelVec1[1]->pixmap() == reelVec2[1]->pixmap())
+    {
+        money_ += ui_.spinBox->value();
+        ui_.moneyLeft->setText(QString::number(money_));
+    }
+}

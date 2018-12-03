@@ -16,6 +16,48 @@
 Reel::Reel(const std::vector<QLabel*>& labels,
            const QPushButton* lock_button,
            const Fruits* fruits,
-           std::shared_ptr<std::default_random_engine> rng) {
+           std::shared_ptr<std::default_random_engine> rng):
+    labels_(labels), lock_button_(lock_button), fruits_(fruits), rng_(rng)
+{
     // Connect all signals & slots you need here.
+    setPictures();
+
 }
+
+void Reel::setPictures()
+{
+    if (lock_button_->text() == "LOCK")
+    {
+        // Setup the weights (in this case linearly weighted)
+        std::vector<std::string> fruitVector;
+        std::vector<int> weights;
+
+        auto fruitIterator = fruits_->begin();
+        for(;fruitIterator!=fruits_->end(); fruitIterator++)
+        {
+            fruitVector.push_back(fruitIterator->first);
+            weights.push_back((fruitIterator->second).second);
+        }
+
+        std::discrete_distribution<int> dist(weights.begin(), weights.end());
+        for (int reelElement = 0; reelElement < 3; reelElement++)
+        {
+            int random_value = dist(*rng_);
+            labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).first.scaled(50,50,Qt::KeepAspectRatio));
+//            if (reelElement == 1)
+//            {
+//                all_middle_symbols.push_back(fruitVector[random_value]);
+//            }
+        }
+    }
+}
+
+//void Reel::checkMiddleSymbol()
+//{
+//    if (all_middle_symbols[0] == all_middle_symbols[1] == all_middle_symbols[2])
+//    {
+//        MainWindow::money_ += ui_.spinBox->value();
+//        ui_.moneyLeft->setText(QString::number(MainWindow::money_));
+//    }
+
+//}
