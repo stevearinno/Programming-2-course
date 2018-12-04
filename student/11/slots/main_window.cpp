@@ -78,11 +78,14 @@ MainWindow::MainWindow(QWidget* parent):
     ui_.setupUi(this);
     initUi();
 
-    timer = new QTimer();
+//    timer = new QTimer();
 }
 
 MainWindow::~MainWindow(){
-    delete timer;
+//    delete timer;
+    delete reel1;
+    delete reel2;
+    delete reel3;
 }
 
 void MainWindow::reelStopped(const std::string& middle_sym) {
@@ -92,7 +95,10 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
 void MainWindow::initUi() {
     // Initialize and display current funds etc.
     ui_.money_left->setText("0");
-//    timer->start(200000);
+//    timer->start(1000);
+//    if (timer.timeout(1000))
+//        ui_.info_label->setText("test!");
+//    connect(&timer, SIGNAL(timer->timeout()), this,
 //    timer->timeout(ui_.infoLabel->setText("Welcome to Slot Game!"));
 //    timer->timeout()
     ui_.info_label->setText("Welcome to Slot Game!");
@@ -118,6 +124,7 @@ void MainWindow::initUi() {
     reelVec2 = {ui_.slot_up2, ui_.slot_mid2, ui_.slot_bot2};
     reelVec3 = {ui_.slot_up3, ui_.slot_mid3, ui_.slot_bot3};
 
+    // aligns the symbols to be in the center of the label
     ui_.slot_up1->setAlignment(Qt::AlignCenter);
     ui_.slot_up2->setAlignment(Qt::AlignCenter);
     ui_.slot_up3->setAlignment(Qt::AlignCenter);
@@ -127,8 +134,10 @@ void MainWindow::initUi() {
     ui_.slot_bot1->setAlignment(Qt::AlignCenter);
     ui_.slot_bot2->setAlignment(Qt::AlignCenter);
     ui_.slot_bot3->setAlignment(Qt::AlignCenter);
+    // sets the maximum bet based on the money that the player has
     ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
     ui_.spin_button->setDisabled(true);
+    ui_.withdraw_button->setDisabled(true);
     // * Create the Reels yourself, nullptr is just a dummy value here.
 //    Reel* reel = nullptr;
     reel1= new Reel(reelVec1, ui_.lock_button1, &fruits_, rng);
@@ -141,6 +150,8 @@ void MainWindow::initUi() {
     connect(ui_.lock_button1, &QPushButton::clicked, this, &MainWindow::lockButton);
     connect(ui_.lock_button2, &QPushButton::clicked, this, &MainWindow::lockButton);
     connect(ui_.lock_button3, &QPushButton::clicked, this, &MainWindow::lockButton);
+    
+    calculateWinningWeight();
 }
 
 void MainWindow::on_add_money_button_clicked()
@@ -148,7 +159,7 @@ void MainWindow::on_add_money_button_clicked()
     QString moneyAdded = ui_.moneyLine->text();
     float moneyAmount = moneyAdded.toFloat();
 
-
+    // asks the player to insert the money if there is no money in the machine
     if (moneyAmount > 0)
     {
         money_ += int(moneyAmount);
@@ -157,6 +168,7 @@ void MainWindow::on_add_money_button_clicked()
         ui_.money_left->setText(QString::number(money_));
         ui_.info_label->setText("Money Added! Insert your bet!");
         ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
+        ui_.withdraw_button->setDisabled(false);
     }
     else
     {
@@ -169,19 +181,17 @@ void MainWindow::lockButton()
 {
     QPushButton* button = dynamic_cast<QPushButton*>(sender());
     if (isLocked(button))
-    {
         changeLockButton(button, false);
-    }
     else
-    {
         changeLockButton(button, true);
-    }
 }
 
 
 void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun)
 {
     QString buttonNo = "";
+    // identifies which button is locked/unlocked
+    // not for the initialization/first run
     if (!isFirstRun)
     {
         if (button == ui_.lock_button1)
@@ -221,6 +231,37 @@ bool MainWindow::isLocked(QPushButton *button)
         return true;
 }
 
+void MainWindow::calculateWinningWeight()
+{
+    std::map<std::string, int> winning_bet;
+
+    // gets the fruits and their frequencies
+    auto fruitIterator = fruits_.begin();
+    int max_weight= 0;
+    for(; fruitIterator != fruits_.end(); fruitIterator++)
+    {
+        winning_bet[fruitIterator->first] = (fruitIterator->second).second;
+        if (max_weight < (fruitIterator->second).second)
+            max_weight = (fruitIterator->second).second;
+    }
+
+    // calculates the weight of each symbols
+    auto winIterator = winning_bet.begin();
+    std::string fruit_symbol;
+    int fruit_weight;
+    for(; winIterator != winning_bet.end(); winIterator++)
+    {
+        fruit_symbol = winIterator->first;
+        fruit_weight = winIterator->second;
+        winning_weight[fruit_symbol] = (11-(10*fruit_weight/max_weight));
+    }
+}
+
+//void MainWindow::setInfo()
+//{
+//    ui_.apple1->setPixmap((fruits_.at("apple").second).first);
+//}
+
 void MainWindow::on_release_button_clicked()
 {
     changeLockButton(ui_.lock_button1, false);
@@ -231,42 +272,73 @@ void MainWindow::on_release_button_clicked()
 
 void MainWindow::on_spin_button_clicked()
 {
+    ui_.lock_button1->setDisabled(false);
+    ui_.lock_button2->setDisabled(false);
+    ui_.lock_button3->setDisabled(false);
     reel1->setPictures();
     reel2->setPictures();
     reel3->setPictures();
 
     float initial_money = money_;
+    int bet = ui_.spin_box->value();
+    int winning_money = 0;
 
+    // checks all the possible pay lines, in total there are 5 paylines
+    // below is the checking for horizontal pay lines
     for (int row_line = 0; row_line < 3; row_line++)
     {
-        if ((reel1->all_middle_symbols[row_line] == reel2->all_middle_symbols[row_line]) &&
-                (reel1->all_middle_symbols[row_line] == reel3->all_middle_symbols[row_line]))
+        if ((reel1->reel_symbols[row_line] == reel2->reel_symbols[row_line]) &&
+                (reel1->reel_symbols[row_line] == reel3->reel_symbols[row_line]))
         {
-            money_ += ui_.spin_box->value();
+
+            winning_money = winning_weight[reel1->reel_symbols[row_line]] * bet;
+            money_ += winning_money;
             ui_.money_left->setText(QString::number(money_));
         }
     }
-    if ((reel2->all_middle_symbols[1] == reel1->all_middle_symbols[0]) &&
-            (reel2->all_middle_symbols[1] == reel3->all_middle_symbols[2]))
+
+    // below are for the checking of diagonal pay lines
+    if ((reel2->reel_symbols[1] == reel1->reel_symbols[0]) &&
+            (reel2->reel_symbols[1] == reel3->reel_symbols[2]))
     {
+        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
+        money_ += winning_money;
         money_ += ui_.spin_box->value();
         ui_.money_left->setText(QString::number(money_));
     }
-    if ((reel2->all_middle_symbols[1] == reel3->all_middle_symbols[0]) &&
-            (reel2->all_middle_symbols[1] == reel1->all_middle_symbols[2]))
+    if ((reel2->reel_symbols[1] == reel3->reel_symbols[0]) &&
+            (reel2->reel_symbols[1] == reel1->reel_symbols[2]))
     {
+        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
+        money_ += winning_money;
         money_ += ui_.spin_box->value();
         ui_.money_left->setText(QString::number(money_));
     }
 
+    // updates the amount of money after winning or losing
     if (initial_money == money_)
     {
-        money_ -= 1;
+        money_ -= ui_.spin_box->value();
         ui_.money_left->setText(QString::number(money_));
         ui_.info_label->setText("You are not lucky yet. Try spinning again!");
+        if (money_ == 0)
+        {
+            ui_.spin_button->setDisabled(true);
+            ui_.add_money_button->setDisabled(false);
+            ui_.moneyLine->setDisabled(false);
+            ui_.spin_box->setValue(0);
+            ui_.withdraw_button->setDisabled("true");
+        }
     }
     else
+    {
+        ui_.release_button->click();
         ui_.info_label->setText("YOU.. LUCKY BASTARD! Spin more!");
+        ui_.lock_button1->setDisabled(true);
+        ui_.lock_button2->setDisabled(true);
+        ui_.lock_button3->setDisabled(true);
+    }
+    ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)
@@ -274,11 +346,29 @@ void MainWindow::on_spin_box_valueChanged(int arg1)
     if (arg1 == 0)
     {
         ui_.spin_button->setDisabled(true);
-        ui_.info_label->setText("Insert your bet!");
+        if (ui_.add_money_button->isEnabled() == false)
+            ui_.info_label->setText("Insert your bet!");
+        else
+            ui_.info_label->setText("Insert money to continue playing!");
     }
     else
     {
         ui_.spin_button->setDisabled(false);
         ui_.info_label->setText("Start spinning!");
     }
+}
+
+
+void MainWindow::on_withdraw_button_clicked()
+{
+    ui_.spin_button->setDisabled(true);
+    ui_.add_money_button->setDisabled(false);
+    ui_.moneyLine->setDisabled(false);
+    ui_.spin_box->setValue(0);
+    ui_.info_label->setText("DISPENSE " + ui_.money_left->text() + " EUR. PLEASE TAKE YOUR MONEY!");
+    ui_.moneyLine->setText("");
+    ui_.money_left->setText("0");
+    ui_.withdraw_button->setDisabled(true);
+    money_ = 0;
+
 }

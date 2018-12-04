@@ -51,16 +51,13 @@ private slots:
     /// \param[in] middle_sym Name of the fruit symbol on the middle lane.
     ///
     void reelStopped(const std::string& middle_sym);
+    void on_add_money_button_clicked();         // adds the money that the player inputs
+    void lockButton();                          // locks the corresponding reel
+    void on_release_button_clicked();           // unlocks all the reels
+    void on_spin_button_clicked();              // spins the reels
+    void on_spin_box_valueChanged(int arg1);    // checks the player's bet, it should be more than 0
 
-    void on_add_money_button_clicked();
-
-    void lockButton();
-
-    void on_release_button_clicked();
-
-    void on_spin_button_clicked();
-
-    void on_spin_box_valueChanged(int arg1);
+    void on_withdraw_button_clicked();
 
 private:
 
@@ -71,17 +68,25 @@ private:
     void changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun=false);
     // checks if the reel is locked
     bool isLocked(QPushButton* button);
+    // calculates the weight of each symbol for winning purpose
+    void calculateWinningWeight();
+    void setInfo();
 
     const Fruits fruits_;       ///< The game symbols and their rarities.
     Ui::MainWindowClass ui_;    ///< (Black) Qt magic handling the UI.
-    float money_;                // amount of money that the player has
-    QTimer* timer;              // the timer for looping welcome text
+    float money_;                       // amount of money that the player has
+    QTimer* timer;                      // the timer for looping welcome text
+    // initializes the vector of symbols of each reel
     std::vector<QLabel*> reelVec1;
     std::vector<QLabel*> reelVec2;
     std::vector<QLabel*> reelVec3;
+    // initializes the reels
     Reel* reel1;
     Reel* reel2;
     Reel* reel3;
+    std::map<std::string, int> winning_weight; // save symbols and their weights
+
+
 
 };  // class MainWindow
 

@@ -43,29 +43,18 @@ void Reel::setPictures()
         for (int reelElement = 0; reelElement < 3; reelElement++)
         {
             int random_value = dist(*rng_);
-            labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).first.scaled(50,50,Qt::KeepAspectRatio));
-//            if (reelElement == 1)
-//            {
-                checkMiddleSymbol(fruitVector[random_value]);
-//            }
+            labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).
+                                            first.scaled(50,50,Qt::KeepAspectRatio));
+            saveSymbol(fruitVector[random_value]);
         }
     }
 
 }
 
-void Reel::checkMiddleSymbol(std::string symbol)
+void Reel::saveSymbol(std::string symbol)
 {
-    if (all_middle_symbols.size() == 3)
-        all_middle_symbols.clear();
-    all_middle_symbols.push_back(symbol);
+    if (reel_symbols.size() == 3)           // for initializing/clearing the vector in each spin
+        reel_symbols.clear();
+    reel_symbols.push_back(symbol);
 }
 
-//void Reel::checkMiddleSymbol()
-//{
-//    if (all_middle_symbols[0] == all_middle_symbols[1] == all_middle_symbols[2])
-//    {
-//        MainWindow::money_ += ui_.spinBox->value();
-//        ui_.moneyLeft->setText(QString::number(MainWindow::money_));
-//    }
-
-//}
