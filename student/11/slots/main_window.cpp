@@ -152,6 +152,7 @@ void MainWindow::initUi() {
     connect(ui_.lock_button3, &QPushButton::clicked, this, &MainWindow::lockButton);
     
     calculateWinningWeight();
+    setInfo();
 }
 
 void MainWindow::on_add_money_button_clicked()
@@ -257,10 +258,72 @@ void MainWindow::calculateWinningWeight()
     }
 }
 
-//void MainWindow::setInfo()
-//{
-//    ui_.apple1->setPixmap((fruits_.at("apple").second).first);
-//}
+void MainWindow::setInfo()
+{
+    ui_.apple1->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple2->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple3->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple_weight->setText(QString::number(winning_weight.at("apple"))+"x");
+    ui_.bananas1->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas2->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas3->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas_weight->setText(QString::number(winning_weight.at("bananas"))+"x");
+    ui_.cherries1->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries2->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries3->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries_weight->setText(QString::number(winning_weight.at("cherries"))+"x");
+    ui_.eggplant1->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant2->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant3->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant_weight->setText(QString::number(winning_weight.at("eggplant"))+"x");
+    ui_.grapes1->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes2->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes3->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes_weight->setText(QString::number(winning_weight.at("grapes"))+"x");
+    ui_.orange1->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange2->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange3->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange_weight->setText(QString::number(winning_weight.at("orange"))+"x");
+    ui_.pear1->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear2->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear3->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear_weight->setText(QString::number(winning_weight.at("pear"))+"x");
+    ui_.strawberry1->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry2->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry3->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry_weight->setText(QString::number(winning_weight.at("strawberry"))+"x");
+    ui_.tomato1->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato2->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato3->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato_weight->setText(QString::number(winning_weight.at("tomato"))+"x");
+    ui_.apple1->setAlignment(Qt::AlignCenter);
+    ui_.apple2->setAlignment(Qt::AlignCenter);
+    ui_.apple3->setAlignment(Qt::AlignCenter);
+    ui_.bananas1->setAlignment(Qt::AlignCenter);
+    ui_.bananas2->setAlignment(Qt::AlignCenter);
+    ui_.bananas3->setAlignment(Qt::AlignCenter);
+    ui_.cherries1->setAlignment(Qt::AlignCenter);
+    ui_.cherries2->setAlignment(Qt::AlignCenter);
+    ui_.cherries3->setAlignment(Qt::AlignCenter);
+    ui_.eggplant1->setAlignment(Qt::AlignCenter);
+    ui_.eggplant2->setAlignment(Qt::AlignCenter);
+    ui_.eggplant3->setAlignment(Qt::AlignCenter);
+    ui_.grapes1->setAlignment(Qt::AlignCenter);
+    ui_.grapes2->setAlignment(Qt::AlignCenter);
+    ui_.grapes3->setAlignment(Qt::AlignCenter);
+    ui_.orange1->setAlignment(Qt::AlignCenter);
+    ui_.orange2->setAlignment(Qt::AlignCenter);
+    ui_.orange3->setAlignment(Qt::AlignCenter);
+    ui_.pear1->setAlignment(Qt::AlignCenter);
+    ui_.pear2->setAlignment(Qt::AlignCenter);
+    ui_.pear3->setAlignment(Qt::AlignCenter);
+    ui_.strawberry1->setAlignment(Qt::AlignCenter);
+    ui_.strawberry2->setAlignment(Qt::AlignCenter);
+    ui_.strawberry3->setAlignment(Qt::AlignCenter);
+    ui_.tomato1->setAlignment(Qt::AlignCenter);
+    ui_.tomato2->setAlignment(Qt::AlignCenter);
+    ui_.tomato3->setAlignment(Qt::AlignCenter);
+}
 
 void MainWindow::on_release_button_clicked()
 {
