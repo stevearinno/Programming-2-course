@@ -22,10 +22,10 @@ Reel::Reel(const std::vector<QLabel*>& labels,
     // Connect all signals & slots you need here.
     setPictures();
 
-    timer = new QTimer(this);
-    timer_value = rand() % 2000 + 1000;
-    timer->start(4);
-    connect(timer, SIGNAL(timeout()), this, SLOT(movingPicture()));
+//    timer = new QTimer(this);
+//    timer_value = rand() % 2000 + 1000;
+//    timer->start(4);
+//    connect(timer, SIGNAL(timeout()), this, SLOT(movingPicture()));
 }
 
 void Reel::setPictures()
@@ -44,7 +44,7 @@ void Reel::setPictures()
         }
 
         std::discrete_distribution<int> dist(weights.begin(), weights.end());
-        for (int reelElement = 0; reelElement < 3; reelElement++)
+        for (int reelElement = 0; reelElement < labels_.size(); reelElement++)
         {
             int random_value = dist(*rng_);
             labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).
@@ -58,7 +58,7 @@ void Reel::setPictures()
 void Reel::saveSymbol(std::string symbol)
 {
     // for initializing/clearing the vector in each spin
-    if (reel_symbols.size() == 3)           
+    if (reel_symbols.size() == 4)
         reel_symbols.clear();
     reel_symbols.push_back(symbol);
 }
@@ -66,7 +66,7 @@ void Reel::saveSymbol(std::string symbol)
 void Reel::movingPicture()
 {
     qDebug("test");
-    for (int index = 0; index < 3; index++)
+    for (int index = 0; index < 4; index++)
     {
         qreal xx = labels_[index]->x();
         qreal yy = labels_[index]->y();

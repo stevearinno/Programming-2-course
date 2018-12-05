@@ -120,9 +120,9 @@ void MainWindow::initUi() {
     money_ = 0;
 
     // Create each Reel with its own specific labels, etc.
-    reelVec1 = {ui_.slot_up1, ui_.slot_mid1, ui_.slot_bot1};
-    reelVec2 = {ui_.slot_up2, ui_.slot_mid2, ui_.slot_bot2};
-    reelVec3 = {ui_.slot_up3, ui_.slot_mid3, ui_.slot_bot3};
+    reelVec1 = {ui_.slot_up1, ui_.slot_mid1, ui_.slot_bot1, ui_.slot_add1};
+    reelVec2 = {ui_.slot_up2, ui_.slot_mid2, ui_.slot_bot2, ui_.slot_add2};
+    reelVec3 = {ui_.slot_up3, ui_.slot_mid3, ui_.slot_bot3, ui_.slot_add3};
 
     // aligns the symbols to be in the center of the label
     ui_.slot_up1->setAlignment(Qt::AlignCenter);
@@ -134,6 +134,9 @@ void MainWindow::initUi() {
     ui_.slot_bot1->setAlignment(Qt::AlignCenter);
     ui_.slot_bot2->setAlignment(Qt::AlignCenter);
     ui_.slot_bot3->setAlignment(Qt::AlignCenter);
+    ui_.slot_add1->setAlignment(Qt::AlignCenter);
+    ui_.slot_add2->setAlignment(Qt::AlignCenter);
+    ui_.slot_add3->setAlignment(Qt::AlignCenter);
     // sets the maximum bet based on the money that the player has
     ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
     ui_.spin_button->setDisabled(true);
