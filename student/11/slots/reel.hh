@@ -23,6 +23,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <QTimer>
 
 // Fruits is an alias for a map which contains a fruit's name and
 // corresponding image and likelyhood of appearance.
@@ -64,15 +65,20 @@ signals:
 
     void stopped(const std::string& middle_sym);
 
+private slots:
+    void movingPicture();
 
 private:
     // saves symbols in a vector for each reel
     void saveSymbol(std::string symbol);
 
+
     const std::vector<QLabel*> labels_;
     const QPushButton* lock_button_;
     const Fruits* fruits_;
     std::shared_ptr<std::default_random_engine> rng_;
+    QTimer* timer;
+    int timer_value;
 
 
 };  // class Reel

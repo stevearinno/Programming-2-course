@@ -70,6 +70,7 @@ private:
     bool isLocked(QPushButton* button);
     // calculates the weight of each symbol for winning purpose
     void calculateWinningWeight();
+    // shows the scoring/weight info
     void setInfo();
 
     const Fruits fruits_;       ///< The game symbols and their rarities.

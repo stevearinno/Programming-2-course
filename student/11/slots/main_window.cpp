@@ -428,7 +428,8 @@ void MainWindow::on_withdraw_button_clicked()
     ui_.add_money_button->setDisabled(false);
     ui_.moneyLine->setDisabled(false);
     ui_.spin_box->setValue(0);
-    ui_.info_label->setText("DISPENSE " + ui_.money_left->text() + " EUR. PLEASE TAKE YOUR MONEY!");
+    ui_.info_label->setText("DISPENSE " + ui_.money_left->text() +
+                            " EUR. PLEASE TAKE YOUR MONEY!");
     ui_.moneyLine->setText("");
     ui_.money_left->setText("0");
     ui_.withdraw_button->setDisabled(true);
