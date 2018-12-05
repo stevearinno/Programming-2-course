@@ -341,9 +341,9 @@ void MainWindow::on_spin_button_clicked()
     ui_.lock_button1->setDisabled(false);
     ui_.lock_button2->setDisabled(false);
     ui_.lock_button3->setDisabled(false);
-    reel1->setPictures();
-    reel2->setPictures();
-    reel3->setPictures();
+    reel1->spin();
+    reel2->spin();
+    reel3->spin();
 
     float initial_money = money_;
     int bet = ui_.spin_box->value();

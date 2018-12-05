@@ -55,6 +55,7 @@ public:
          std::shared_ptr<std::default_random_engine> rng);
     void setPictures();                     // sets the symbols of each reel
     std::vector<std::string> reel_symbols;  // saves the symbols of each reel
+    void spin();
 
 signals:
 
@@ -72,6 +73,8 @@ private:
     // saves symbols in a vector for each reel
     void saveSymbol(std::string symbol);
 
+    std::vector<std::string> fruitVector;
+    std::vector<int> weights;
 
     const std::vector<QLabel*> labels_;
     const QPushButton* lock_button_;

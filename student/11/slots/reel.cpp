@@ -20,12 +20,19 @@ Reel::Reel(const std::vector<QLabel*>& labels,
     labels_(labels), lock_button_(lock_button), fruits_(fruits), rng_(rng)
 {
     // Connect all signals & slots you need here.
+    auto fruitIterator = fruits_->begin();
+    for(;fruitIterator!=fruits_->end(); fruitIterator++)
+    {
+        fruitVector.push_back(fruitIterator->first);
+        weights.push_back((fruitIterator->second).second);
+    }
+
     setPictures();
 
-//    timer = new QTimer(this);
-//    timer_value = rand() % 2000 + 1000;
-//    timer->start(4);
-//    connect(timer, SIGNAL(timeout()), this, SLOT(movingPicture()));
+    timer = new QTimer(this);
+    timer_value = rand() % 2000 + 1000;
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(movingPicture()));
 }
 
 void Reel::setPictures()
@@ -33,16 +40,6 @@ void Reel::setPictures()
     if (lock_button_->text() == "LOCK")
     {
         // Setup the weights (in this case linearly weighted)
-        std::vector<std::string> fruitVector;
-        std::vector<int> weights;
-
-        auto fruitIterator = fruits_->begin();
-        for(;fruitIterator!=fruits_->end(); fruitIterator++)
-        {
-            fruitVector.push_back(fruitIterator->first);
-            weights.push_back((fruitIterator->second).second);
-        }
-
         std::discrete_distribution<int> dist(weights.begin(), weights.end());
         for (int reelElement = 0; reelElement < labels_.size(); reelElement++)
         {
@@ -55,6 +52,11 @@ void Reel::setPictures()
 
 }
 
+void Reel::spin()
+{
+    timer->start(50);
+}
+
 void Reel::saveSymbol(std::string symbol)
 {
     // for initializing/clearing the vector in each spin
@@ -65,15 +67,28 @@ void Reel::saveSymbol(std::string symbol)
 
 void Reel::movingPicture()
 {
-    qDebug("test");
     for (int index = 0; index < 4; index++)
     {
         qreal xx = labels_[index]->x();
         qreal yy = labels_[index]->y();
         yy += 1;
         labels_[index]->move(xx,yy);
+
+        if ((yy == 184) && (index == 3))
+        {
+
+            labels_[2]->setPixmap(fruits_->at(reel_symbols[1]).
+                                  first.scaled(50,50,Qt::KeepAspectRatio));
+            reel_symbols[2] = reel_symbols[1];
+            labels_[1]->setPixmap(fruits_->at(reel_symbols[0]).
+                                  first.scaled(50,50,Qt::KeepAspectRatio));
+            reel_symbols[1] = reel_symbols[0];
+            labels_[0]->setPixmap(fruits_->at(reel_symbols[3]).
+                                  first.scaled(50,50,Qt::KeepAspectRatio));
+            reel_symbols[3] =
+
+            timer->stop();
+        }
     }
-
-
 }
 
