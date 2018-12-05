@@ -27,6 +27,7 @@ Reel::Reel(const std::vector<QLabel*>& labels,
         weights.push_back((fruitIterator->second).second);
     }
 
+
     setPictures();
 
     timer = new QTimer(this);
@@ -85,7 +86,14 @@ void Reel::movingPicture()
             reel_symbols[1] = reel_symbols[0];
             labels_[0]->setPixmap(fruits_->at(reel_symbols[3]).
                                   first.scaled(50,50,Qt::KeepAspectRatio));
-            reel_symbols[3] =
+            reel_symbols[0] = reel_symbols[3];
+
+            std::discrete_distribution<int> dist(weights.begin(), weights.end());
+            int random_value = dist(*rng_);
+            labels_[3]->setPixmap(fruits_->at(fruitVector[random_value]).
+                                  first.scaled(50,50,Qt::KeepAspectRatio));
+
+            reel_symbols[3] = fruitVector[random_value];
 
             timer->stop();
         }
