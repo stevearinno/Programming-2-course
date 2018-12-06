@@ -77,30 +77,84 @@ MainWindow::MainWindow(QWidget* parent):
 
     ui_.setupUi(this);
     initUi();
-
-//    timer = new QTimer();
 }
 
 MainWindow::~MainWindow(){
-//    delete timer;
+
     delete reel1;
     delete reel2;
     delete reel3;
 }
 
 void MainWindow::reelStopped(const std::string& middle_sym) {
+    float initial_money = money_;
+    int bet = ui_.spin_box->value();
+    int winning_money = 0;
+    std::string middle_symbol = reel2->reel_symbols[1];
+
+    // checks all the possible pay lines, in total there are 5 paylines
+    // below is the checking for horizontal pay lines
+    for (int row_line = 0; row_line < 3; row_line++)
+    {
+        if ((reel1->reel_symbols[row_line] == reel2->reel_symbols[row_line]) &&
+                (reel1->reel_symbols[row_line] == reel3->reel_symbols[row_line]))
+        {
+
+            winning_money = winning_weight[reel1->reel_symbols[row_line]] * bet;
+            money_ += winning_money;
+            money_ += ui_.spin_box->value();
+            ui_.money_left->setText(QString::number(money_));
+        }
+    }
+
+    // below are for the checking of diagonal pay lines
+    if ((middle_symbol == reel1->reel_symbols[0]) &&
+            (middle_symbol == reel3->reel_symbols[2]))
+    {
+        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
+        money_ += winning_money;
+        money_ += ui_.spin_box->value();
+        ui_.money_left->setText(QString::number(money_));
+    }
+    if ((middle_symbol == reel3->reel_symbols[0]) &&
+            (middle_symbol == reel1->reel_symbols[2]))
+    {
+        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
+        money_ += winning_money;
+        money_ += ui_.spin_box->value();
+        ui_.money_left->setText(QString::number(money_));
+    }
+
+    // updates the amount of money after winning or losing
+    if (initial_money == money_)
+    {
+        money_ -= ui_.spin_box->value();
+        ui_.money_left->setText(QString::number(money_));
+        ui_.info_label->setText("You are not lucky yet. Try spinning again!");
+        if (money_ == 0)
+        {
+            ui_.spin_button->setDisabled(true);
+            ui_.add_money_button->setDisabled(false);
+            ui_.moneyLine->setDisabled(false);
+            ui_.spin_box->setValue(0);
+            ui_.withdraw_button->setDisabled("true");
+        }
+    }
+    else
+    {
+        ui_.release_button->click();
+        ui_.info_label->setText("YOU.. LUCKY BASTARD! Spin more!");
+        ui_.lock_button1->setDisabled(true);
+        ui_.lock_button2->setDisabled(true);
+        ui_.lock_button3->setDisabled(true);
+    }
+    ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
 
 }
 
 void MainWindow::initUi() {
     // Initialize and display current funds etc.
     ui_.money_left->setText("0");
-//    timer->start(1000);
-//    if (timer.timeout(1000))
-//        ui_.info_label->setText("test!");
-//    connect(&timer, SIGNAL(timer->timeout()), this,
-//    timer->timeout(ui_.infoLabel->setText("Welcome to Slot Game!"));
-//    timer->timeout()
     ui_.info_label->setText("Welcome to Slot Game!");
 
     // Set lock buttons to desired starting state.
@@ -341,70 +395,11 @@ void MainWindow::on_spin_button_clicked()
     ui_.lock_button1->setDisabled(false);
     ui_.lock_button2->setDisabled(false);
     ui_.lock_button3->setDisabled(false);
+    ui_.info_label->setText("SPINNING...");
     reel1->spin();
     reel2->spin();
     reel3->spin();
 
-    float initial_money = money_;
-    int bet = ui_.spin_box->value();
-    int winning_money = 0;
-
-    // checks all the possible pay lines, in total there are 5 paylines
-    // below is the checking for horizontal pay lines
-    for (int row_line = 0; row_line < 3; row_line++)
-    {
-        if ((reel1->reel_symbols[row_line] == reel2->reel_symbols[row_line]) &&
-                (reel1->reel_symbols[row_line] == reel3->reel_symbols[row_line]))
-        {
-
-            winning_money = winning_weight[reel1->reel_symbols[row_line]] * bet;
-            money_ += winning_money;
-            ui_.money_left->setText(QString::number(money_));
-        }
-    }
-
-    // below are for the checking of diagonal pay lines
-    if ((reel2->reel_symbols[1] == reel1->reel_symbols[0]) &&
-            (reel2->reel_symbols[1] == reel3->reel_symbols[2]))
-    {
-        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
-        money_ += winning_money;
-        money_ += ui_.spin_box->value();
-        ui_.money_left->setText(QString::number(money_));
-    }
-    if ((reel2->reel_symbols[1] == reel3->reel_symbols[0]) &&
-            (reel2->reel_symbols[1] == reel1->reel_symbols[2]))
-    {
-        winning_money = winning_weight[reel2->reel_symbols[1]] * bet;
-        money_ += winning_money;
-        money_ += ui_.spin_box->value();
-        ui_.money_left->setText(QString::number(money_));
-    }
-
-    // updates the amount of money after winning or losing
-    if (initial_money == money_)
-    {
-        money_ -= ui_.spin_box->value();
-        ui_.money_left->setText(QString::number(money_));
-        ui_.info_label->setText("You are not lucky yet. Try spinning again!");
-        if (money_ == 0)
-        {
-            ui_.spin_button->setDisabled(true);
-            ui_.add_money_button->setDisabled(false);
-            ui_.moneyLine->setDisabled(false);
-            ui_.spin_box->setValue(0);
-            ui_.withdraw_button->setDisabled("true");
-        }
-    }
-    else
-    {
-        ui_.release_button->click();
-        ui_.info_label->setText("YOU.. LUCKY BASTARD! Spin more!");
-        ui_.lock_button1->setDisabled(true);
-        ui_.lock_button2->setDisabled(true);
-        ui_.lock_button3->setDisabled(true);
-    }
-    ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)

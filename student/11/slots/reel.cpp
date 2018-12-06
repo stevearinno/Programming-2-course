@@ -29,11 +29,11 @@ Reel::Reel(const std::vector<QLabel*>& labels,
 
 
     setPictures();
-
+    reel_timer = new QTimer(this);
     timer = new QTimer(this);
-    timer_value = rand() % 2000 + 1000;
 
     connect(timer, SIGNAL(timeout()), this, SLOT(movingPicture()));
+    connect(reel_timer, SIGNAL(timeout()),this, SLOT(stopSpinning()));
 }
 
 void Reel::setPictures()
@@ -42,7 +42,7 @@ void Reel::setPictures()
     {
         // Setup the weights (in this case linearly weighted)
         std::discrete_distribution<int> dist(weights.begin(), weights.end());
-        for (int reelElement = 0; reelElement < labels_.size(); reelElement++)
+        for (unsigned int reelElement = 0; reelElement < labels_.size(); reelElement++)
         {
             int random_value = dist(*rng_);
             labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).
@@ -55,7 +55,16 @@ void Reel::setPictures()
 
 void Reel::spin()
 {
-    timer->start(50);
+    timer_value = rand()% 2000 + 1000;
+    reel_timer->setSingleShot(true);
+    reel_timer->start(timer_value);
+    timer->start(0.1);
+}
+
+Reel::~Reel()
+{
+    delete reel_timer;
+    delete timer;
 }
 
 void Reel::saveSymbol(std::string symbol)
@@ -68,35 +77,46 @@ void Reel::saveSymbol(std::string symbol)
 
 void Reel::movingPicture()
 {
-    for (int index = 0; index < 4; index++)
+    if (lock_button_->text() == "LOCK")
     {
-        qreal xx = labels_[index]->x();
-        qreal yy = labels_[index]->y();
-        yy += 1;
-        labels_[index]->move(xx,yy);
-
-        if ((yy == 184) && (index == 3))
+        for (int index = 0; index < 4; index++)
         {
+            qreal xx = labels_[index]->x();
+            qreal yy = labels_[index]->y();
+            yy += 1;
+            labels_[index]->move(xx,yy);
 
-            labels_[2]->setPixmap(fruits_->at(reel_symbols[1]).
-                                  first.scaled(50,50,Qt::KeepAspectRatio));
-            reel_symbols[2] = reel_symbols[1];
-            labels_[1]->setPixmap(fruits_->at(reel_symbols[0]).
-                                  first.scaled(50,50,Qt::KeepAspectRatio));
-            reel_symbols[1] = reel_symbols[0];
-            labels_[0]->setPixmap(fruits_->at(reel_symbols[3]).
-                                  first.scaled(50,50,Qt::KeepAspectRatio));
-            reel_symbols[0] = reel_symbols[3];
+            if ((yy == 184) && (index == 3))
+            {
 
-            std::discrete_distribution<int> dist(weights.begin(), weights.end());
-            int random_value = dist(*rng_);
-            labels_[3]->setPixmap(fruits_->at(fruitVector[random_value]).
-                                  first.scaled(50,50,Qt::KeepAspectRatio));
+                labels_[2]->setPixmap(fruits_->at(reel_symbols[1]).
+                                      first.scaled(50,50,Qt::KeepAspectRatio));
+                reel_symbols[2] = reel_symbols[1];
+                labels_[1]->setPixmap(fruits_->at(reel_symbols[0]).
+                                      first.scaled(50,50,Qt::KeepAspectRatio));
+                reel_symbols[1] = reel_symbols[0];
+                labels_[0]->setPixmap(fruits_->at(reel_symbols[3]).
+                                      first.scaled(50,50,Qt::KeepAspectRatio));
+                reel_symbols[0] = reel_symbols[3];
 
-            reel_symbols[3] = fruitVector[random_value];
+                std::discrete_distribution<int> dist(weights.begin(), weights.end());
+                int random_value = dist(*rng_);
+                labels_[3]->setPixmap(fruits_->at(fruitVector[random_value]).
+                                      first.scaled(50,50,Qt::KeepAspectRatio));
 
-            timer->stop();
+                reel_symbols[3] = fruitVector[random_value];
+            }
         }
     }
+
+}
+
+void Reel::stopSpinning()
+{
+    timer->stop();
+    movingPicture();
+
+    emit stopped("cherries");
+
 }
 

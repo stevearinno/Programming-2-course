@@ -57,6 +57,8 @@ public:
     std::vector<std::string> reel_symbols;  // saves the symbols of each reel
     void spin();
 
+    ~Reel();
+
 signals:
 
     /// \brief Is emitted when the Reel stops.
@@ -68,6 +70,7 @@ signals:
 
 private slots:
     void movingPicture();
+    void stopSpinning();
 
 private:
     // saves symbols in a vector for each reel
@@ -80,6 +83,7 @@ private:
     const QPushButton* lock_button_;
     const Fruits* fruits_;
     std::shared_ptr<std::default_random_engine> rng_;
+    QTimer* reel_timer;
     QTimer* timer;
     int timer_value;
 
