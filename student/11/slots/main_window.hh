@@ -7,6 +7,8 @@
 # Description: Implements a UI for the game to be playable.         #
 # Notes: * This is an exercise program.                             #
 #        * Students need to modify this file.                       #
+# Student name: Stefanus Wirdatmadja                                #
+# Student number: 232722                                            #
 #####################################################################
 */
 
@@ -51,12 +53,17 @@ private slots:
     /// \param[in] middle_sym Name of the fruit symbol on the middle lane.
     ///
     void reelStopped(const std::string& middle_sym);
-    void on_add_money_button_clicked();         // adds the money that the player inputs
-    void lockButton();                          // locks the corresponding reel
-    void on_release_button_clicked();           // unlocks all the reels
-    void on_spin_button_clicked();              // spins the reels
-    void on_spin_box_valueChanged(int arg1);    // checks the player's bet, it should be more than 0
-
+    // adds the money that the player inputs
+    void on_add_money_button_clicked();
+    // locks the corresponding reel
+    void lockButton();
+    // unlocks all the reels
+    void on_release_button_clicked();
+    // spins the reels
+    void on_spin_button_clicked();
+    // checks the player's bet, it should be more than 0
+    void on_spin_box_valueChanged(int arg1);
+    // withdraws all the money from the machine
     void on_withdraw_button_clicked();
 
 private:
@@ -64,7 +71,9 @@ private:
     /// \brief Initialize the Reels, buttons, etc. so the game can be played.
     ///
     void initUi();
-    // locks and unlocks reel
+    // locks and unlocks reel. The inputs are [in 1] the button which indicates
+    // the corresponding reel, [in 2] if the player wants to lock the rell,
+    // and [in 3] if the info label should be updated or not.
     void changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun=false);
     // checks if the reel is locked
     bool isLocked(QPushButton* button);
@@ -88,8 +97,6 @@ private:
     Reel* reel2;
     Reel* reel3;
     std::map<std::string, int> winning_weight; // save symbols and their weights
-
-
 
 };  // class MainWindow
 

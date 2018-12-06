@@ -7,6 +7,8 @@
 # Description: Implements a UI for the game to be playable.         #
 # Notes: * This is an exercise program.                             #
 #        * Students need to modify this file.                       #
+# Student name: Stefanus Wirdatmadja                                #
+# Student number: 232722                                            #
 #####################################################################
 */
 
@@ -87,9 +89,8 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::reelStopped(const std::string& middle_sym) {
-    if (middle_symbols.size() < 2)
-        middle_symbols.push_back(middle_sym);
-    else
+    middle_symbols.push_back(middle_sym);
+    if (middle_symbols.size() == 3)
     {
         std::string middle_symbol = middle_symbols[1];
         int sym_weight;
@@ -136,6 +137,23 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
                 ui_.withdraw_button->setDisabled("true");
                 ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
             }
+            if (ui_.lock_button1->text() == "UNLOCK" ||
+                    ui_.lock_button2->text() == "UNLOCK" ||
+                    ui_.lock_button3->text() == "UNLOCK")
+                {
+                    changeLockButton(ui_.lock_button1, false, true);
+                    changeLockButton(ui_.lock_button2, false, true);
+                    changeLockButton(ui_.lock_button3, false, true);
+                    ui_.lock_button1->setDisabled(true);
+                    ui_.lock_button2->setDisabled(true);
+                    ui_.lock_button3->setDisabled(true);
+                }
+        }
+        else
+        {
+            int total_winning = money_ - initial_money;
+            ui_.winning_money->setText(QString::number(total_winning) +
+                                       " EUR for you");
         }
     }
 }
@@ -179,6 +197,7 @@ void MainWindow::initUi() {
     ui_.slot_add1->setAlignment(Qt::AlignCenter);
     ui_.slot_add2->setAlignment(Qt::AlignCenter);
     ui_.slot_add3->setAlignment(Qt::AlignCenter);
+    ui_.winning_money->setAlignment(Qt::AlignCenter);
     // sets the maximum bet based on the money that the player has
     ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
     ui_.spin_button->setDisabled(true);
@@ -397,6 +416,7 @@ void MainWindow::on_release_button_clicked()
 
 void MainWindow::on_spin_button_clicked()
 {
+    ui_.winning_money->setText("");
     ui_.lock_button1->setDisabled(false);
     ui_.lock_button2->setDisabled(false);
     ui_.lock_button3->setDisabled(false);
@@ -404,7 +424,6 @@ void MainWindow::on_spin_button_clicked()
     reel1->spin();
     reel2->spin();
     reel3->spin();
-
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)
@@ -423,7 +442,6 @@ void MainWindow::on_spin_box_valueChanged(int arg1)
         ui_.info_label->setText("Start spinning!");
     }
 }
-
 
 void MainWindow::on_withdraw_button_clicked()
 {

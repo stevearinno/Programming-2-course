@@ -7,6 +7,8 @@
 # Description: Draws random fruits for labels to display.           #
 # Notes: * This is an exercise program.                             #
 #        * Students need to modify this file.                       #
+# Student name: Stefanus Wirdatmadja                                #
+# Student number: 232722                                            #
 #####################################################################
 */
 
@@ -58,7 +60,7 @@ void Reel::spin()
     timer_value = rand()% 2000 + 1000;
     reel_timer->setSingleShot(true);
     reel_timer->start(timer_value);
-    timer->start(0.1);
+    timer->start(2);
 }
 
 Reel::~Reel()
@@ -114,8 +116,7 @@ void Reel::movingPicture()
 void Reel::stopSpinning()
 {
     timer->stop();
-    if (lock_button_->text() == "LOCK")
-        movingPicture();
+    movingPicture();
 
     emit stopped(reel_symbols[1]);
 

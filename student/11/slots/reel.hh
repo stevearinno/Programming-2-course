@@ -7,6 +7,8 @@
 # Description: Draws random fruits for labels to display.           #
 # Notes: * This is an exercise program.                             #
 #        * Students need to modify this file.                       #
+# Student name: Stefanus Wirdatmadja                                #
+# Student number: 232722                                            #
 #####################################################################
 */
 
@@ -55,7 +57,7 @@ public:
          std::shared_ptr<std::default_random_engine> rng);
     void setPictures();                     // sets the symbols of each reel
     std::vector<std::string> reel_symbols;  // saves the symbols of each reel
-    void spin();
+    void spin();                            // spins the reel
 
     ~Reel();
 
@@ -66,10 +68,13 @@ signals:
     /// \param[in] Name of the middle symbol on the Reel.
     ///
 
+    // sends the middle symbol of the middle reel when it stops
     void stopped(const std::string& middle_sym);
 
 private slots:
+    // animates the moving reel
     void movingPicture();
+    // when the generated reel time is finished, the reel will stop
     void stopSpinning();
 
 private:
@@ -78,7 +83,6 @@ private:
 
     std::vector<std::string> fruitVector;
     std::vector<int> weights;
-
     const std::vector<QLabel*> labels_;
     const QPushButton* lock_button_;
     const Fruits* fruits_;
@@ -86,7 +90,6 @@ private:
     QTimer* reel_timer;
     QTimer* timer;
     int timer_value;
-
 
 };  // class Reel
 

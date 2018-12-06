@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>408</height>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,8 +21,11 @@
     <string notr="true">#centralwidget {background-image: url(:/MainWindow/Resources/tile.png);} </string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="8" column="0">
+    <item row="9" column="0">
      <widget class="QLabel" name="slot_add1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximumSize">
        <size>
         <width>75</width>
@@ -34,7 +37,7 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="4">
+    <item row="11" column="4">
      <widget class="QLabel" name="slot_mid3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -53,7 +56,7 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="4">
+    <item row="12" column="4">
      <widget class="QLabel" name="slot_bot3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -72,7 +75,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="4">
+    <item row="10" column="4">
      <widget class="QLabel" name="slot_up3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -91,7 +94,7 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="2">
+    <item row="11" column="2">
      <widget class="QLabel" name="slot_mid2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -110,17 +113,32 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="7">
+    <item row="13" column="6">
      <widget class="QPushButton" name="release_button">
       <property name="text">
        <string>UNLOCK ALL</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="0" colspan="8">
+    <item row="7" column="0" colspan="7">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QLabel" name="info_label">
+        <property name="font">
+         <font>
+          <family>Century Schoolbook L</family>
+          <pointsize>13</pointsize>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(252, 175, 62);</string>
+        </property>
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -131,7 +149,7 @@
       </item>
      </layout>
     </item>
-    <item row="10" column="0">
+    <item row="11" column="0">
      <widget class="QLabel" name="slot_mid1">
       <property name="enabled">
        <bool>true</bool>
@@ -153,7 +171,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="0">
+    <item row="10" column="0">
      <widget class="QLabel" name="slot_up1">
       <property name="maximumSize">
        <size>
@@ -166,7 +184,7 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="0">
+    <item row="13" column="0">
      <widget class="QPushButton" name="lock_button1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -185,7 +203,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="7" rowspan="3">
+    <item row="10" column="6" rowspan="3">
      <layout class="QFormLayout" name="formLayout_2">
       <property name="labelAlignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -263,7 +281,7 @@
       </item>
      </layout>
     </item>
-    <item row="11" column="0">
+    <item row="12" column="0">
      <widget class="QLabel" name="slot_bot1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -282,7 +300,7 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="2">
+    <item row="13" column="2">
      <widget class="QPushButton" name="lock_button2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -301,7 +319,7 @@
       </property>
      </widget>
     </item>
-    <item row="13" column="0" colspan="8">
+    <item row="14" column="0" colspan="7">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QPushButton" name="spin_button">
@@ -324,7 +342,7 @@
       </item>
      </layout>
     </item>
-    <item row="12" column="4">
+    <item row="13" column="4">
      <widget class="QPushButton" name="lock_button3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -343,7 +361,7 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="2">
+    <item row="12" column="2">
      <widget class="QLabel" name="slot_bot2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -362,7 +380,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="2">
+    <item row="10" column="2">
      <widget class="QLabel" name="slot_up2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -381,7 +399,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0" colspan="8">
+    <item row="2" column="0" colspan="7">
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="5">
        <widget class="QLabel" name="eggplant1">
@@ -895,8 +913,11 @@
       </item>
      </layout>
     </item>
-    <item row="8" column="2">
-     <widget class="QLabel" name="slot_add2">
+    <item row="9" column="4">
+     <widget class="QLabel" name="slot_add3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximumSize">
        <size>
         <width>75</width>
@@ -908,8 +929,11 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="4">
-     <widget class="QLabel" name="slot_add3">
+    <item row="9" column="2">
+     <widget class="QLabel" name="slot_add2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximumSize">
        <size>
         <width>75</width>
@@ -918,10 +942,43 @@
       </property>
       <property name="text">
        <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="6">
+     <widget class="QLabel" name="winning_money">
+      <property name="font">
+       <font>
+        <family>Century Schoolbook L</family>
+        <pointsize>15</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
    </layout>
+   <zorder>slot_add3</zorder>
+   <zorder>slot_add2</zorder>
+   <zorder>slot_add1</zorder>
+   <zorder>slot_mid3</zorder>
+   <zorder>slot_bot3</zorder>
+   <zorder>slot_up3</zorder>
+   <zorder>slot_mid2</zorder>
+   <zorder>release_button</zorder>
+   <zorder>slot_mid1</zorder>
+   <zorder>slot_up1</zorder>
+   <zorder>slot_bot1</zorder>
+   <zorder>lock_button3</zorder>
+   <zorder>slot_bot2</zorder>
+   <zorder>slot_up2</zorder>
+   <zorder>lock_button1</zorder>
+   <zorder>lock_button2</zorder>
+   <zorder>winning_money</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
