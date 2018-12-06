@@ -114,9 +114,10 @@ void Reel::movingPicture()
 void Reel::stopSpinning()
 {
     timer->stop();
-    movingPicture();
+    if (lock_button_->text() == "LOCK")
+        movingPicture();
 
-    emit stopped("cherries");
+    emit stopped(reel_symbols[1]);
 
 }
 

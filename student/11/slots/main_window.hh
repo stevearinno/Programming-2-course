@@ -72,6 +72,8 @@ private:
     void calculateWinningWeight();
     // shows the scoring/weight info
     void setInfo();
+    void calculateMoney(int sym_weight);
+    std::vector<std::string> middle_symbols;
 
     const Fruits fruits_;       ///< The game symbols and their rarities.
     Ui::MainWindowClass ui_;    ///< (Black) Qt magic handling the UI.
