@@ -357,77 +357,69 @@ void MainWindow::calculateWinningWeight()
 
 void MainWindow::setInfo()
 {
-    ui_.apple1->setPixmap(fruits_.at("apple").
-                          first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.apple2->setPixmap(fruits_.at("apple").
-                          first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.apple3->setPixmap(fruits_.at("apple").
-                          first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.apple_weight->setText(QString::number(winning_weight.at("apple"))+"x");
-    ui_.bananas1->setPixmap(fruits_.at("bananas").
-                            first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas2->setPixmap(fruits_.at("bananas").
-                            first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas3->setPixmap(fruits_.at("bananas").
-                            first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas_weight->setText(QString::number(winning_weight.
-                                                at("bananas"))+"x");
-    ui_.cherries1->setPixmap(fruits_.at("cherries").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries2->setPixmap(fruits_.at("cherries").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries3->setPixmap(fruits_.at("cherries").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries_weight->setText(QString::number(winning_weight.
-                                                 at("cherries"))+"x");
-    ui_.eggplant1->setPixmap(fruits_.at("eggplant").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant2->setPixmap(fruits_.at("eggplant").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant3->setPixmap(fruits_.at("eggplant").
-                             first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant_weight->setText(QString::number(winning_weight.
-                                                 at("eggplant"))+"x");
-    ui_.grapes1->setPixmap(fruits_.at("grapes").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes2->setPixmap(fruits_.at("grapes").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes3->setPixmap(fruits_.at("grapes").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes_weight->setText(QString::number(winning_weight.
-                                               at("grapes"))+"x");
-    ui_.orange1->setPixmap(fruits_.at("orange").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange2->setPixmap(fruits_.at("orange").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange3->setPixmap(fruits_.at("orange").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange_weight->setText(QString::number(winning_weight.
-                                               at("orange"))+"x");
-    ui_.pear1->setPixmap(fruits_.at("pear").
-                         first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear2->setPixmap(fruits_.at("pear").
-                         first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear3->setPixmap(fruits_.at("pear").
-                         first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear_weight->setText(QString::number(winning_weight.
-                                             at("pear"))+"x");
-    ui_.strawberry1->setPixmap(fruits_.at("strawberry").
-                               first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry2->setPixmap(fruits_.at("strawberry").
-                               first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry3->setPixmap(fruits_.at("strawberry").
-                               first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry_weight->setText(QString::number(winning_weight.
-                                                   at("strawberry"))+"x");
-    ui_.tomato1->setPixmap(fruits_.at("tomato").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato2->setPixmap(fruits_.at("tomato").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato3->setPixmap(fruits_.at("tomato").
-                           first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato_weight->setText(QString::number(winning_weight.
-                                               at("tomato"))+"x");
+    QPixmap apple = fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString apple_weight = QString::number(winning_weight.at("apple"))+"x";
+    ui_.apple1->setPixmap(apple);
+    ui_.apple2->setPixmap(apple);
+    ui_.apple3->setPixmap(apple);
+    ui_.apple_weight->setText(apple_weight);
+
+    QPixmap bananas = fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString bananas_weight = QString::number(winning_weight.at("bananas"))+"x";
+    ui_.bananas1->setPixmap(bananas);
+    ui_.bananas2->setPixmap(bananas);
+    ui_.bananas3->setPixmap(bananas);
+    ui_.bananas_weight->setText(bananas_weight);
+
+    QPixmap cherries = fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString cherries_weight = QString::number(winning_weight.at("cherries"))+"x";
+    ui_.cherries1->setPixmap(cherries);
+    ui_.cherries2->setPixmap(cherries);
+    ui_.cherries3->setPixmap(cherries);
+    ui_.cherries_weight->setText(cherries_weight);
+
+    QPixmap eggplant = fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString eggplant_weight = QString::number(winning_weight.at("eggplant"))+"x";
+    ui_.eggplant1->setPixmap(eggplant);
+    ui_.eggplant2->setPixmap(eggplant);
+    ui_.eggplant3->setPixmap(eggplant);
+    ui_.eggplant_weight->setText(eggplant_weight);
+
+    QPixmap grapes = fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString grapes_weight = QString::number(winning_weight.at("grapes"))+"x";
+    ui_.grapes1->setPixmap(grapes);
+    ui_.grapes2->setPixmap(grapes);
+    ui_.grapes3->setPixmap(grapes);
+    ui_.grapes_weight->setText(grapes_weight);
+
+    QPixmap orange = fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString orange_weight = QString::number(winning_weight.at("orange"))+"x";
+    ui_.orange1->setPixmap(orange);
+    ui_.orange2->setPixmap(orange);
+    ui_.orange3->setPixmap(orange);
+    ui_.orange_weight->setText(orange_weight);
+
+    QPixmap pear = fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString pear_weight = QString::number(winning_weight.at("pear"))+"x";
+    ui_.pear1->setPixmap(pear);
+    ui_.pear2->setPixmap(pear);
+    ui_.pear3->setPixmap(pear);
+    ui_.pear_weight->setText(pear_weight);
+
+    QPixmap strawberry = fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString strawberry_weight = QString::number(winning_weight.at("strawberry"))+"x";
+    ui_.strawberry1->setPixmap(strawberry);
+    ui_.strawberry2->setPixmap(strawberry);
+    ui_.strawberry3->setPixmap(strawberry);
+    ui_.strawberry_weight->setText(strawberry_weight);
+
+    QPixmap tomato = fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio);
+    QString tomato_weight = QString::number(winning_weight.at("tomato"))+"x";
+    ui_.tomato1->setPixmap(tomato);
+    ui_.tomato2->setPixmap(tomato);
+    ui_.tomato3->setPixmap(tomato);
+    ui_.tomato_weight->setText(tomato_weight);
+
     ui_.apple1->setAlignment(Qt::AlignCenter);
     ui_.apple2->setAlignment(Qt::AlignCenter);
     ui_.apple3->setAlignment(Qt::AlignCenter);
