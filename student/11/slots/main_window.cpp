@@ -244,22 +244,20 @@ void MainWindow::initUi()
     hiding_label->setFixedWidth(230);
     hiding_label->setFixedHeight(50);
 
-    QLabel *vertical_frame1a = new QLabel(this);
-    vertical_frame1a->move(84,188);
+    // creates labels between the reels
+    vertical_frame1a = new QLabel(this);
+    vertical_frame1b = new QLabel(this);
+    vertical_frame2a = new QLabel(this);
+    vertical_frame2b = new QLabel(this);
+    vertical_frame3a = new QLabel(this);
+    vertical_frame3b = new QLabel(this);
 
-    QLabel *vertical_frame1b = new QLabel(this);
-    vertical_frame1b->move(171,188);
-
-    QLabel *vertical_frame2a = new QLabel(this);
-    vertical_frame2a->move(84,244);
-
-    QLabel *vertical_frame2b = new QLabel(this);
-    vertical_frame2b->move(171,244);
-
-    QLabel *vertical_frame3a = new QLabel(this);
-    vertical_frame3a->move(84,300);
-
-    QLabel *vertical_frame3b = new QLabel(this);
+    // positions the labels between the reels
+    vertical_frame1a->move(84,188);    
+    vertical_frame1b->move(171,188);    
+    vertical_frame2a->move(84,244);    
+    vertical_frame2b->move(171,244);    
+    vertical_frame3a->move(84,300);    
     vertical_frame3b->move(171,300);
 
     mid_layer_1 = {vertical_frame1a, vertical_frame1b};
@@ -600,7 +598,6 @@ void MainWindow::on_spin_button_clicked()
     {
         ui_.info_label->setText("Don't lock all the reels");
     }
-
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)

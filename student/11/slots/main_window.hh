@@ -109,6 +109,12 @@ private:
     // save symbols and their weights
     std::map<std::string, int> winning_weight;
     // initializes the labels for the area between the reels
+    QLabel *vertical_frame1a;
+    QLabel *vertical_frame1b;
+    QLabel *vertical_frame2a;
+    QLabel *vertical_frame2b;
+    QLabel *vertical_frame3a;
+    QLabel *vertical_frame3b;
     std::vector<QLabel*> mid_layer_1;
     std::vector<QLabel*> mid_layer_2;
     std::vector<QLabel*> mid_layer_3;
