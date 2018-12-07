@@ -108,6 +108,10 @@ void MainWindow::reelStopped(const std::string& middle_sym)
             {
                 sym_weight = winning_weight[reel1->reel_symbols[row_line]];
                 calculateMoney(sym_weight);
+                reelVec1[row_line]->setStyleSheet("background-color : yellow");
+                reelVec2[row_line]->setStyleSheet("background-color : yellow");
+                reelVec3[row_line]->setStyleSheet("background-color : yellow");
+                setMidLabel(row_line, true);
             }
         }
 
@@ -117,12 +121,18 @@ void MainWindow::reelStopped(const std::string& middle_sym)
         {
             sym_weight = winning_weight[reel2->reel_symbols[1]];
             calculateMoney(sym_weight);
+            reelVec1[0]->setStyleSheet("background-color : yellow");
+            reelVec2[1]->setStyleSheet("background-color : yellow");
+            reelVec3[2]->setStyleSheet("background-color : yellow");
         }
         else if ((middle_symbol == reel3->reel_symbols[0]) &&
                 (middle_symbol == reel1->reel_symbols[2]))
         {
             sym_weight = winning_weight[reel2->reel_symbols[1]];
             calculateMoney(sym_weight);
+            reelVec1[2]->setStyleSheet("background-color : yellow");
+            reelVec2[1]->setStyleSheet("background-color : yellow");
+            reelVec3[0]->setStyleSheet("background-color : yellow");
         }
         // updates the amount of money after losing
         if (initial_money == money_)
@@ -173,6 +183,8 @@ void MainWindow::reelStopped(const std::string& middle_sym)
 
 void MainWindow::initUi()
 {
+
+
     // Initialize and display current funds etc.
     this->setWindowTitle("SLOT MACHINE GAME");
     ui_.money_left->setText("0");
@@ -231,6 +243,32 @@ void MainWindow::initUi()
                                 "url(:/MainWindow/Resources/tile.png) ");
     hiding_label->setFixedWidth(230);
     hiding_label->setFixedHeight(50);
+
+    QLabel *vertical_frame1a = new QLabel(this);
+    vertical_frame1a->move(84,188);
+
+    QLabel *vertical_frame1b = new QLabel(this);
+    vertical_frame1b->move(171,188);
+
+    QLabel *vertical_frame2a = new QLabel(this);
+    vertical_frame2a->move(84,244);
+
+    QLabel *vertical_frame2b = new QLabel(this);
+    vertical_frame2b->move(171,244);
+
+    QLabel *vertical_frame3a = new QLabel(this);
+    vertical_frame3a->move(84,300);
+
+    QLabel *vertical_frame3b = new QLabel(this);
+    vertical_frame3b->move(171,300);
+
+    mid_layer_1 = {vertical_frame1a, vertical_frame1b};
+    mid_layer_2 = {vertical_frame2a, vertical_frame2b};
+    mid_layer_3 = {vertical_frame3a, vertical_frame3b};
+
+    initializeMidLabel(mid_layer_1);
+    initializeMidLabel(mid_layer_2);
+    initializeMidLabel(mid_layer_3);
 
     // sets hiding labels at the bottom of the reels
     ui_.hiding_label2->setStyleSheet("background-image: "
@@ -480,6 +518,55 @@ void MainWindow::changeEnableStatus(bool to_enable)
     }
 }
 
+void MainWindow::backgroundClear(std::vector<QLabel *> one_reel)
+{
+    for (int row = 0; row < 3; row++)
+    {
+        one_reel[row]->setStyleSheet("");
+    }
+}
+
+void MainWindow::initializeMidLabel(std::vector<QLabel *> mid_label_vec)
+{
+    for (unsigned int vec_elm = 0; vec_elm < mid_label_vec.size(); vec_elm++)
+    {
+        mid_label_vec[vec_elm]->setFixedWidth(13);
+        mid_label_vec[vec_elm]->setFixedHeight(50);
+    }
+}
+
+void MainWindow::setMidLabel(int row, bool turn_to_yellow)
+{
+    std::vector<QLabel *> mid_label_vec;
+    if (row == 0)
+    {
+        mid_label_vec = mid_layer_1;
+    }
+    else if (row == 1)
+    {
+        mid_label_vec = mid_layer_2;
+    }
+    else
+    {
+        mid_label_vec = mid_layer_3;
+    }
+
+    QString back_color;
+    if (turn_to_yellow)
+    {
+        back_color = "background-color:yellow";
+    }
+    else
+    {
+        back_color = "background-image: url(:/MainWindow/Resources/tile.png)";
+    }
+
+    for (unsigned int vec_elm = 0; vec_elm < mid_label_vec.size(); vec_elm++)
+    {
+        mid_label_vec[vec_elm]->setStyleSheet(back_color);
+    }
+}
+
 void MainWindow::on_release_button_clicked()
 {
     changeLockButton(ui_.lock_button1, false);
@@ -490,6 +577,12 @@ void MainWindow::on_release_button_clicked()
 
 void MainWindow::on_spin_button_clicked()
 {
+    backgroundClear(reelVec1);
+    backgroundClear(reelVec2);
+    backgroundClear(reelVec3);
+    setMidLabel(0, false);
+    setMidLabel(1, false);
+    setMidLabel(2, false);
     if (ui_.lock_button1->text() == "LOCK" ||
             ui_.lock_button2->text() == "LOCK" ||
             ui_.lock_button3->text() == "LOCK")

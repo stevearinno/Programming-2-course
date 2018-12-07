@@ -87,7 +87,12 @@ private:
     // changes the status of all lock buttons enabled/disabled
     void changeEnableStatus(bool to_enable);
     // saves all the middle symbols of all reels
+    void backgroundClear(std::vector<QLabel*> one_reel);
     std::vector<std::string> middle_symbols;
+    // initilizing the area between the reel (cosmetics purpose)
+    void initializeMidLabel(std::vector<QLabel*> mid_label_vec);
+    // turns the area between the reel to yellow if needed (if win)
+    void setMidLabel(int row, bool turn_to_yellow);
 
     const Fruits fruits_;       ///< The game symbols and their rarities.
     Ui::MainWindowClass ui_;    ///< (Black) Qt magic handling the UI.
@@ -103,6 +108,10 @@ private:
     Reel* reel3;
     // save symbols and their weights
     std::map<std::string, int> winning_weight;
+    // initializes the labels for the area between the reels
+    std::vector<QLabel*> mid_layer_1;
+    std::vector<QLabel*> mid_layer_2;
+    std::vector<QLabel*> mid_layer_3;
 
 };  // class MainWindow
 
