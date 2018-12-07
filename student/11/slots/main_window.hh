@@ -82,7 +82,10 @@ private:
     void calculateWinningWeight();
     // shows the scoring/weight info
     void setInfo();
+    // calculates the money after wining
     void calculateMoney(int sym_weight);
+    // changes the status of all lock buttons enabled/disabled
+    void changeEnableStatus(bool to_enable);
     std::vector<std::string> middle_symbols;
 
     const Fruits fruits_;       ///< The game symbols and their rarities.

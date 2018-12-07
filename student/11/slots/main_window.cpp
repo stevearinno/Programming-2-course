@@ -131,15 +131,7 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
             ui_.money_left->setText(QString::number(money_));
             ui_.info_label->setText("You are not lucky yet. Try spinning "
                                     "again!");
-            if (money_ == 0)
-            {
-                ui_.spin_button->setDisabled(true);
-                ui_.add_money_button->setDisabled(false);
-                ui_.moneyLine->setDisabled(false);
-                ui_.spin_box->setValue(0);
-                ui_.withdraw_button->setDisabled("true");
-                ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
-            }
+
             if (ui_.lock_button1->text() == "UNLOCK" ||
                     ui_.lock_button2->text() == "UNLOCK" ||
                     ui_.lock_button3->text() == "UNLOCK")
@@ -147,19 +139,36 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
                     changeLockButton(ui_.lock_button1, false, true);
                     changeLockButton(ui_.lock_button2, false, true);
                     changeLockButton(ui_.lock_button3, false, true);
-                    ui_.lock_button1->setDisabled(true);
-                    ui_.lock_button2->setDisabled(true);
-                    ui_.lock_button3->setDisabled(true);
+                    changeEnableStatus(false);
                 }
+            else
+            {
+                changeEnableStatus(true);
+            }
         }
         else
         {
             int total_winning = money_ - initial_money;
             ui_.winning_money->setText(QString::number(total_winning) +
                                        " EUR for you");
+            changeEnableStatus(false);
         }
-        ui_.spin_button->setDisabled(false);
-    }
+
+        if (money_ == 0)
+        {
+            ui_.spin_button->setDisabled(true);
+            ui_.add_money_button->setDisabled(false);
+            ui_.moneyLine->setDisabled(false);
+            ui_.spin_box->setValue(0);
+            ui_.withdraw_button->setDisabled("true");
+            ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
+            changeEnableStatus(false);
+        }
+        else
+        {
+            ui_.spin_button->setDisabled(false);
+        }
+    }    
 }
 
 void MainWindow::initUi() {
@@ -172,6 +181,7 @@ void MainWindow::initUi() {
     changeLockButton(ui_.lock_button1, false, true);
     changeLockButton(ui_.lock_button2, false, true);
     changeLockButton(ui_.lock_button3, false, true);
+    changeEnableStatus(false);
 
     // Create one random number generator for all Reels to use.
     // * The seed value is obtained via the chrono library and
@@ -459,11 +469,26 @@ void MainWindow::calculateMoney(int sym_weight)
     // updates the amount of money after winning
     ui_.release_button->click();
     ui_.info_label->setText("YOU.. LUCKY BASTARD! Spin more!");
-    ui_.lock_button1->setDisabled(true);
-    ui_.lock_button2->setDisabled(true);
-    ui_.lock_button3->setDisabled(true);
+    changeEnableStatus(false);
     ui_.spin_box->setMaximum(int(ui_.money_left->text().toInt()));
 }
+
+void MainWindow::changeEnableStatus(bool to_enable)
+{
+    if (to_enable)
+    {
+        ui_.lock_button1->setDisabled(false);
+        ui_.lock_button2->setDisabled(false);
+        ui_.lock_button3->setDisabled(false);
+    }
+    else
+    {
+        ui_.lock_button1->setDisabled(true);
+        ui_.lock_button2->setDisabled(true);
+        ui_.lock_button3->setDisabled(true);
+    }
+}
+
 
 void MainWindow::on_release_button_clicked()
 {
@@ -477,13 +502,12 @@ void MainWindow::on_spin_button_clicked()
 {
     ui_.spin_button->setDisabled(true);
     ui_.winning_money->setText("");
-    ui_.lock_button1->setDisabled(false);
-    ui_.lock_button2->setDisabled(false);
-    ui_.lock_button3->setDisabled(false);
+    changeEnableStatus(true);
     ui_.info_label->setText("SPINNING...");
     reel1->spin();
     reel2->spin();
-    reel3->spin();    
+    reel3->spin();
+    changeEnableStatus(false);
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)
@@ -515,5 +539,4 @@ void MainWindow::on_withdraw_button_clicked()
     ui_.money_left->setText("0");
     ui_.withdraw_button->setDisabled(true);
     money_ = 0;
-
 }
