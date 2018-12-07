@@ -74,7 +74,8 @@ private:
     // locks and unlocks reel. The inputs are [in 1] the button which indicates
     // the corresponding reel, [in 2] if the player wants to lock the rell,
     // and [in 3] if the info label should be updated or not.
-    void changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun=false);
+    void changeLockButton(QPushButton* button, bool lockReel,
+                          bool isFirstRun=false);
     // checks if the reel is locked
     bool isLocked(QPushButton* button);
     // calculates the weight of each symbol for winning purpose
@@ -96,7 +97,8 @@ private:
     Reel* reel1;
     Reel* reel2;
     Reel* reel3;
-    std::map<std::string, int> winning_weight; // save symbols and their weights
+    // save symbols and their weights
+    std::map<std::string, int> winning_weight;
 
 };  // class MainWindow
 

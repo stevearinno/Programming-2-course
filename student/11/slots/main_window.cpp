@@ -101,8 +101,10 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
         // below is the checking for horizontal pay lines
         for (int row_line = 0; row_line < 3; row_line++)
         {
-            if ((reel1->reel_symbols[row_line] == reel2->reel_symbols[row_line]) &&
-                    (reel1->reel_symbols[row_line] == reel3->reel_symbols[row_line]))
+            if ((reel1->reel_symbols[row_line] ==
+                 reel2->reel_symbols[row_line]) &&
+                    (reel1->reel_symbols[row_line] ==
+                     reel3->reel_symbols[row_line]))
             {
                 sym_weight = winning_weight[reel1->reel_symbols[row_line]];
                 calculateMoney(sym_weight);
@@ -127,7 +129,8 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
         {
             money_ -= ui_.spin_box->value();
             ui_.money_left->setText(QString::number(money_));
-            ui_.info_label->setText("You are not lucky yet. Try spinning again!");
+            ui_.info_label->setText("You are not lucky yet. Try spinning "
+                                    "again!");
             if (money_ == 0)
             {
                 ui_.spin_button->setDisabled(true);
@@ -155,6 +158,7 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
             ui_.winning_money->setText(QString::number(total_winning) +
                                        " EUR for you");
         }
+        ui_.spin_button->setDisabled(false);
     }
 }
 
@@ -209,26 +213,28 @@ void MainWindow::initUi() {
     reel2= new Reel(reelVec2, ui_.lock_button2, &fruits_, rng);
     reel3= new Reel(reelVec3, ui_.lock_button3, &fruits_, rng);
 
+    // creates hiding label on the top of the reels
     QLabel *hiding_label = new QLabel(this);
     hiding_label->move(18,132);
-    hiding_label->setStyleSheet("background-image: url(:/MainWindow/Resources/tile.png) ");
-    //hiding_label->setStyleSheet("background-color: yellow");
+    hiding_label->setStyleSheet("background-image: "
+                                "url(:/MainWindow/Resources/tile.png) ");
     hiding_label->setFixedWidth(230);
-    hiding_label->setFixedHeight(35);
+    hiding_label->setFixedHeight(50);
 
-//    QLabel *hiding_label2 = new QLabel(this);
-//    hiding_label2->move(18,355);
-//    hiding_label2->setText("TEXT");
-    ui_.hiding_label2->setStyleSheet("background-image: url(:/MainWindow/Resources/tile.png) ");
-//    ui_.hiding_label2->setStyleSheet("background-color: yellow");
+    // sets hiding labels at the bottom of the reels
+    ui_.hiding_label2->setStyleSheet("background-image: "
+                                     "url(:/MainWindow/Resources/tile.png) ");
     ui_.hiding_label2->setFixedHeight(45);
 
     connect(reel1, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel2, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel3, &Reel::stopped, this, &MainWindow::reelStopped);
-    connect(ui_.lock_button1, &QPushButton::clicked, this, &MainWindow::lockButton);
-    connect(ui_.lock_button2, &QPushButton::clicked, this, &MainWindow::lockButton);
-    connect(ui_.lock_button3, &QPushButton::clicked, this, &MainWindow::lockButton);
+    connect(ui_.lock_button1, &QPushButton::clicked, this,
+            &MainWindow::lockButton);
+    connect(ui_.lock_button2, &QPushButton::clicked, this,
+            &MainWindow::lockButton);
+    connect(ui_.lock_button3, &QPushButton::clicked, this,
+            &MainWindow::lockButton);
 
     ui_.lock_button1->raise();
     
@@ -269,7 +275,8 @@ void MainWindow::lockButton()
 }
 
 
-void MainWindow::changeLockButton(QPushButton* button, bool lockReel, bool isFirstRun)
+void MainWindow::changeLockButton(QPushButton* button, bool lockReel,
+                                  bool isFirstRun)
 {
     QString buttonNo = "";
     // identifies which button is locked/unlocked
@@ -341,42 +348,77 @@ void MainWindow::calculateWinningWeight()
 
 void MainWindow::setInfo()
 {
-    ui_.apple1->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.apple2->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.apple3->setPixmap(fruits_.at("apple").first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple1->setPixmap(fruits_.at("apple").
+                          first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple2->setPixmap(fruits_.at("apple").
+                          first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.apple3->setPixmap(fruits_.at("apple").
+                          first.scaled(25,25,Qt::KeepAspectRatio));
     ui_.apple_weight->setText(QString::number(winning_weight.at("apple"))+"x");
-    ui_.bananas1->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas2->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas3->setPixmap(fruits_.at("bananas").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.bananas_weight->setText(QString::number(winning_weight.at("bananas"))+"x");
-    ui_.cherries1->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries2->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries3->setPixmap(fruits_.at("cherries").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.cherries_weight->setText(QString::number(winning_weight.at("cherries"))+"x");
-    ui_.eggplant1->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant2->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant3->setPixmap(fruits_.at("eggplant").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.eggplant_weight->setText(QString::number(winning_weight.at("eggplant"))+"x");
-    ui_.grapes1->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes2->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes3->setPixmap(fruits_.at("grapes").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.grapes_weight->setText(QString::number(winning_weight.at("grapes"))+"x");
-    ui_.orange1->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange2->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange3->setPixmap(fruits_.at("orange").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.orange_weight->setText(QString::number(winning_weight.at("orange"))+"x");
-    ui_.pear1->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear2->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear3->setPixmap(fruits_.at("pear").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.pear_weight->setText(QString::number(winning_weight.at("pear"))+"x");
-    ui_.strawberry1->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry2->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry3->setPixmap(fruits_.at("strawberry").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.strawberry_weight->setText(QString::number(winning_weight.at("strawberry"))+"x");
-    ui_.tomato1->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato2->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato3->setPixmap(fruits_.at("tomato").first.scaled(25,25,Qt::KeepAspectRatio));
-    ui_.tomato_weight->setText(QString::number(winning_weight.at("tomato"))+"x");
+    ui_.bananas1->setPixmap(fruits_.at("bananas").
+                            first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas2->setPixmap(fruits_.at("bananas").
+                            first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas3->setPixmap(fruits_.at("bananas").
+                            first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.bananas_weight->setText(QString::number(winning_weight.
+                                                at("bananas"))+"x");
+    ui_.cherries1->setPixmap(fruits_.at("cherries").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries2->setPixmap(fruits_.at("cherries").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries3->setPixmap(fruits_.at("cherries").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.cherries_weight->setText(QString::number(winning_weight.
+                                                 at("cherries"))+"x");
+    ui_.eggplant1->setPixmap(fruits_.at("eggplant").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant2->setPixmap(fruits_.at("eggplant").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant3->setPixmap(fruits_.at("eggplant").
+                             first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.eggplant_weight->setText(QString::number(winning_weight.
+                                                 at("eggplant"))+"x");
+    ui_.grapes1->setPixmap(fruits_.at("grapes").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes2->setPixmap(fruits_.at("grapes").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes3->setPixmap(fruits_.at("grapes").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.grapes_weight->setText(QString::number(winning_weight.
+                                               at("grapes"))+"x");
+    ui_.orange1->setPixmap(fruits_.at("orange").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange2->setPixmap(fruits_.at("orange").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange3->setPixmap(fruits_.at("orange").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.orange_weight->setText(QString::number(winning_weight.
+                                               at("orange"))+"x");
+    ui_.pear1->setPixmap(fruits_.at("pear").
+                         first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear2->setPixmap(fruits_.at("pear").
+                         first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear3->setPixmap(fruits_.at("pear").
+                         first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.pear_weight->setText(QString::number(winning_weight.
+                                             at("pear"))+"x");
+    ui_.strawberry1->setPixmap(fruits_.at("strawberry").
+                               first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry2->setPixmap(fruits_.at("strawberry").
+                               first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry3->setPixmap(fruits_.at("strawberry").
+                               first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.strawberry_weight->setText(QString::number(winning_weight.
+                                                   at("strawberry"))+"x");
+    ui_.tomato1->setPixmap(fruits_.at("tomato").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato2->setPixmap(fruits_.at("tomato").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato3->setPixmap(fruits_.at("tomato").
+                           first.scaled(25,25,Qt::KeepAspectRatio));
+    ui_.tomato_weight->setText(QString::number(winning_weight.
+                                               at("tomato"))+"x");
     ui_.apple1->setAlignment(Qt::AlignCenter);
     ui_.apple2->setAlignment(Qt::AlignCenter);
     ui_.apple3->setAlignment(Qt::AlignCenter);
@@ -433,6 +475,7 @@ void MainWindow::on_release_button_clicked()
 
 void MainWindow::on_spin_button_clicked()
 {
+    ui_.spin_button->setDisabled(true);
     ui_.winning_money->setText("");
     ui_.lock_button1->setDisabled(false);
     ui_.lock_button2->setDisabled(false);
@@ -440,7 +483,7 @@ void MainWindow::on_spin_button_clicked()
     ui_.info_label->setText("SPINNING...");
     reel1->spin();
     reel2->spin();
-    reel3->spin();
+    reel3->spin();    
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)

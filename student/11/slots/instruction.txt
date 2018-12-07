@@ -24,3 +24,9 @@ STEPS TO DO and OTHER INFO:
 10. The player can withdraw his/her money anytime during the game as long as the player
     has money in the machine by clicking "WITHDRAW".
 11. The player can quit the game by clicking "QUIT"
+
+Rules for the LOCK/UNLOCK:
+01. The reels will be automatically UNLOCKED and disabled (the player cannot lock it) 
+    when the player wins the game.
+02. The player can only lock the reel(s) for 1 game, after that, the all the reels will
+    be automatically UNLOCKED and disabled.

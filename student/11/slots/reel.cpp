@@ -44,11 +44,13 @@ void Reel::setPictures()
     {
         // Setup the weights (in this case linearly weighted)
         std::discrete_distribution<int> dist(weights.begin(), weights.end());
-        for (unsigned int reelElement = 0; reelElement < labels_.size(); reelElement++)
+        for (unsigned int reelElement = 0; reelElement < labels_.size();
+             reelElement++)
         {
             int random_value = dist(*rng_);
-            labels_[reelElement]->setPixmap(fruits_->at(fruitVector[random_value]).
-                                            first.scaled(50,50,Qt::KeepAspectRatio));
+            labels_[reelElement]->
+                    setPixmap(fruits_->at(fruitVector[random_value]).
+                              first.scaled(50,50,Qt::KeepAspectRatio));
             saveSymbol(fruitVector[random_value]);
         }
     }
@@ -83,12 +85,12 @@ void Reel::movingPicture()
     {
         for (int index = 0; index < 4; index++)
         {
-            //labels_[3]->show();
             qreal xx = labels_[index]->x();
             qreal yy = labels_[index]->y();
             yy += 1;
             labels_[index]->move(xx,yy);
 
+            // checks if the the symbol is already on the final position
             if ((yy == 184) && (index == 3))
             {
 
@@ -102,13 +104,14 @@ void Reel::movingPicture()
                                       first.scaled(50,50,Qt::KeepAspectRatio));
                 reel_symbols[0] = reel_symbols[3];
 
-                std::discrete_distribution<int> dist(weights.begin(), weights.end());
+                // generates random symbol for the upcoming picture
+                std::discrete_distribution<int> dist(weights.begin(),
+                                                     weights.end());
                 int random_value = dist(*rng_);
                 labels_[3]->setPixmap(fruits_->at(fruitVector[random_value]).
                                       first.scaled(50,50,Qt::KeepAspectRatio));
 
                 reel_symbols[3] = fruitVector[random_value];
-                //labels_[3]->hide();
             }
         }
     }
@@ -118,7 +121,7 @@ void Reel::movingPicture()
 void Reel::stopSpinning()
 {
     timer->stop();
-    movingPicture();
+    movingPicture();    // makes sure that the symbols stop at correct position
 
     emit stopped(reel_symbols[1]);
 
