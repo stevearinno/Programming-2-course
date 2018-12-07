@@ -160,6 +160,7 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
 
 void MainWindow::initUi() {
     // Initialize and display current funds etc.
+    this->setWindowTitle("SLOT MACHINE GAME");
     ui_.money_left->setText("0");
     ui_.info_label->setText("Welcome to Slot Game!");
 
@@ -208,12 +209,28 @@ void MainWindow::initUi() {
     reel2= new Reel(reelVec2, ui_.lock_button2, &fruits_, rng);
     reel3= new Reel(reelVec3, ui_.lock_button3, &fruits_, rng);
 
+    QLabel *hiding_label = new QLabel(this);
+    hiding_label->move(18,132);
+    hiding_label->setStyleSheet("background-image: url(:/MainWindow/Resources/tile.png) ");
+    //hiding_label->setStyleSheet("background-color: yellow");
+    hiding_label->setFixedWidth(230);
+    hiding_label->setFixedHeight(35);
+
+//    QLabel *hiding_label2 = new QLabel(this);
+//    hiding_label2->move(18,355);
+//    hiding_label2->setText("TEXT");
+    ui_.hiding_label2->setStyleSheet("background-image: url(:/MainWindow/Resources/tile.png) ");
+//    ui_.hiding_label2->setStyleSheet("background-color: yellow");
+    ui_.hiding_label2->setFixedHeight(45);
+
     connect(reel1, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel2, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(reel3, &Reel::stopped, this, &MainWindow::reelStopped);
     connect(ui_.lock_button1, &QPushButton::clicked, this, &MainWindow::lockButton);
     connect(ui_.lock_button2, &QPushButton::clicked, this, &MainWindow::lockButton);
     connect(ui_.lock_button3, &QPushButton::clicked, this, &MainWindow::lockButton);
+
+    ui_.lock_button1->raise();
     
     calculateWinningWeight();
     setInfo();

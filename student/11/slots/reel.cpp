@@ -83,6 +83,7 @@ void Reel::movingPicture()
     {
         for (int index = 0; index < 4; index++)
         {
+            //labels_[3]->show();
             qreal xx = labels_[index]->x();
             qreal yy = labels_[index]->y();
             yy += 1;
@@ -107,6 +108,7 @@ void Reel::movingPicture()
                                       first.scaled(50,50,Qt::KeepAspectRatio));
 
                 reel_symbols[3] = fruitVector[random_value];
+                //labels_[3]->hide();
             }
         }
     }
