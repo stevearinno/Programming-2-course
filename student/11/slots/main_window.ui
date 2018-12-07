@@ -975,25 +975,6 @@
      </widget>
     </item>
    </layout>
-   <zorder>slot_add3</zorder>
-   <zorder>slot_add2</zorder>
-   <zorder>slot_add1</zorder>
-   <zorder>slot_mid3</zorder>
-   <zorder>slot_bot3</zorder>
-   <zorder>slot_up3</zorder>
-   <zorder>slot_mid2</zorder>
-   <zorder>release_button</zorder>
-   <zorder>slot_mid1</zorder>
-   <zorder>slot_up1</zorder>
-   <zorder>slot_bot1</zorder>
-   <zorder>slot_bot2</zorder>
-   <zorder>slot_up2</zorder>
-   <zorder>winning_money</zorder>
-   <zorder>lock_button1</zorder>
-   <zorder>lock_button2</zorder>
-   <zorder>lock_button3</zorder>
-   <zorder>hiding_label2</zorder>
-   <zorder></zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
