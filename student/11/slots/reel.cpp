@@ -29,7 +29,6 @@ Reel::Reel(const std::vector<QLabel*>& labels,
         weights.push_back((fruitIterator->second).second);
     }
 
-
     setPictures();
     reel_timer = new QTimer(this);
     timer = new QTimer(this);
@@ -54,7 +53,6 @@ void Reel::setPictures()
             saveSymbol(fruitVector[random_value]);
         }
     }
-
 }
 
 void Reel::spin()
@@ -115,15 +113,11 @@ void Reel::movingPicture()
             }
         }
     }
-
 }
 
 void Reel::stopSpinning()
 {
     timer->stop();
     movingPicture();    // makes sure that the symbols stop at correct position
-
     emit stopped(reel_symbols[1]);
-
 }
-

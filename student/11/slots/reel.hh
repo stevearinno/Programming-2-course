@@ -87,9 +87,9 @@ private:
     const QPushButton* lock_button_;
     const Fruits* fruits_;
     std::shared_ptr<std::default_random_engine> rng_;
-    QTimer* reel_timer;
-    QTimer* timer;
-    int timer_value;
+    QTimer* reel_timer;         // timer for spinning reel
+    QTimer* timer;              // timer for one period of reel movement
+    int timer_value;            // the random time for reel to spin
 
 };  // class Reel
 

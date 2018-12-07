@@ -86,6 +86,7 @@ private:
     void calculateMoney(int sym_weight);
     // changes the status of all lock buttons enabled/disabled
     void changeEnableStatus(bool to_enable);
+    // saves all the middle symbols of all reels
     std::vector<std::string> middle_symbols;
 
     const Fruits fruits_;       ///< The game symbols and their rarities.

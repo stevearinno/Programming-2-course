@@ -36,7 +36,8 @@ namespace {
 ///
 /// \return A map of image names and corresponding images and frequencies.
 ///
-Fruits loadFruits() {
+Fruits loadFruits()
+{
     // Set frequencies for each symbol.
     // * You can freely play around with the values below.
     // * Values are relative to each other, higher == more common.
@@ -66,29 +67,28 @@ Fruits loadFruits() {
         const QPixmap image(QString::fromStdString(filename));
         symbols[frequency.first] = std::make_pair(image, frequency.second);
     }
-
     return symbols;
 }
 
 }  // namespace
 
-
 MainWindow::MainWindow(QWidget* parent):
     QMainWindow(parent),
-    fruits_(loadFruits()) {
-
+    fruits_(loadFruits())
+{
     ui_.setupUi(this);
     initUi();
 }
 
-MainWindow::~MainWindow(){
-
+MainWindow::~MainWindow()
+{
     delete reel1;
     delete reel2;
     delete reel3;
 }
 
-void MainWindow::reelStopped(const std::string& middle_sym) {
+void MainWindow::reelStopped(const std::string& middle_sym)
+{
     middle_symbols.push_back(middle_sym);
     if (middle_symbols.size() == 3)
     {
@@ -171,7 +171,8 @@ void MainWindow::reelStopped(const std::string& middle_sym) {
     }    
 }
 
-void MainWindow::initUi() {
+void MainWindow::initUi()
+{
     // Initialize and display current funds etc.
     this->setWindowTitle("SLOT MACHINE GAME");
     ui_.money_left->setText("0");
@@ -245,8 +246,6 @@ void MainWindow::initUi() {
             &MainWindow::lockButton);
     connect(ui_.lock_button3, &QPushButton::clicked, this,
             &MainWindow::lockButton);
-
-    ui_.lock_button1->raise();
     
     calculateWinningWeight();
     setInfo();
@@ -488,7 +487,6 @@ void MainWindow::changeEnableStatus(bool to_enable)
         ui_.lock_button3->setDisabled(true);
     }
 }
-
 
 void MainWindow::on_release_button_clicked()
 {
