@@ -490,14 +490,24 @@ void MainWindow::on_release_button_clicked()
 
 void MainWindow::on_spin_button_clicked()
 {
-    ui_.spin_button->setDisabled(true);
-    ui_.winning_money->setText("");
-    changeEnableStatus(true);
-    ui_.info_label->setText("SPINNING...");
-    reel1->spin();
-    reel2->spin();
-    reel3->spin();
-    changeEnableStatus(false);
+    if (ui_.lock_button1->text() == "LOCK" ||
+            ui_.lock_button2->text() == "LOCK" ||
+            ui_.lock_button3->text() == "LOCK")
+    {
+        ui_.spin_button->setDisabled(true);
+        ui_.winning_money->setText("");
+        changeEnableStatus(true);
+        ui_.info_label->setText("SPINNING...");
+        reel1->spin();
+        reel2->spin();
+        reel3->spin();
+        changeEnableStatus(false);
+    }
+    else
+    {
+        ui_.info_label->setText("Don't lock all the reels");
+    }
+
 }
 
 void MainWindow::on_spin_box_valueChanged(int arg1)
