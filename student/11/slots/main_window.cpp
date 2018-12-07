@@ -92,7 +92,7 @@ void MainWindow::reelStopped(const std::string& middle_sym)
     middle_symbols.push_back(middle_sym);
     if (middle_symbols.size() == 3)
     {
-        std::string middle_symbol = middle_symbols[1];
+        std::string middle_symbol = reel2->reel_symbols[1];
         int sym_weight;
         middle_symbols.clear();
         float initial_money = money_;
